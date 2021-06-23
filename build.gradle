@@ -1,0 +1,35 @@
+plugins {
+    id "java"
+}
+
+group = "re.alwyn974"
+version = "1.0.0-SNAPSHOT"
+archivesBaseName = "MinecraftBOT"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "https://jitpack.io"
+    }
+    maven {
+        url "https://alwyn974.github.io/maven"
+    }
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+    implementation "com.github.steveice10:mcprotocollib:1.17-SNAPSHOT" //Version of GeyserMC
+    implementation "re.alwyn974:logger:1.0.0"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "re.alwyn974.minecraft.bot.MinecraftBOT"
+    }
+}
