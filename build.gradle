@@ -1,14 +1,23 @@
 plugins {
-    id "java"
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'java-library'
+    id 'idea'
+    id 'maven-publish'
 }
 
 group = "re.alwyn974"
 version = "1.0.0-SNAPSHOT"
 archivesBaseName = "MinecraftBOT"
 
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.encoding = "UTF-8"
+}
+
 repositories {
     mavenCentral()
-    mavenLocal()
+    mavenLocal() //User for retrieve McProtocolib of GeyserMc
     maven {
         url "https://jitpack.io"
     }
@@ -32,4 +41,5 @@ jar {
     manifest {
         attributes "Main-Class": "re.alwyn974.minecraft.bot.MinecraftBOT"
     }
+    from "LICENSE"
 }

@@ -21,7 +21,6 @@ import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
 import java.net.Proxy;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 public class MinecraftBOT {
 
