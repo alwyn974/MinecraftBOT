@@ -17,9 +17,11 @@ import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import net.kyori.adventure.text.Component;
+import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
 import java.net.Proxy;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class MinecraftBOT {
 
@@ -46,19 +48,17 @@ public class MinecraftBOT {
             System.out.println("Version: " + info.getVersionInfo().getVersionName() + ", " + info.getVersionInfo().getProtocolVersion());
             System.out.println("Player Count: " + info.getPlayerInfo().getOnlinePlayers() + " / " + info.getPlayerInfo().getMaxPlayers());
             System.out.println("Players: " + Arrays.toString(info.getPlayerInfo().getPlayers()));
-            System.out.println("Description: " + info.getDescription());
+            System.out.println("Description: " + TranslateChat.translateComponent(info.getDescription()));
             //System.out.println("Icon: " + Arrays.toString(info.getIconPng()));
         });
         client.setFlag(MinecraftConstants.SERVER_PING_TIME_HANDLER_KEY, (ServerPingTimeHandler) (session, pingTime) -> System.out.println("Server ping took " + pingTime + "ms"));
-
         client.connect();
-        while (client.isConnected()) {
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        client.disconnect("Finished");
     }
 
     private static void login() {
@@ -69,7 +69,6 @@ public class MinecraftBOT {
             authService.setPassword(PASSWORD);
             authService.setProxy(AUTH_PROXY);
             authService.login();
-
             protocol = new MinecraftProtocol(authService.getSelectedProfile(), authService.getAccessToken());
             System.out.println("Successfully authenticated user.");
         } catch (RequestException e) {
@@ -90,7 +89,7 @@ public class MinecraftBOT {
                     event.getSession().send(new ClientChatPacket("Hello"));
                 } else if (event.getPacket() instanceof ServerChatPacket) {
                     Component message = event.<ServerChatPacket>getPacket().getMessage();
-                    System.out.println("Received Message: " + message);
+                    System.out.println(TranslateChat.translateComponent(message));
                     //event.getSession().disconnect("Finished");
                 }
                 //System.out.println(event.getPacket().getClass().getName());
