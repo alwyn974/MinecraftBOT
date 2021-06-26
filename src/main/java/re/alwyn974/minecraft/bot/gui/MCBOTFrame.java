@@ -8,6 +8,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
 
+/**
+ * The Frame for the Gui
+ * @author <a href="https://github.com/alwyn974">Alwyn974</a>
+ * @since 1.0.0
+ * @version 1.0.3
+ */
 public class MCBOTFrame extends JFrame {
 
     public MCBOTFrame() {

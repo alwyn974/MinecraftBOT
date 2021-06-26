@@ -16,6 +16,7 @@ import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
+import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 import re.alwyn974.minecraft.bot.logging.JTextAreaLogHandler;
 
@@ -30,6 +31,12 @@ import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Panel of the Gui
+ * @author <a href="https://github.com/alwyn974">Alwyn974</a>
+ * @since 1.0.0
+ * @version 1.0.4
+ */
 public class MCBOTPanel extends JPanel implements ActionListener {
 
     private final JPanel topPanel = new JPanel();
@@ -119,8 +126,9 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         outputField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (bot != null && bot.getClient().isConnected() && e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    bot.getClient().send(new ClientChatPacket(outputField.getText()));
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (!new CommandHandler().execute(bot, outputField.getText()) && bot != null && bot.getClient().isConnected())
+                        bot.getClient().send(new ClientChatPacket(outputField.getText()));
                     outputField.setText("");
                 }
             }

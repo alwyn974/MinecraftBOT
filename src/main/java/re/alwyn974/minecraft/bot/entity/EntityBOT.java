@@ -5,6 +5,7 @@ import com.github.steveice10.mc.auth.service.AuthenticationService;
 import com.github.steveice10.mc.auth.service.SessionService;
 import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
+import com.github.steveice10.mc.protocol.data.game.setting.Difficulty;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
@@ -12,6 +13,12 @@ import re.alwyn974.minecraft.bot.MinecraftBOT;
 
 import java.net.Proxy;
 
+/**
+ * The EntityBOT used to store all information about the user
+ * @since 1.0.0
+ * @author <a href="https://github.com/alwyn974">Alwyn974</a>
+ * @version 1.0.4
+ */
 public class EntityBOT {
 
     private final String host;
@@ -21,7 +28,10 @@ public class EntityBOT {
     private final String password;
     private final boolean debug;
     private Session client = null;
-    private EntityPos pos;
+    private EntityPos pos = null;
+    private double health = -1;
+    private double food = -1;
+    private Difficulty difficulty = null;
 
     public EntityBOT(String username, String password)  {
         this("localhost", username, password, false);
@@ -97,8 +107,32 @@ public class EntityBOT {
         return pos;
     }
 
+    public double getHealth() {
+        return health;
+    }
+
+    public double getFood() {
+        return food;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public void setFood(double food) {
+        this.food = food;
+    }
+
     public void setPos(EntityPos pos) {
         this.pos = pos;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public void connect() throws RequestException {

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "re.alwyn974"
-version = "1.0.2"
+version = "1.0.4"
 archivesBaseName = "MinecraftBOT"
 
 compileJava {
@@ -32,6 +32,7 @@ dependencies {
     implementation "com.github.steveice10:mcprotocollib:1.17-SNAPSHOT" //Version of GeyserMC
     implementation "commons-cli:commons-cli:+"
     implementation "re.alwyn974:logger:1.0.0"
+    implementation 'org.reflections:reflections:+'
 }
 
 test {
@@ -40,7 +41,7 @@ test {
 
 jar {
     manifest {
-        attributes "Main-Class": "re.alwyn974.minecraft.bot.Main"
+        attributes "Main-Class": "re.alwyn974.minecraft.bot.MinecraftBOT"
     }
     from "LICENSE"
 }
