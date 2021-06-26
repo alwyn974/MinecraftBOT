@@ -7,7 +7,7 @@ import re.alwyn974.minecraft.bot.entity.EntityBOT;
  * The interface for the Command
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
  * @since 1.0.4
- * @version 1.0.4
+ * @version 1.0.5
  */
 public interface ICommand extends Comparable<ICommand> {
 
@@ -25,6 +25,10 @@ public interface ICommand extends Comparable<ICommand> {
         return CommandHandler.getPrefix();
     }
 
+    /**
+     * Get the description of the command
+     * @return the description of the command
+     */
     String getDescription();
 
     /**
@@ -32,6 +36,12 @@ public interface ICommand extends Comparable<ICommand> {
      * @return the usage of the command
      */
     String getUsage();
+
+    /**
+     * Specify if the command can be only executed if the bot is connected to a server
+     * @return if the bot need to be connected
+     */
+    boolean needToBeConnected();
 
     /**
      * Execute the command

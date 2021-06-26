@@ -14,12 +14,12 @@ import java.util.Set;
  * The heart of the MinecraftBOT
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
  * @since 1.0.0
- * @version 1.0.4
+ * @version 1.0.5
  */
 public class MinecraftBOT {
 
     private static final String PROJECT_NAME = "MinecraftBOT";
-    private static final BasicLogger logger = LoggerFactory.getLogger(PROJECT_NAME);
+    private static final BasicLogger logger = LoggerFactory.getLogger(getProjectName());
 
     /**
      * The main

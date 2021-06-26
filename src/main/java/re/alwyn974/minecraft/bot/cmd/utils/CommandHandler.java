@@ -12,7 +12,7 @@ import java.util.List;
  * The session adapter, managing packet and more
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
  * @since 1.0.4
- * @version 1.0.4
+ * @version 1.0.5
  */
 public class CommandHandler {
 
@@ -50,7 +50,10 @@ public class CommandHandler {
                 final String[] cmdArgs = new String[args.length - 1];
 
                 System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
-                command.execute(bot, message, cmdArgs);
+                if (command.needToBeConnected() && bot == null)
+                    MinecraftBOT.getLogger().error("You need to be connected to a server to do this !");
+                else
+                    command.execute(bot, message, cmdArgs);
                 return true;
             } else if (!cmd.isEmpty())
                 MinecraftBOT.getLogger().error("Command doesn't exist [%s]", cmd);

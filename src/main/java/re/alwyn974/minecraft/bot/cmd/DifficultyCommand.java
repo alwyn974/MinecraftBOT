@@ -1,26 +1,25 @@
 package re.alwyn974.minecraft.bot.cmd;
 
 import re.alwyn974.minecraft.bot.MinecraftBOT;
-import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 
 /**
- * The help Command
+ * Difficulty Command, retrieve the difficulty of the server
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.4
- * @version 1.0.4
+ * @since 1.0.5
+ * @version 1.0.5
  */
-public class HelpCommand implements ICommand {
+public class DifficultyCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "help";
+        return "difficulty";
     }
 
     @Override
     public String getDescription() {
-        return "Display this";
+        return "Get the difficulty of the server";
     }
 
     @Override
@@ -30,15 +29,12 @@ public class HelpCommand implements ICommand {
 
     @Override
     public boolean needToBeConnected() {
-        return false;
+        return true;
     }
 
     @Override
     public void execute(EntityBOT bot, String message, String... args) {
-        CommandHandler.getCommands().forEach(cmd -> {
-            MinecraftBOT.getLogger().info("Command: [%s] (%s)", cmd.getName(), cmd.getDescription());
-            MinecraftBOT.getLogger().info("Usage: %s", cmd.getUsage());
-        });
+        MinecraftBOT.getLogger().info("Difficulty: %s", bot.getDifficulty().name());
     }
 
 }

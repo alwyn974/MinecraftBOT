@@ -12,7 +12,7 @@ import re.alwyn974.minecraft.bot.chat.TranslateChat;
  * The session adapter, managing packet and more
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
  * @since 1.0.0
- * @version 1.0.4
+ * @version 1.0.5
  */
 public class MCBOTSessionAdapter extends SessionAdapter {
 
@@ -41,7 +41,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
      */
     @Override
     public void packetReceived(PacketReceivedEvent event) {
-        System.out.println(event.getPacket().getClass().getName());
+        //System.out.println(event.getPacket().getClass().getName());
         if (event.getPacket() instanceof ServerChatPacket)
             MinecraftBOT.getLogger().info(TranslateChat.translateComponent(event.<ServerChatPacket>getPacket().getMessage()));
         if (event.getPacket() instanceof ServerPlayerPositionRotationPacket) {
