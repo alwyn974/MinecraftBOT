@@ -1,30 +1,22 @@
 package re.alwyn974.minecraft.bot;
 
-import com.github.steveice10.mc.auth.exception.request.RequestException;
-import com.github.steveice10.mc.auth.service.AuthenticationService;
-import com.github.steveice10.mc.auth.service.SessionService;
-import com.github.steveice10.mc.protocol.MinecraftConstants;
-import com.github.steveice10.mc.protocol.MinecraftProtocol;
-import com.github.steveice10.mc.protocol.data.status.handler.ServerInfoHandler;
-import com.github.steveice10.mc.protocol.data.status.handler.ServerPingTimeHandler;
-import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
-import com.github.steveice10.packetlib.BuiltinFlags;
-import com.github.steveice10.packetlib.Session;
-import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
-import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
-import com.github.steveice10.packetlib.event.session.SessionAdapter;
-import com.github.steveice10.packetlib.tcp.TcpClientSession;
-import net.kyori.adventure.text.Component;
-import re.alwyn974.minecraft.bot.chat.TranslateChat;
-
-import java.net.Proxy;
-import java.util.Arrays;
+import re.alwyn974.logger.BasicLogger;
+import re.alwyn974.logger.LoggerFactory;
 
 public class MinecraftBOT {
 
-    private static final String HOST = "play.yggdrasil-mc.eu";
+    private static final String PROJECT_NAME = "MinecraftBOT";
+    private static final BasicLogger logger = LoggerFactory.getLogger("MinecraftBOT");
+
+    public static BasicLogger getLogger() {
+        return logger;
+    }
+
+    public static String getProjectName() {
+        return PROJECT_NAME;
+    }
+
+    /*private static final String HOST = "play.yggdrasil-mc.eu";
     private static final int PORT = 25565;
     private static final Proxy AUTH_PROXY = Proxy.NO_PROXY;
     private static final String USERNAME = System.getenv("MC_BOT_USERNAME");
@@ -103,6 +95,6 @@ public class MinecraftBOT {
             }
         });
         client.connect();
-    }
+    }*/
 
 }
