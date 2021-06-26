@@ -15,7 +15,7 @@ public class MCBOTFrame extends JFrame {
 
         this.setTitle("MinecraftBOT - Dev by Alwyn974");
         this.setPreferredSize(new Dimension(854, 480));
-        this.setMinimumSize(new Dimension(800, 100)); // TODO: 26/06/2021
+        this.setMinimumSize(new Dimension(800, 100));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setContentPane(new MCBOTPanel());

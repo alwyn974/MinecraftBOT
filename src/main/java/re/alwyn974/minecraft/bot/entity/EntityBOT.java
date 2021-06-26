@@ -8,6 +8,7 @@ import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
+import re.alwyn974.minecraft.bot.MinecraftBOT;
 
 import java.net.Proxy;
 
@@ -114,7 +115,11 @@ public class EntityBOT {
         authService.setUsername(this.getUsername());
         authService.setPassword(this.getPassword());
         authService.setProxy(this.getProxy());
+        if (isDebug())
+            MinecraftBOT.getLogger().debug("Authenticating with account [%s]", this.getUsername());
         authService.login();
+        if (isDebug())
+            MinecraftBOT.getLogger().debug("Successfully authenticated [%s]", authService.getSelectedProfile().getName());
 
         MinecraftProtocol protocol = new MinecraftProtocol(authService.getSelectedProfile(), authService.getAccessToken());
 
@@ -125,7 +130,11 @@ public class EntityBOT {
         client.setFlag(BuiltinFlags.PRINT_DEBUG, this.isDebug());
         client.setFlag(MinecraftConstants.SESSION_SERVICE_KEY, sessionService);
         client.addListener(new MCBOTSessionAdapter(this));
-
+        if (isDebug()) {
+            MinecraftBOT.getLogger().debug("Connecting to Minecraft server: %s:%d", this.getHost(), this.getPort());
+            if (this.getProxy() != Proxy.NO_PROXY)
+                MinecraftBOT.getLogger().debug("Connecting with a Proxy: %s", this.getProxy().toString());
+        }
         client.connect();
     }
 
