@@ -21,8 +21,7 @@ public class EntityBOT {
     private final String password;
     private final boolean debug;
     private Session client = null;
-    private BlockPos connectPos;
-    private BlockPos disconnectPos;
+    private EntityPos pos;
 
     public EntityBOT(String username, String password)  {
         this("localhost", username, password, false);
@@ -94,20 +93,12 @@ public class EntityBOT {
         return client;
     }
 
-    public BlockPos getConnectPos() {
-        return connectPos;
+    public EntityPos getPos() {
+        return pos;
     }
 
-    public BlockPos getDisconnectPos() {
-        return disconnectPos;
-    }
-
-    public void setConnectPos(BlockPos connectPos) {
-        this.connectPos = connectPos;
-    }
-
-    public void setDisconnectPos(BlockPos disconnectPos) {
-        this.disconnectPos = disconnectPos;
+    public void setPos(EntityPos pos) {
+        this.pos = pos;
     }
 
     public void connect() throws RequestException {

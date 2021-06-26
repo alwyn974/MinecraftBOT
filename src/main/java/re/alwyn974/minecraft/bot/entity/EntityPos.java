@@ -1,15 +1,19 @@
 package re.alwyn974.minecraft.bot.entity;
 
-public class BlockPos {
+public class EntityPos {
 
     private double x;
     private double y;
     private double z;
+    private double yaw;
+    private double pitch;
 
-    public BlockPos(double x, double y, double z) {
+    public EntityPos(double x, double y, double z, double yaw, double pitch) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.yaw = yaw;
+        this.pitch = pitch;
     }
 
     public double getX() {
@@ -24,6 +28,14 @@ public class BlockPos {
         return z;
     }
 
+    public double getYaw() {
+        return yaw;
+    }
+
+    public double getPitch() {
+        return pitch;
+    }
+
     public void setX(double x) {
         this.x = x;
     }
@@ -36,4 +48,11 @@ public class BlockPos {
         this.z = z;
     }
 
+    public void setYaw(double yaw) {
+        this.yaw = yaw;
+    }
+
+    public void setPitch(double pitch) {
+        this.pitch = pitch;
+    }
 }

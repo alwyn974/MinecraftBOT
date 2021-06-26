@@ -10,6 +10,8 @@ import com.github.steveice10.mc.protocol.data.status.handler.ServerPingTimeHandl
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
+import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
+import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
@@ -19,7 +21,6 @@ import re.alwyn974.minecraft.bot.logging.JTextAreaLogHandler;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,8 +67,8 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
     private void addTopPanel() {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-        topPanel.add(new JLabel("Host: "));
 
+        topPanel.add(new JLabel("Host: "));
         topPanel.add(hostField, BorderLayout.PAGE_START);
 
         topPanel.add(new JLabel("Port: "));
@@ -80,6 +81,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         topPanel.add(passwordField, BorderLayout.PAGE_START);
 
         addButton(connectButton);
+        disconnectButton.setEnabled(false);
         addButton(disconnectButton);
         addButton(statusButton);
         addButton(clearButton);
@@ -99,7 +101,6 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane.setBackground(Color.decode("#2c2f33"));
 
         logArea.setEditable(false);
         logArea.setAutoscrolls(true);
@@ -150,55 +151,10 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             if (botThread != null)
                 botThread.interrupt();
             setFieldsEnabled(true);
-        } else if (e.getSource() == statusButton) {
-            new Thread(() -> {
-                SessionService sessionService = new SessionService();
-                sessionService.setProxy(Proxy.NO_PROXY);
-
-                MinecraftProtocol protocol = new MinecraftProtocol();
-                Session client = new TcpClientSession(this.hostField.getText(), Integer.parseInt(this.portField.getText()), protocol);
-                client.setFlag(BuiltinFlags.PRINT_DEBUG, this.debugBox.isSelected());
-                client.setFlag(MinecraftConstants.SESSION_SERVICE_KEY, sessionService);
-                client.setFlag(MinecraftConstants.SERVER_INFO_HANDLER_KEY, (ServerInfoHandler) (session, info) -> {
-                    MinecraftBOT.getLogger().info("Version: %s, Protocol Version: %d", info.getVersionInfo().getVersionName(), info.getVersionInfo().getProtocolVersion());
-                    MinecraftBOT.getLogger().info("Player Count: %d/%d", info.getPlayerInfo().getOnlinePlayers(), info.getPlayerInfo().getMaxPlayers());
-                    List<String> players = new ArrayList<>();
-                    for (GameProfile player : info.getPlayerInfo().getPlayers())
-                        players.add(player.getName());
-                    MinecraftBOT.getLogger().info("Players: %s", players.toString());
-                    MinecraftBOT.getLogger().info("Description: %s", TranslateChat.translateComponent(info.getDescription()));
-                });
-                client.setFlag(MinecraftConstants.SERVER_PING_TIME_HANDLER_KEY, (ServerPingTimeHandler) (session, pingTime) ->
-                       MinecraftBOT.getLogger().info("Server ping took %d ms", pingTime)
-                );
-                if (this.debugBox.isSelected())
-                    MinecraftBOT.getLogger().debug("Connecting to Minecraft server: %s:%s", hostField.getText(), portField.getText());
-                client.connect();
-                try {
-                    Thread.sleep(1000L);
-                    client.disconnect("Disconnected");
-                } catch (InterruptedException ex) {
-                    MinecraftBOT.getLogger().error("Thread interrupt", ex);
-                    client.disconnect("Disconnected");
-                }
-            }).start();
-        } else if (e.getSource() == clearButton)
+        } else if (e.getSource() == statusButton)
+            retrieveStatus();
+        else if (e.getSource() == clearButton)
             logArea.setText("");
-
-    }
-
-    @Override
-    public void updateUI() {
-        super.updateUI();
-        if (bot != null) {
-            if (!bot.getClient().isConnected()) {
-                if (!this.connectButton.isEnabled())
-                    this.connectButton.setEnabled(true);
-                setFieldsEnabled(true);
-            } else {
-                outputField.setEnabled(true);
-            }
-        }
     }
 
     private void setFieldsEnabled(boolean enabled) {
@@ -209,6 +165,46 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         connectButton.setEnabled(enabled);
         debugBox.setEnabled(enabled);
         disconnectButton.setEnabled(!enabled);
+    }
+
+    private void retrieveStatus() {
+        new Thread(() -> {
+            SessionService sessionService = new SessionService();
+            sessionService.setProxy(Proxy.NO_PROXY);
+
+            MinecraftProtocol protocol = new MinecraftProtocol();
+            Session client = new TcpClientSession(this.hostField.getText(), Integer.parseInt(this.portField.getText()), protocol);
+            client.setFlag(BuiltinFlags.PRINT_DEBUG, this.debugBox.isSelected());
+            client.setFlag(MinecraftConstants.SESSION_SERVICE_KEY, sessionService);
+            client.setFlag(MinecraftConstants.SERVER_INFO_HANDLER_KEY, (ServerInfoHandler) (session, info) -> {
+                MinecraftBOT.getLogger().info("Version: %s, Protocol Version: %d", info.getVersionInfo().getVersionName(), info.getVersionInfo().getProtocolVersion());
+                MinecraftBOT.getLogger().info("Player Count: %d/%d", info.getPlayerInfo().getOnlinePlayers(), info.getPlayerInfo().getMaxPlayers());
+                List<String> players = new ArrayList<>();
+                for (GameProfile player : info.getPlayerInfo().getPlayers())
+                    players.add(player.getName());
+                MinecraftBOT.getLogger().info("Players: %s", players.toString());
+                MinecraftBOT.getLogger().info("Description: %s", TranslateChat.translateComponent(info.getDescription()));
+            });
+            client.setFlag(MinecraftConstants.SERVER_PING_TIME_HANDLER_KEY, (ServerPingTimeHandler) (session, pingTime) -> MinecraftBOT.getLogger().info("Server ping took %dms", pingTime));
+            client.addListener(new SessionAdapter() {
+                @Override
+                public void disconnected(DisconnectedEvent event) {
+                    MinecraftBOT.getLogger().info("Disconnected: %s\n%s", event.getReason(), event.getCause() != null ? event.getCause() : "");
+                }
+            });
+
+            if (this.debugBox.isSelected())
+                MinecraftBOT.getLogger().debug("Connecting to Minecraft server: %s:%s", hostField.getText(), portField.getText());
+            client.connect();
+
+            try {
+                Thread.sleep(2000L);
+                client.disconnect("Finished");
+            } catch (InterruptedException ex) {
+                MinecraftBOT.getLogger().error("Thread interrupt", ex);
+                client.disconnect("Finished");
+            }
+        }).start();
     }
 
 }
