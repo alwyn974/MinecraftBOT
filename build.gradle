@@ -32,7 +32,6 @@ dependencies {
     implementation "com.github.steveice10:mcprotocollib:1.17-SNAPSHOT" //Version of GeyserMC
     implementation "commons-cli:commons-cli:+"
     implementation "re.alwyn974:logger:1.0.0"
-    implementation "re.alwyn974:swinger:1.0.0-BETA"
 }
 
 test {
