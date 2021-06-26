@@ -1,5 +1,14 @@
 package re.alwyn974.minecraft.bot.entity;
 
+import com.github.steveice10.mc.auth.exception.request.RequestException;
+import com.github.steveice10.mc.auth.service.AuthenticationService;
+import com.github.steveice10.mc.auth.service.SessionService;
+import com.github.steveice10.mc.protocol.MinecraftConstants;
+import com.github.steveice10.mc.protocol.MinecraftProtocol;
+import com.github.steveice10.packetlib.BuiltinFlags;
+import com.github.steveice10.packetlib.Session;
+import com.github.steveice10.packetlib.tcp.TcpClientSession;
+
 import java.net.Proxy;
 
 public class EntityBOT {
@@ -9,19 +18,33 @@ public class EntityBOT {
     private final Proxy proxy;
     private final String username;
     private final String password;
+    private final boolean debug;
+    private Session client = null;
     private BlockPos connectPos;
     private BlockPos disconnectPos;
 
     public EntityBOT(String username, String password)  {
-        this("localhost", username, password);
+        this("localhost", username, password, false);
+    }
+
+    public EntityBOT(String username, String password, boolean debug)  {
+        this("localhost", username, password, debug);
     }
 
     public EntityBOT(String host, String username, String password) {
-        this(host, 25565, username, password);
+        this(host, 25565, username, password, false);
+    }
+
+    public EntityBOT(String host, String username, String password, boolean debug) {
+        this(host, 25565, username, password, debug);
     }
 
     public EntityBOT(String host, int port, String username, String password) {
-        this(host, port, Proxy.NO_PROXY, username, password);
+        this(host, port, Proxy.NO_PROXY, username, password, false);
+    }
+
+    public EntityBOT(String host, int port, String username, String password, boolean debug) {
+        this(host, port, Proxy.NO_PROXY, username, password, debug);
     }
 
     /**
@@ -31,13 +54,15 @@ public class EntityBOT {
      * @param proxy the proxy
      * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
      * @param password the password of the premium account
+     * @param debug activate debug mode
      */
-    public EntityBOT(String host, int port, Proxy proxy, String username, String password) {
+    public EntityBOT(String host, int port, Proxy proxy, String username, String password, Boolean debug) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
         this.username = username;
         this.password = password;
+        this.debug = debug;
     }
 
     public String getHost() {
@@ -60,6 +85,14 @@ public class EntityBOT {
         return password;
     }
 
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public Session getClient() {
+        return client;
+    }
+
     public BlockPos getConnectPos() {
         return connectPos;
     }
@@ -74,6 +107,26 @@ public class EntityBOT {
 
     public void setDisconnectPos(BlockPos disconnectPos) {
         this.disconnectPos = disconnectPos;
+    }
+
+    public void connect() throws RequestException {
+        AuthenticationService authService = new AuthenticationService();
+        authService.setUsername(this.getUsername());
+        authService.setPassword(this.getPassword());
+        authService.setProxy(this.getProxy());
+        authService.login();
+
+        MinecraftProtocol protocol = new MinecraftProtocol(authService.getSelectedProfile(), authService.getAccessToken());
+
+        SessionService sessionService = new SessionService();
+        sessionService.setProxy(this.getProxy());
+
+        client = new TcpClientSession(this.getHost(), this.getPort(), protocol);
+        client.setFlag(BuiltinFlags.PRINT_DEBUG, this.isDebug());
+        client.setFlag(MinecraftConstants.SESSION_SERVICE_KEY, sessionService);
+        client.addListener(new MCBOTSessionAdapter(this));
+
+        client.connect();
     }
 
 }

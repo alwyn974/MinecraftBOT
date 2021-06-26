@@ -7,8 +7,6 @@ import java.awt.GraphicsEnvironment;
 public class Main {
 
     public static void main(String... args) {
-        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> MinecraftBOT.getLogger().error(throwable.getMessage(), throwable));
-
         if (GraphicsEnvironment.isHeadless() || args.length > 0)
             runHeadless(args);
         else

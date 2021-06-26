@@ -16,13 +16,12 @@ public class JTextAreaLogHandler implements ILogHandler {
     }
 
     public void broadcastLog(LogLevel level, String msg) {
-        SwingUtilities.invokeLater(() -> logArea.append(msg));
+        SwingUtilities.invokeLater(() -> logArea.append(msg.endsWith("\n") ? msg : msg + "\n"));
     }
 
     public void broadcastThrowable(LogLevel level, Throwable th) {
         String formatted = MinecraftBOT.getLogger().formatMessage(level, th.getMessage());
-        System.out.println(formatted);
-        SwingUtilities.invokeLater(() -> logArea.append(formatted));
+        SwingUtilities.invokeLater(() -> logArea.append(formatted.endsWith("\n") ? formatted : formatted + "\n"));
     }
 
 }
