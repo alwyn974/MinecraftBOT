@@ -40,7 +40,7 @@ test {
 
 jar {
     manifest {
-        attributes "Main-Class": "re.alwyn974.minecraft.bot.MinecraftBOT"
+        attributes "Main-Class": "re.alwyn974.minecraft.bot.Main"
     }
     from "LICENSE"
 }
