@@ -12,9 +12,10 @@ import java.util.Set;
 
 /**
  * The heart of the MinecraftBOT
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.0
  * @version 1.0.5
+ * @since 1.0.0
  */
 public class MinecraftBOT {
 
@@ -23,6 +24,7 @@ public class MinecraftBOT {
 
     /**
      * The main
+     *
      * @param args the arguments of the program
      */
     public static void main(String... args) {
@@ -38,7 +40,7 @@ public class MinecraftBOT {
      */
     private static void registerCommands() {
         Reflections reflections = new Reflections("re.alwyn974.minecraft.bot.cmd");
-        Set<Class<? extends ICommand >> classes = reflections.getSubTypesOf(ICommand.class);
+        Set<Class<? extends ICommand>> classes = reflections.getSubTypesOf(ICommand.class);
 
         classes.forEach(cmd -> {
             try {
@@ -51,6 +53,7 @@ public class MinecraftBOT {
 
     /**
      * Run the programm in command line
+     *
      * @param args the arguments of the program
      */
     private static void runHeadless(String... args) {
@@ -59,6 +62,7 @@ public class MinecraftBOT {
 
     /**
      * Get the logger of MinecraftBOT
+     *
      * @return the logger {@link BasicLogger}
      */
     public static BasicLogger getLogger() {
@@ -67,6 +71,7 @@ public class MinecraftBOT {
 
     /**
      * Get the project name
+     *
      * @return the project name
      */
     public static String getProjectName() {

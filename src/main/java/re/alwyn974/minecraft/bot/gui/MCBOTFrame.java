@@ -1,5 +1,6 @@
 package re.alwyn974.minecraft.bot.gui;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 
 import javax.swing.JFrame;
@@ -10,9 +11,10 @@ import java.awt.Dimension;
 
 /**
  * The Frame for the Gui
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
+ * @version 1.0.6
  * @since 1.0.0
- * @version 1.0.3
  */
 public class MCBOTFrame extends JFrame {
 
@@ -20,8 +22,7 @@ public class MCBOTFrame extends JFrame {
         setSystemLookAndFeel();
 
         this.setTitle("MinecraftBOT - Dev by Alwyn974");
-        this.setPreferredSize(new Dimension(854, 480));
-        this.setMinimumSize(new Dimension(800, 100));
+        this.setMinimumSize(new Dimension(800, 200));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setContentPane(new MCBOTPanel());
@@ -34,8 +35,8 @@ public class MCBOTFrame extends JFrame {
 
     public void setSystemLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            UIManager.setLookAndFeel(new FlatDarculaLaf());
+        } catch (UnsupportedLookAndFeelException e) {
             MinecraftBOT.getLogger().error("Can't set look and feel", e);
         }
     }

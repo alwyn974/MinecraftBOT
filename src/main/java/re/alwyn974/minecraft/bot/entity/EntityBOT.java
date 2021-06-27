@@ -15,9 +15,10 @@ import java.net.Proxy;
 
 /**
  * The EntityBOT used to store all information about the user
- * @since 1.0.0
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
  * @version 1.0.4
+ * @since 1.0.0
  */
 public class EntityBOT {
 
@@ -33,38 +34,74 @@ public class EntityBOT {
     private double food = -1;
     private Difficulty difficulty = null;
 
-    public EntityBOT(String username, String password)  {
+    /**
+     * Instanciate the EntityBot with only username and password
+     *
+     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password the password of the account
+     */
+    public EntityBOT(String username, String password) {
         this("localhost", username, password, false);
     }
 
-    public EntityBOT(String username, String password, boolean debug)  {
+    /**
+     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password the password of the premium account
+     * @param debug    activate debug mode
+     */
+    public EntityBOT(String username, String password, boolean debug) {
         this("localhost", username, password, debug);
     }
 
+    /**
+     * @param host     the minecraft server address
+     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password the password of the premium account
+     */
     public EntityBOT(String host, String username, String password) {
         this(host, 25565, username, password, false);
     }
 
+    /**
+     * @param host     the minecraft server address
+     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password the password of the premium account
+     * @param debug    activate debug mode
+     */
     public EntityBOT(String host, String username, String password, boolean debug) {
         this(host, 25565, username, password, debug);
     }
 
+    /**
+     * @param host     the minecraft server address
+     * @param port     the minecraft server port
+     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password the password of the premium account
+     */
     public EntityBOT(String host, int port, String username, String password) {
         this(host, port, Proxy.NO_PROXY, username, password, false);
     }
 
+    /**
+     * @param host     the minecraft server address
+     * @param port     the minecraft server port
+     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password the password of the premium account
+     * @param debug    activate debug mode
+     */
     public EntityBOT(String host, int port, String username, String password, boolean debug) {
         this(host, port, Proxy.NO_PROXY, username, password, debug);
     }
 
     /**
      * Instanciate the EntityBOT
-     * @param host the minecraft server address
-     * @param port the minecraft server port
-     * @param proxy the proxy
+     *
+     * @param host     the minecraft server address
+     * @param port     the minecraft server port
+     * @param proxy    the proxy
      * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
      * @param password the password of the premium account
-     * @param debug activate debug mode
+     * @param debug    activate debug mode
      */
     public EntityBOT(String host, int port, Proxy proxy, String username, String password, Boolean debug) {
         this.host = host;
@@ -75,66 +112,146 @@ public class EntityBOT {
         this.debug = debug;
     }
 
+    /**
+     * Get the host
+     *
+     * @return the host
+     */
     public String getHost() {
         return host;
     }
 
+    /**
+     * Get the port
+     *
+     * @return the port
+     */
     public Integer getPort() {
         return port;
     }
 
+    /**
+     * Get the Proxy
+     *
+     * @return the proxy
+     */
     public Proxy getProxy() {
         return proxy;
     }
 
+    /**
+     * Get the username
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Get the password
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Get if is in debug
+     *
+     * @return is in debug
+     */
     public boolean isDebug() {
         return debug;
     }
 
+    /**
+     * Get the client
+     *
+     * @return the client
+     */
     public Session getClient() {
         return client;
     }
 
+    /**
+     * Get the position of the EntityBot
+     *
+     * @return the position
+     */
     public EntityPos getPos() {
         return pos;
     }
 
+    /**
+     * Get the health
+     *
+     * @return the health
+     */
     public double getHealth() {
         return health;
     }
 
+    /**
+     * Get the food
+     *
+     * @return the food
+     */
     public double getFood() {
         return food;
     }
 
+    /**
+     * Get the difficulty
+     *
+     * @return the difficulty
+     */
     public Difficulty getDifficulty() {
         return difficulty;
     }
 
+    /**
+     * Set the health
+     *
+     * @param health the health
+     */
     public void setHealth(double health) {
         this.health = health;
     }
 
+    /**
+     * Set the food level
+     *
+     * @param food the food level
+     */
     public void setFood(double food) {
         this.food = food;
     }
 
+    /**
+     * Set the position
+     *
+     * @param pos the new position
+     */
     public void setPos(EntityPos pos) {
         this.pos = pos;
     }
 
+    /**
+     * Set the difficulty
+     *
+     * @param difficulty the new difficulty
+     */
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
+    /**
+     * Connect the bot to the server
+     *
+     * @throws RequestException if the premium account is invalid
+     */
     public void connect() throws RequestException {
         AuthenticationService authService = new AuthenticationService();
         authService.setUsername(this.getUsername());

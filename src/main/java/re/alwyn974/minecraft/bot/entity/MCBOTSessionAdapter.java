@@ -10,9 +10,10 @@ import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
 /**
  * The session adapter, managing packet and more
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.0
  * @version 1.0.5
+ * @since 1.0.0
  */
 public class MCBOTSessionAdapter extends SessionAdapter {
 
@@ -20,6 +21,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
 
     /**
      * Instanciate a Sessions Adapter to manage packet
+     *
      * @param bot the Entity Bot
      */
     public MCBOTSessionAdapter(EntityBOT bot) {
@@ -28,6 +30,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
 
     /**
      * Handle the disconnected event
+     *
      * @param event the disconnected event
      */
     @Override
@@ -37,6 +40,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
 
     /**
      * Handle all of received packet
+     *
      * @param event the packet received event
      */
     @Override

@@ -33,9 +33,10 @@ import java.util.List;
 
 /**
  * The Panel of the Gui
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.0
  * @version 1.0.4
+ * @since 1.0.0
  */
 public class MCBOTPanel extends JPanel implements ActionListener {
 

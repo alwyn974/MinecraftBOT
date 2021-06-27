@@ -5,14 +5,16 @@ import net.kyori.adventure.text.TextComponent;
 
 /**
  * Translate the {@link Component} to some Human readable text
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.0
  * @version 1.0.0
+ * @since 1.0.0
  */
 public class TranslateChat {
 
     /**
      * Translate the component to some human readable text
+     *
      * @param component the component
      * @return the readable text
      */
@@ -30,6 +32,7 @@ public class TranslateChat {
 
     /**
      * Append all child
+     *
      * @param component the component
      * @return the content of all appened child
      */

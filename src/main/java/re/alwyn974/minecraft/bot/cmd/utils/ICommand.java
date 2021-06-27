@@ -1,24 +1,26 @@
 package re.alwyn974.minecraft.bot.cmd.utils;
 
 import org.jetbrains.annotations.NotNull;
-import re.alwyn974.minecraft.bot.entity.EntityBOT;
 
 /**
  * The interface for the Command
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
+ * @version 1.0.6
  * @since 1.0.4
- * @version 1.0.5
  */
 public interface ICommand extends Comparable<ICommand> {
 
     /**
      * Get the command name
+     *
      * @return the command name
      */
     String getName();
 
     /**
      * Get the command prefix
+     *
      * @return the command prefix
      */
     default String getPrefix() {
@@ -27,32 +29,35 @@ public interface ICommand extends Comparable<ICommand> {
 
     /**
      * Get the description of the command
+     *
      * @return the description of the command
      */
     String getDescription();
 
     /**
      * Get the usage of the command
+     *
      * @return the usage of the command
      */
     String getUsage();
 
     /**
      * Specify if the command can be only executed if the bot is connected to a server
+     *
      * @return if the bot need to be connected
      */
     boolean needToBeConnected();
 
     /**
-     * Execute the command
-     * @param bot the bot who send the command
-     * @param message the orginal message
-     * @param args the arguments
+     * The executor of the command
+     *
+     * @return an executor of the command
      */
-    void execute(EntityBOT bot, String message, String... args);
+    IExecutor executor();
 
     /**
      * Used to sort the command list
+     *
      * @param command the other command
      * @return a value in ASCII like {@link String#compareTo}
      */

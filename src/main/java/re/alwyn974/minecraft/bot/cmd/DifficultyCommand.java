@@ -2,13 +2,14 @@ package re.alwyn974.minecraft.bot.cmd;
 
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
-import re.alwyn974.minecraft.bot.entity.EntityBOT;
+import re.alwyn974.minecraft.bot.cmd.utils.IExecutor;
 
 /**
  * Difficulty Command, retrieve the difficulty of the server
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.5
  * @version 1.0.5
+ * @since 1.0.5
  */
 public class DifficultyCommand implements ICommand {
 
@@ -33,8 +34,8 @@ public class DifficultyCommand implements ICommand {
     }
 
     @Override
-    public void execute(EntityBOT bot, String message, String... args) {
-        MinecraftBOT.getLogger().info("Difficulty: %s", bot.getDifficulty().name());
+    public IExecutor executor() {
+        return (bot, message, args) -> MinecraftBOT.getLogger().info("Difficulty: %s", bot.getDifficulty().name());
     }
 
 }

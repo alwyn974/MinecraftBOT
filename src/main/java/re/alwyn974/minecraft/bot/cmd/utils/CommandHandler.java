@@ -10,9 +10,10 @@ import java.util.List;
 
 /**
  * The session adapter, managing packet and more
+ *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @since 1.0.4
  * @version 1.0.5
+ * @since 1.0.4
  */
 public class CommandHandler {
 
@@ -22,6 +23,7 @@ public class CommandHandler {
 
     /**
      * register a command
+     *
      * @param command the command
      */
     public static void registerCommand(ICommand command) {
@@ -34,7 +36,8 @@ public class CommandHandler {
 
     /**
      * Execute the command
-     * @param bot the bot {@link EntityBOT}
+     *
+     * @param bot     the bot {@link EntityBOT}
      * @param message the message
      * @return if a command as been executed
      */
@@ -53,7 +56,7 @@ public class CommandHandler {
                 if (command.needToBeConnected() && bot == null)
                     MinecraftBOT.getLogger().error("You need to be connected to a server to do this !");
                 else
-                    command.execute(bot, message, cmdArgs);
+                    command.executor().execute(bot, message, cmdArgs);
                 return true;
             } else if (!cmd.isEmpty())
                 MinecraftBOT.getLogger().error("Command doesn't exist [%s]", cmd);
@@ -63,6 +66,7 @@ public class CommandHandler {
 
     /**
      * Get the command
+     *
      * @param name the command name
      * @return the command {@link ICommand}
      */
@@ -74,6 +78,7 @@ public class CommandHandler {
 
     /**
      * Get the prefix of all commands
+     *
      * @return the prefix of the all commands
      */
     public static String getPrefix() {
@@ -82,6 +87,7 @@ public class CommandHandler {
 
     /**
      * Change the prefix of the commands
+     *
      * @param prefix the new prefix
      */
     public static void setPrefix(String prefix) {
@@ -90,6 +96,7 @@ public class CommandHandler {
 
     /**
      * Get the list of all commands
+     *
      * @return the list of all commands
      */
     public static List<ICommand> getCommands() {
