@@ -35,7 +35,7 @@ import java.util.List;
  * The Panel of the Gui
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.4
+ * @version 1.0.8
  * @since 1.0.0
  */
 public class MCBOTPanel extends JPanel implements ActionListener {
@@ -112,6 +112,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
         logArea.setEditable(false);
         logArea.setAutoscrolls(true);
+        logArea.setLineWrap(true);
         jScrollPane.getViewport().setView(logArea);
 
         LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea));

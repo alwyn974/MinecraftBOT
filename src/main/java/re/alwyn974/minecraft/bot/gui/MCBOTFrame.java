@@ -13,7 +13,7 @@ import java.awt.Dimension;
  * The Frame for the Gui
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.6
+ * @version 1.0.8
  * @since 1.0.0
  */
 public class MCBOTFrame extends JFrame {
@@ -22,7 +22,7 @@ public class MCBOTFrame extends JFrame {
         setSystemLookAndFeel();
 
         this.setTitle("MinecraftBOT - Dev by Alwyn974");
-        this.setMinimumSize(new Dimension(800, 200));
+        this.setMinimumSize(new Dimension(800, 300));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setContentPane(new MCBOTPanel());

@@ -2,11 +2,16 @@ package re.alwyn974.minecraft.bot.entity;
 
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerDifficultyPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerPlayerListEntryPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
-import com.github.steveice10.packetlib.event.session.*;
+import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
+import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
+import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
+
+import java.util.Arrays;
 
 /**
  * The session adapter, managing packet and more
@@ -69,6 +74,10 @@ public class MCBOTSessionAdapter extends SessionAdapter {
             bot.setDifficulty(difficultyPacket.getDifficulty());
             if (difficultyNull)
                 MinecraftBOT.getLogger().info("Difficulty: %s", bot.getDifficulty().name());
+        }
+        if (event.getPacket() instanceof ServerPlayerListEntryPacket) {
+            ServerPlayerListEntryPacket serverPlayerListEntryPacket = event.getPacket();
+            bot.setPlayers(Arrays.asList(serverPlayerListEntryPacket.getEntries()));
         }
     }
 

@@ -5,6 +5,7 @@ import com.github.steveice10.mc.auth.service.AuthenticationService;
 import com.github.steveice10.mc.auth.service.SessionService;
 import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
+import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
 import com.github.steveice10.mc.protocol.data.game.setting.Difficulty;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
@@ -12,6 +13,7 @@ import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 
 import java.net.Proxy;
+import java.util.List;
 
 /**
  * The EntityBOT used to store all information about the user
@@ -33,6 +35,7 @@ public class EntityBOT {
     private double health = -1;
     private double food = -1;
     private Difficulty difficulty = null;
+    private List<PlayerListEntry> players = null;
 
     /**
      * Instanciate the EntityBot with only username and password
@@ -212,6 +215,15 @@ public class EntityBOT {
     }
 
     /**
+     * Get the players online
+     *
+     * @return the players online
+     */
+    public List<PlayerListEntry> getPlayers() {
+        return players;
+    }
+
+    /**
      * Set the health
      *
      * @param health the health
@@ -245,6 +257,15 @@ public class EntityBOT {
      */
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    /**
+     * Set the players list
+     *
+     * @param players the new players list
+     */
+    public void setPlayers(List<PlayerListEntry> players) {
+        this.players = players;
     }
 
     /**

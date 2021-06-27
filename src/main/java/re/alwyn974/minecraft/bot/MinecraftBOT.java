@@ -46,7 +46,6 @@ public class MinecraftBOT {
 
         classes.forEach(cmd -> {
             try {
-                System.out.println(cmd.getName());
                 CommandHandler.registerCommand(cmd.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 MinecraftBOT.getLogger().error("Cannot instantiate the command", e);
