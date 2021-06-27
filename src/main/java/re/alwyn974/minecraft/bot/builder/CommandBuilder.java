@@ -1,4 +1,7 @@
-package re.alwyn974.minecraft.bot.cmd.utils;
+package re.alwyn974.minecraft.bot.builder;
+
+import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
+import re.alwyn974.minecraft.bot.cmd.utils.IExecutor;
 
 /**
  * The command builder, useful to create simple command without creating a class
@@ -54,7 +57,7 @@ public class CommandBuilder {
      * @param needToBeConnected if the command can only be used on a server
      * @return the builder
      */
-    private CommandBuilder withNeedToBeConnected(boolean needToBeConnected) {
+    public CommandBuilder withNeedToBeConnected(boolean needToBeConnected) {
         this.needToBeConnected = needToBeConnected;
         return this;
     }
@@ -65,7 +68,7 @@ public class CommandBuilder {
      * @param executor the executor {@link IExecutor}
      * @return the builder
      */
-    private CommandBuilder withExecutor(IExecutor executor) {
+    public CommandBuilder withExecutor(IExecutor executor) {
         this.executor = executor;
         return this;
     }

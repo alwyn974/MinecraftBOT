@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "re.alwyn974"
-version = "1.0.6"
+version = "1.0.7"
 archivesBaseName = "MinecraftBOT"
 
 compileJava {
@@ -17,7 +17,7 @@ compileJava {
 
 repositories {
     mavenCentral()
-    mavenLocal() //User for retrieve McProtocolib of GeyserMc
+    mavenLocal() //Used for retrieve McProtocolib of GeyserMc
     maven {
         url "https://jitpack.io"
     }

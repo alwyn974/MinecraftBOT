@@ -3,6 +3,8 @@ package re.alwyn974.minecraft.bot;
 import org.reflections.Reflections;
 import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.logger.LoggerFactory;
+import re.alwyn974.minecraft.bot.cmd.InitSimpleCommand;
+import re.alwyn974.minecraft.bot.builder.CommandBuilderException;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
 import re.alwyn974.minecraft.bot.gui.MCBOTFrame;
@@ -14,7 +16,7 @@ import java.util.Set;
  * The heart of the MinecraftBOT
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.5
+ * @version 1.0.7
  * @since 1.0.0
  */
 public class MinecraftBOT {
@@ -39,16 +41,22 @@ public class MinecraftBOT {
      * Register all of the command located in re.alwyn974.minecraft.bot.cmd
      */
     private static void registerCommands() {
-        Reflections reflections = new Reflections("re.alwyn974.minecraft.bot.cmd");
+        Reflections reflections = new Reflections("re.alwyn974.minecraft.bot.cmd.");
         Set<Class<? extends ICommand>> classes = reflections.getSubTypesOf(ICommand.class);
 
         classes.forEach(cmd -> {
             try {
+                System.out.println(cmd.getName());
                 CommandHandler.registerCommand(cmd.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
-                MinecraftBOT.getLogger().error("Cannot instantiate the command : %s", e);
+                MinecraftBOT.getLogger().error("Cannot instantiate the command", e);
             }
         });
+        try {
+            new InitSimpleCommand().initSimpleCommand();
+        } catch (CommandBuilderException e) {
+            MinecraftBOT.getLogger().error("Cannot init the simple command", e);
+        }
     }
 
     /**
