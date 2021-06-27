@@ -77,7 +77,8 @@ public class CommandBuilder {
      * Build the command
      *
      * @return an {@link ICommand} object
-     * @throws CommandBuilderException if the command doesn't match the requirement {@see #checkValidity}
+     * @throws CommandBuilderException if the command doesn't match the requirement
+     * @see #checkValidity()
      */
     public ICommand build() throws CommandBuilderException {
         checkValidity();
@@ -120,7 +121,7 @@ public class CommandBuilder {
      *
      * @throws CommandBuilderException if the command doesn't match the requirement
      */
-    private void checkValidity() throws CommandBuilderException {
+    protected void checkValidity() throws CommandBuilderException {
         if (name == null)
             throw new CommandBuilderException("name == null");
         if (usage == null)
