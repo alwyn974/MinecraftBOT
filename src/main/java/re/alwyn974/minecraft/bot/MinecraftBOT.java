@@ -1,8 +1,10 @@
 package re.alwyn974.minecraft.bot;
 
+import org.apache.commons.cli.ParseException;
 import org.reflections.Reflections;
 import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.logger.LoggerFactory;
+import re.alwyn974.minecraft.bot.cli.CLIParser;
 import re.alwyn974.minecraft.bot.cmd.InitSimpleCommand;
 import re.alwyn974.minecraft.bot.builder.CommandBuilderException;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -23,6 +25,11 @@ public class MinecraftBOT {
 
     private static final String PROJECT_NAME = "MinecraftBOT";
     private static final BasicLogger logger = LoggerFactory.getLogger(getProjectName());
+    private static final String username = System.getenv("MC_BOT_USERNAME");
+    private static final String password = System.getenv("MC_BOT_PASSWORD");
+    private static final String host = System.getenv("MC_BOT_HOST");
+    private static final String port = System.getenv("MC_BOT_PORT");
+    private static final String debug = System.getenv("MC_BOT_DEBUG");
 
     /**
      * The main
@@ -64,7 +71,11 @@ public class MinecraftBOT {
      * @param args the arguments of the program
      */
     private static void runHeadless(String... args) {
-        //TODO: command line bot
+        try {
+            CLIParser.parse(args);
+        } catch (ParseException e) {
+            MinecraftBOT.getLogger().error("Cannot parse the arguments correctly", e);
+        }
     }
 
     /**
@@ -85,5 +96,50 @@ public class MinecraftBOT {
         return PROJECT_NAME;
     }
 
+
+    /**
+     * Get the username
+     *
+     * @return the username
+     */
+    public static String getUsername() {
+        return username != null ? username : "";
+    }
+
+    /**
+     * Get the password
+     *
+     * @return the password
+     */
+    public static String getPassword() {
+        return password != null ? password : "";
+    }
+
+    /**
+     * Get the host
+     *
+     * @return the host
+     */
+    public static String getHost() {
+        return host != null ? host : "127.0.0.1";
+    }
+
+    /**
+     * Get the port
+     *
+     * @return the port
+     */
+    public static String getPort() {
+        return port != null ? port : "25565";
+    }
+
+    /**
+     * Get the debug value
+     *
+     * @return the debug value
+     */
+    public static String getDebug() {
+        return debug;
+    }
 
 }

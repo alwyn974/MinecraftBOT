@@ -43,23 +43,17 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JPanel topPanel = new JPanel();
     private final JPanel bottomPanel = new JPanel();
 
-    private final String username = System.getenv("MC_BOT_USERNAME");
-    private final String password = System.getenv("MC_BOT_PASSWORD");
-    private final String host = System.getenv("MC_BOT_HOST");
-    private final String port = System.getenv("MC_BOT_PORT");
-    private final String debug = System.getenv("MC_BOT_DEBUG");
-
-    private final JTextField usernameField = new JTextField(username != null ? username : "");
-    private final JPasswordField passwordField = new JPasswordField(password != null ? password : "");
-    private final JTextField hostField = new JTextField(host != null ? host : "127.0.0.1");
-    private final JTextField portField = new JTextField(port != null ? port : "25565");
+    private final JTextField usernameField = new JTextField(MinecraftBOT.getUsername());
+    private final JPasswordField passwordField = new JPasswordField(MinecraftBOT.getPassword());
+    private final JTextField hostField = new JTextField( MinecraftBOT.getHost());
+    private final JTextField portField = new JTextField(MinecraftBOT.getPort());
     private final JTextField outputField = new JTextField();
 
     private final JButton connectButton = new JButton("Connect");
     private final JButton disconnectButton = new JButton("Disconnect");
     private final JButton statusButton = new JButton("Status");
     private final JButton clearButton = new JButton("Clear");
-    private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(debug));
+    private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(MinecraftBOT.getDebug()));
     private final JTextArea logArea = new JTextArea();
 
     private EntityBOT bot = null;
