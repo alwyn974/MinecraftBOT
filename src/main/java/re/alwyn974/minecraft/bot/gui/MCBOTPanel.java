@@ -45,7 +45,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
     private final JTextField usernameField = new JTextField(MinecraftBOT.getUsername());
     private final JPasswordField passwordField = new JPasswordField(MinecraftBOT.getPassword());
-    private final JTextField hostField = new JTextField( MinecraftBOT.getHost());
+    private final JTextField hostField = new JTextField(MinecraftBOT.getHost());
     private final JTextField portField = new JTextField(MinecraftBOT.getPort());
     private final JTextField outputField = new JTextField();
 
