@@ -27,6 +27,11 @@ public class CLIParser {
         ParseResult result = parseResult();
         if (result.shouldPrintHelp())
             printHelp();
+        if (result.shouldPrintStatus()) {
+            MinecraftBOT.retrieveStatus(result.getHost(), result.getPort(), result.isDebug());
+            System.exit(0);
+        }
+
     }
 
     /**
