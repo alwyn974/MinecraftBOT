@@ -2,25 +2,28 @@
 
 ## Description
 
-Minecraft bot. Currently used for afk on a Survival Server 😅
+Minecraft bot. Currently, used for afk on a Survival Server 😅
 
 ## Features
 
 - Graphical user interface
 - LogPanel to see errors directly
-- Test with Spigot, Paper 1.17
+- Test with Spigot, Paper 1.17.1
 - Disconnects gracefully after the end
 - Free
 - Open source
+- Command Line Interface
 
 ## Todos
 
-- Command line interface
+- Multi Version
+- Cracked
+- Respawn the player automatically if dead
 
 ## Requirements
 
 - Java 8+
-- Minecraft Server 1.17 (It can work for 1.7.10-1.17 normally, I haven't tested it)
+- Minecraft Server 1.17.1
 
 ## Downloads
 
@@ -37,8 +40,9 @@ There are environnement variable to override the default value of host, port, us
 - `MC_BOT_PORT` for the port
 - `MC_BOT_USERNAME` for the username
 - `MC_BOT_PASSWORD` for the password
+- `MC_BOT_PREFIX` for the prefix of the commands (default=`.`)
 
-The are some builtin commands in the bot
+They are some builtin commands in the bot
 
 - `difficulty` get the difficulty of the server
 - `food` get the food level of the player
@@ -46,6 +50,22 @@ The are some builtin commands in the bot
 - `health` get the health of the player
 - `list` get the players connected (Sometimes the packet is glitched, you can use the status button go get the players)
 - `pos` get the player position
+
+## Command Line Interface
+
+<p> Like the GUI, the CLI can use commands and send message to the server </p>
+<p> Simply type anything in the CLI and type enter</p>
+
+```
+-d,--debug            Activate debug
+-h,--host <arg>       Setup the host value (Default=127.0.0.1)
+--help                Show this help page
+-p,--port <arg>       Setup the port value (Default=25565)
+--password <arg>      Password of the user
+-s,--status           Display only the status of the server
+-u,--user <arg>       Email of the user
+```
+
 
 ## Dependencies
 

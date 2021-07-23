@@ -1,7 +1,13 @@
 package re.alwyn974.minecraft.bot.cli;
 
+import com.github.steveice10.mc.auth.exception.request.RequestException;
+import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import org.apache.commons.cli.*;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
+import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
+import re.alwyn974.minecraft.bot.entity.EntityBOT;
+
+import java.util.Scanner;
 
 /**
  * The command line parser
@@ -14,11 +20,14 @@ public class CLIParser {
 
     private static final Options options = new Options();
     private static CommandLine cmd;
+    private static EntityBOT bot;
+    private static Thread botThread;
 
     /**
      * Parse the command line arguments
      *
      * @param args the arguments
+     * @throws ParseException on parsing error
      */
     public static void parse(String... args) throws ParseException {
         addOptions();
@@ -31,7 +40,30 @@ public class CLIParser {
             MinecraftBOT.retrieveStatus(result.getHost(), result.getPort(), result.isDebug());
             System.exit(0);
         }
-
+        bot = new EntityBOT(result);
+        botThread = new Thread(() -> {
+            try {
+                MinecraftBOT.getLogger().info("Starting MinecraftBOT...");
+                bot.connect();
+            } catch (RequestException ex) {
+                MinecraftBOT.getLogger().error("Can't authenticate", ex);
+                botThread.interrupt();
+            }
+            try (Scanner scanner = new Scanner(System.in)) {
+                while (bot != null && bot.getClient().isConnected()) {
+                    String line = scanner.nextLine();
+                    if (line.equals("disconnect")) {
+                        bot.getClient().disconnect("Disconnected");
+                        botThread.interrupt();
+                        break;
+                    }
+                    if (!new CommandHandler().execute(bot, line) && bot != null && bot.getClient().isConnected())
+                        bot.getClient().send(new ClientChatPacket(line));
+                }
+                botThread.interrupt();
+            }
+        });
+        botThread.start();
     }
 
     /**

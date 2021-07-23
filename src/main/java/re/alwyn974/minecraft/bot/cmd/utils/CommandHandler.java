@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CommandHandler {
 
-    private static String prefix = ".";
+    private static String prefix = MinecraftBOT.getPrefix();
     private static final HashMap<String, ICommand> COMMANDS = new HashMap<>();
     private static final List<ICommand> COMMANDS_LIST = new ArrayList<>();
 

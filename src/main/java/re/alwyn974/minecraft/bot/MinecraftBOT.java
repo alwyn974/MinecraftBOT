@@ -45,6 +45,7 @@ public class MinecraftBOT {
     private static final String HOST = System.getenv("MC_BOT_HOST");
     private static final String PORT = System.getenv("MC_BOT_PORT");
     private static final String DEBUG = System.getenv("MC_BOT_DEBUG");
+    private static final String PREFIX = System.getenv("MC_BOT_PREFIX");
 
     /**
      * The main
@@ -158,13 +159,22 @@ public class MinecraftBOT {
     }
 
     /**
+     * Get the prefix of commands
+     *
+     * @return the prefix
+     */
+    public static String getPrefix() {
+        return PREFIX != null ? PREFIX : ".";
+    }
+
+    /**
      * Retrieve the status of a server
      *
-     * @param host the host
-     * @param port the port
+     * @param host  the host
+     * @param port  the port
      * @param debug debug value to print some useful things
      */
-    public static void retrieveStatus(String host, Integer port, boolean debug) {
+    public static void retrieveStatus(String host, int port, boolean debug) {
         new Thread(() -> {
             SessionService sessionService = new SessionService();
             sessionService.setProxy(Proxy.NO_PROXY);

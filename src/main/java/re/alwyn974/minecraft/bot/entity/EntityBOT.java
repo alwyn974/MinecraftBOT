@@ -11,6 +11,7 @@ import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
+import re.alwyn974.minecraft.bot.cli.ParseResult;
 
 import java.net.Proxy;
 import java.util.List;
@@ -113,6 +114,20 @@ public class EntityBOT {
         this.username = username;
         this.password = password;
         this.debug = debug;
+    }
+
+    /**
+     * Instanciate the EntityBOT from {@link ParseResult}
+     *
+     * @param result the result of parsed arguments
+     */
+    public EntityBOT(ParseResult result) {
+        this.host = result.getHost();
+        this.port = result.getPort();
+        this.username = result.getEmail();
+        this.password = result.getPassword();
+        this.debug = result.isDebug();
+        this.proxy = Proxy.NO_PROXY;
     }
 
     /**
