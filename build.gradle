@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "re.alwyn974"
-version = "1.0.8"
+version = "1.0.9"
 archivesBaseName = "MinecraftBOT"
 
 compileJava {
@@ -29,7 +29,7 @@ repositories {
 dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
-    implementation "com.github.steveice10:mcprotocollib:1.17-SNAPSHOT" //Version of GeyserMC
+    implementation "com.github.Steveice10:MCProtocolLib:-SNAPSHOT"
     implementation "commons-cli:commons-cli:+"
     implementation "re.alwyn974:logger:1.0.0"
     implementation "org.reflections:reflections:+"
