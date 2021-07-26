@@ -6,18 +6,19 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 
 ## Features
 
-- Graphical user interface
+- Graphical User Interface
 - LogPanel to see errors directly
 - Test with Spigot, Paper 1.17.1
 - Disconnects gracefully after the end
 - Free
 - Open source
 - Command Line Interface
+- Online (Mojang)
+- Cracked
 
 ## Todos
 
 - Multi Version
-- Cracked
 - Respawn the player automatically if dead
 
 ## Requirements
