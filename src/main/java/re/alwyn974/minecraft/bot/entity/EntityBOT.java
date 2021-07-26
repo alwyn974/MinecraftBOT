@@ -289,17 +289,21 @@ public class EntityBOT {
      * @throws RequestException if the premium account is invalid
      */
     public void connect() throws RequestException {
-        AuthenticationService authService = new AuthenticationService();
-        authService.setUsername(this.getUsername());
-        authService.setPassword(this.getPassword());
-        authService.setProxy(this.getProxy());
-        if (isDebug())
-            MinecraftBOT.getLogger().debug("Authenticating with account [%s]", this.getUsername());
-        authService.login();
-        if (isDebug())
-            MinecraftBOT.getLogger().debug("Successfully authenticated [%s]", authService.getSelectedProfile().getName());
+        MinecraftProtocol protocol;
+        if (this.password != null && !this.password.isEmpty()) {
+            AuthenticationService authService = new AuthenticationService();
+            authService.setUsername(this.getUsername());
+            authService.setPassword(this.getPassword());
+            authService.setProxy(this.getProxy());
+            if (isDebug())
+                MinecraftBOT.getLogger().debug("Authenticating with account [%s]", this.getUsername());
+            authService.login();
+            if (isDebug())
+                MinecraftBOT.getLogger().debug("Successfully authenticated [%s]", authService.getSelectedProfile().getName());
 
-        MinecraftProtocol protocol = new MinecraftProtocol(authService.getSelectedProfile(), authService.getAccessToken());
+            protocol = new MinecraftProtocol(authService.getSelectedProfile(), authService.getAccessToken());
+        } else
+            protocol = new MinecraftProtocol(this.username);
 
         SessionService sessionService = new SessionService();
         sessionService.setProxy(this.getProxy());

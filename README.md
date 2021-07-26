@@ -6,18 +6,19 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 
 ## Features
 
-- Graphical user interface
+- Graphical User Interface
 - LogPanel to see errors directly
 - Test with Spigot, Paper 1.17.1
 - Disconnects gracefully after the end
 - Free
 - Open source
 - Command Line Interface
+- Online (Mojang)
+- Cracked
 
 ## Todos
 
 - Multi Version
-- Cracked
 - Respawn the player automatically if dead
 
 ## Requirements
@@ -33,12 +34,14 @@ https://github.com/alwyn974/MinecraftBOT/releases
 
 ![Gui](https://i.imgur.com/OpdfO7Q.png)
 
+For cracked account, just type the username in `Email` field
+
 ## Tips
 
 There are environnement variable to override the default value of host, port, username and password
 - `MC_BOT_HOST` for the host
 - `MC_BOT_PORT` for the port
-- `MC_BOT_USERNAME` for the username
+- `MC_BOT_USERNAME` for the email/username
 - `MC_BOT_PASSWORD` for the password
 - `MC_BOT_PREFIX` for the prefix of the commands (default=`.`)
 
@@ -63,7 +66,7 @@ They are some builtin commands in the bot
 -p,--port <arg>       Setup the port value (Default=25565)
 --password <arg>      Password of the user
 -s,--status           Display only the status of the server
--u,--user <arg>       Email of the user
+-u,--user <arg>       Email/Username of the account
 ```
 
 

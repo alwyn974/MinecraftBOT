@@ -91,6 +91,9 @@ public class CLIParser {
         return result;
     }
 
+    /**
+     * Display the help of arguments
+     */
     public static void printHelp() {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp(MinecraftBOT.getProjectName(), options);

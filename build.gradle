@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "re.alwyn974"
-version = "1.0.10"
+version = "1.0.11"
 archivesBaseName = "MinecraftBOT"
 
 compileJava {
@@ -17,7 +17,6 @@ compileJava {
 
 repositories {
     mavenCentral()
-    mavenLocal() //Used for retrieve McProtocolib of GeyserMc
     maven {
         url "https://jitpack.io"
     }
@@ -29,6 +28,7 @@ repositories {
 dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+
     implementation "com.github.Steveice10:MCProtocolLib:-SNAPSHOT"
     implementation "commons-cli:commons-cli:+"
     implementation "re.alwyn974:logger:1.0.0"
