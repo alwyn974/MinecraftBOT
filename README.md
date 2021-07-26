@@ -34,12 +34,14 @@ https://github.com/alwyn974/MinecraftBOT/releases
 
 ![Gui](https://i.imgur.com/OpdfO7Q.png)
 
+For cracked account, just type the username in `Email` field
+
 ## Tips
 
 There are environnement variable to override the default value of host, port, username and password
 - `MC_BOT_HOST` for the host
 - `MC_BOT_PORT` for the port
-- `MC_BOT_USERNAME` for the username
+- `MC_BOT_USERNAME` for the email/username
 - `MC_BOT_PASSWORD` for the password
 - `MC_BOT_PREFIX` for the prefix of the commands (default=`.`)
 
@@ -64,7 +66,7 @@ They are some builtin commands in the bot
 -p,--port <arg>       Setup the port value (Default=25565)
 --password <arg>      Password of the user
 -s,--status           Display only the status of the server
--u,--user <arg>       Email of the user
+-u,--user <arg>       Email/Username of the account
 ```
 
 
