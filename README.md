@@ -15,11 +15,11 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 - Command Line Interface
 - Online (Mojang)
 - Cracked
+- Automatic Respawn
 
 ## Todos
 
 - Multi Version
-- Respawn the player automatically if dead
 
 ## Requirements
 

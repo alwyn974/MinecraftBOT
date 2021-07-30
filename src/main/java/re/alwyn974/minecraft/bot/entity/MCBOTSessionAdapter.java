@@ -1,5 +1,7 @@
 package re.alwyn974.minecraft.bot.entity;
 
+import com.github.steveice10.mc.protocol.data.game.ClientRequest;
+import com.github.steveice10.mc.protocol.packet.ingame.client.ClientRequestPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerDifficultyPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerPlayerListEntryPacket;
@@ -17,7 +19,7 @@ import java.util.Arrays;
  * The session adapter, managing packet and more
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.5
+ * @version 1.0.12
  * @since 1.0.0
  */
 public class MCBOTSessionAdapter extends SessionAdapter {
@@ -65,6 +67,8 @@ public class MCBOTSessionAdapter extends SessionAdapter {
             boolean healthAndFoodNegative = bot.getFood() == -1 || bot.getHealth() == -1;
             bot.setHealth(serverPlayerHealthPacket.getHealth());
             bot.setFood(serverPlayerHealthPacket.getFood());
+            if (serverPlayerHealthPacket.getHealth() <= 0)
+                bot.getClient().send(new ClientRequestPacket(ClientRequest.RESPAWN));
             if (healthAndFoodNegative)
                 MinecraftBOT.getLogger().info("Health: %g Food: %g", bot.getHealth(), bot.getFood());
         }
