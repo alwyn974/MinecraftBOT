@@ -33,7 +33,7 @@ https://github.com/alwyn974/MinecraftBOT/releases
 
 ## Images
 
-![Gui](https://i.imgur.com/OpdfO7Q.png)
+![Gui](https://i.imgur.com/pfapJRo.png)
 
 For cracked account, just type the username in `Email` field
 
