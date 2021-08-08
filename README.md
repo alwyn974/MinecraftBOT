@@ -16,6 +16,7 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 - Online (Mojang)
 - Cracked
 - Automatic Respawn
+- Auto Reconnect (Only if `DisconnectEvent` is throw, and the reason is not `Disconnected`)
 
 ## Todos
 
@@ -43,7 +44,9 @@ There are environnement variable to override the default value of host, port, us
 - `MC_BOT_PORT` for the port
 - `MC_BOT_USERNAME` for the email/username
 - `MC_BOT_PASSWORD` for the password
+- `MC_BOT_DEBUG` for the debug mode
 - `MC_BOT_PREFIX` for the prefix of the commands (default=`.`)
+- `MC_BOT_AUTO_RECONNECT` for the auto reconnect mode
 
 They are some builtin commands in the bot
 
@@ -60,6 +63,7 @@ They are some builtin commands in the bot
 <p> Simply type anything in the CLI and type enter</p>
 
 ```
+-a, --autoReconnect   Activate auto reconnect
 -d,--debug            Activate debug
 -h,--host <arg>       Setup the host value (Default=127.0.0.1)
 --help                Show this help page

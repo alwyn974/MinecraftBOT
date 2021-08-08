@@ -33,7 +33,7 @@ import java.util.Set;
  * The heart of the MinecraftBOT
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.7
+ * @version 1.0.13
  * @since 1.0.0
  */
 public class MinecraftBOT {
@@ -46,6 +46,7 @@ public class MinecraftBOT {
     private static final String PORT = System.getenv("MC_BOT_PORT");
     private static final String DEBUG = System.getenv("MC_BOT_DEBUG");
     private static final String PREFIX = System.getenv("MC_BOT_PREFIX");
+    private static final String AUTO_RECONNECT = System.getenv("MC_BOT_AUTO_RECONNECT");
 
     /**
      * The main
@@ -156,6 +157,15 @@ public class MinecraftBOT {
      */
     public static String getDebug() {
         return DEBUG;
+    }
+
+    /**
+     * Get the auto reconnect value
+     *
+     * @return the auto reconnect value
+     */
+    public static String getAutoReconnect() {
+        return AUTO_RECONNECT;
     }
 
     /**

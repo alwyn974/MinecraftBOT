@@ -20,7 +20,7 @@ import java.util.List;
  * The EntityBOT used to store all information about the user
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.4
+ * @version 1.0.13
  * @since 1.0.0
  */
 public class EntityBOT {
@@ -31,6 +31,7 @@ public class EntityBOT {
     private final String username;
     private final String password;
     private final boolean debug;
+    private final boolean autoReconnect;
     private Session client = null;
     private EntityPos pos = null;
     private double health = -1;
@@ -54,7 +55,7 @@ public class EntityBOT {
      * @param debug    activate debug mode
      */
     public EntityBOT(String username, String password, boolean debug) {
-        this("localhost", username, password, debug);
+        this("127.0.0.1", username, password, debug);
     }
 
     /**
@@ -83,7 +84,7 @@ public class EntityBOT {
      * @param password the password of the premium account
      */
     public EntityBOT(String host, int port, String username, String password) {
-        this(host, port, Proxy.NO_PROXY, username, password, false);
+        this(host, port, username, password, false);
     }
 
     /**
@@ -94,26 +95,40 @@ public class EntityBOT {
      * @param debug    activate debug mode
      */
     public EntityBOT(String host, int port, String username, String password, boolean debug) {
-        this(host, port, Proxy.NO_PROXY, username, password, debug);
+        this(host, port, Proxy.NO_PROXY, username, password, debug, false);
+    }
+
+    /**
+     * @param host          the minecraft server address
+     * @param port          the minecraft server port
+     * @param username      the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password      the password of the premium account
+     * @param debug         activate debug mode
+     * @param autoReconnect activate auto reconnect mode
+     */
+    public EntityBOT(String host, int port, String username, String password, boolean debug, boolean autoReconnect) {
+        this(host, port, Proxy.NO_PROXY, username, password, debug, autoReconnect);
     }
 
     /**
      * Instanciate the EntityBOT
      *
-     * @param host     the minecraft server address
-     * @param port     the minecraft server port
-     * @param proxy    the proxy
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
-     * @param password the password of the premium account
-     * @param debug    activate debug mode
+     * @param host          the minecraft server address
+     * @param port          the minecraft server port
+     * @param proxy         the proxy
+     * @param username      the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password      the password of the premium account
+     * @param debug         activate debug mode
+     * @param autoReconnect activate auto reconnect
      */
-    public EntityBOT(String host, int port, Proxy proxy, String username, String password, Boolean debug) {
+    public EntityBOT(String host, int port, Proxy proxy, String username, String password, boolean debug, boolean autoReconnect) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
         this.username = username;
         this.password = password;
         this.debug = debug;
+        this.autoReconnect = autoReconnect;
     }
 
     /**
@@ -128,6 +143,7 @@ public class EntityBOT {
         this.password = result.getPassword();
         this.debug = result.isDebug();
         this.proxy = Proxy.NO_PROXY;
+        this.autoReconnect = result.isAutoReconnect();
     }
 
     /**
@@ -182,6 +198,15 @@ public class EntityBOT {
      */
     public boolean isDebug() {
         return debug;
+    }
+
+    /**
+     * Get if auto reconnect is activate
+     *
+     * @return auto reconnect value
+     */
+    public boolean isAutoReconnect() {
+        return autoReconnect;
     }
 
     /**

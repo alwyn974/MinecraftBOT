@@ -13,7 +13,7 @@ import java.util.Scanner;
  * The command line parser
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.9
+ * @version 1.0.13
  * @since 1.0.9
  */
 public class CLIParser {
@@ -75,6 +75,7 @@ public class CLIParser {
         options.addOption("u", "user", true, "Email of the user");
         options.addOption(null, "password", true, "Password of the user");
         options.addOption("d", "debug", false, "Activate debug");
+        options.addOption("a", "autoReconnect", false, "Activate auto reconnect)");
         options.addOption("s", "status", false, "Display only the status of the server");
         options.addOption(null, "help", false, "Show this help page");
     }
@@ -87,6 +88,7 @@ public class CLIParser {
         result.setPassword(cmd.hasOption("password") ? cmd.getOptionValue("password") : MinecraftBOT.getPassword());
         result.setStatus(cmd.hasOption("s"));
         result.setDebug(cmd.hasOption("d"));
+        result.setAutoReconnect(cmd.hasOption("a"));
         result.setHelp(cmd.hasOption("help"));
         return result;
     }

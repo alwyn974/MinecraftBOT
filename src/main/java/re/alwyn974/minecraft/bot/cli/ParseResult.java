@@ -1,21 +1,22 @@
 package re.alwyn974.minecraft.bot.cli;
 
 /**
- * The resulf of parsed args
+ * The result of parsed args
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.9
+ * @version 1.0.13
  * @since 1.0.9
  */
 public class ParseResult {
 
     private String host;
-    private Integer port;
+    private int port;
     private String email;
     private String password;
-    private Boolean debug;
-    private Boolean status;
-    private Boolean help;
+    private boolean debug;
+    private boolean status;
+    private boolean help;
+    private boolean autoReconnect;
 
     /**
      * Get the host
@@ -31,7 +32,7 @@ public class ParseResult {
      *
      * @return the port
      */
-    public Integer getPort() {
+    public int getPort() {
         return port;
     }
 
@@ -58,7 +59,7 @@ public class ParseResult {
      *
      * @return debug value
      */
-    public Boolean isDebug() {
+    public boolean isDebug() {
         return debug;
     }
 
@@ -67,7 +68,7 @@ public class ParseResult {
      *
      * @return status value
      */
-    public Boolean shouldPrintStatus() {
+    public boolean shouldPrintStatus() {
         return status;
     }
 
@@ -76,8 +77,17 @@ public class ParseResult {
      *
      * @return help value
      */
-    public Boolean shouldPrintHelp() {
+    public boolean shouldPrintHelp() {
         return help;
+    }
+
+    /**
+     * Get if auto reconnect is activate
+     *
+     * @return auto reconnect value
+     */
+    public boolean isAutoReconnect() {
+        return autoReconnect;
     }
 
     /**
@@ -94,7 +104,7 @@ public class ParseResult {
      *
      * @param port the port
      */
-    public void setPort(Integer port) {
+    public void setPort(int port) {
         this.port = port;
     }
 
@@ -121,7 +131,7 @@ public class ParseResult {
      *
      * @param debug debug value
      */
-    public void setDebug(Boolean debug) {
+    public void setDebug(boolean debug) {
         this.debug = debug;
     }
 
@@ -130,7 +140,7 @@ public class ParseResult {
      *
      * @param status status value
      */
-    public void setStatus(Boolean status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -139,8 +149,17 @@ public class ParseResult {
      *
      * @param help help value
      */
-    public void setHelp(Boolean help) {
+    public void setHelp(boolean help) {
         this.help = help;
+    }
+
+    /**
+     * Set auto reconnect value
+     *
+     * @param autoReconnect auto reconnect value
+     */
+    public void setAutoReconnect(boolean autoReconnect) {
+        this.autoReconnect = autoReconnect;
     }
 
     @Override
@@ -153,6 +172,7 @@ public class ParseResult {
                 ", debug=" + debug +
                 ", status=" + status +
                 ", help=" + help +
+                ", autoReconnect=" + autoReconnect +
                 '}';
     }
 }

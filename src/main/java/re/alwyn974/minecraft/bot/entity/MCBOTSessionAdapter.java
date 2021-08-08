@@ -1,5 +1,6 @@
 package re.alwyn974.minecraft.bot.entity;
 
+import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.protocol.data.game.ClientRequest;
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientRequestPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
@@ -19,7 +20,7 @@ import java.util.Arrays;
  * The session adapter, managing packet and more
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.12
+ * @version 1.0.13
  * @since 1.0.0
  */
 public class MCBOTSessionAdapter extends SessionAdapter {
@@ -36,13 +37,20 @@ public class MCBOTSessionAdapter extends SessionAdapter {
     }
 
     /**
-     * Handle the disconnected event
-     *
+     * <p>Handle the disconnected event</p>
+     * <p>If auto reconnect is enabled, it will try to connect unless the disconnection message is "Disconnected" </p>
      * @param event the disconnected event
      */
     @Override
     public void disconnected(DisconnectedEvent event) {
         MinecraftBOT.getLogger().info("Disconnected: %s\n%s", event.getReason(), event.getCause() != null ? event.getCause() : "");
+        if (bot.isAutoReconnect() && !event.getReason().equals("Disconnected")) {
+            try {
+                bot.connect();
+            } catch (RequestException e) {
+                MinecraftBOT.getLogger().error("Can't authenticate", e);
+            }
+        }
     }
 
     /**
@@ -52,7 +60,6 @@ public class MCBOTSessionAdapter extends SessionAdapter {
      */
     @Override
     public void packetReceived(PacketReceivedEvent event) {
-        //System.out.println(event.getPacket().getClass().getName());
         if (event.getPacket() instanceof ServerChatPacket)
             MinecraftBOT.getLogger().info(TranslateChat.translateComponent(event.<ServerChatPacket>getPacket().getMessage()));
         if (event.getPacket() instanceof ServerPlayerPositionRotationPacket) {

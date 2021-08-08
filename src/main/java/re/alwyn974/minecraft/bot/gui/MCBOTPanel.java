@@ -19,7 +19,7 @@ import java.awt.event.KeyEvent;
  * The Panel of the Gui
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.8
+ * @version 1.0.13
  * @since 1.0.0
  */
 public class MCBOTPanel extends JPanel implements ActionListener {
@@ -38,6 +38,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JButton statusButton = new JButton("Status");
     private final JButton clearButton = new JButton("Clear");
     private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(MinecraftBOT.getDebug()));
+    private final JCheckBox autoReconnectBox = new JCheckBox("Auto Reconnect", Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
     private final JTextArea logArea = new JTextArea();
 
     private EntityBOT bot = null;
@@ -72,6 +73,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         addButton(statusButton);
         addButton(clearButton);
 
+        topPanel.add(autoReconnectBox, BorderLayout.PAGE_START);
         topPanel.add(debugBox, BorderLayout.PAGE_START);
 
         this.add(topPanel, BorderLayout.PAGE_START);
@@ -123,7 +125,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         if (e.getSource() == connectButton) {
             setFieldsEnabled(false);
             botThread = new Thread(() -> {
-                bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), new String(passwordField.getPassword()), debugBox.isSelected());
+                bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), new String(passwordField.getPassword()), debugBox.isSelected(), autoReconnectBox.isSelected());
                 try {
                     bot.connect();
                 } catch (RequestException ex) {
@@ -152,6 +154,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         passwordField.setEnabled(enabled);
         connectButton.setEnabled(enabled);
         debugBox.setEnabled(enabled);
+        autoReconnectBox.setEnabled(enabled);
         disconnectButton.setEnabled(!enabled);
     }
 
