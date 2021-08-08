@@ -63,14 +63,14 @@ They are some builtin commands in the bot
 <p> Simply type anything in the CLI and type enter</p>
 
 ```
--a, --autoReconnect   Activate auto reconnect
+-a,--autoReconnect    Activate auto reconnect
 -d,--debug            Activate debug
 -h,--host <arg>       Setup the host value (Default=127.0.0.1)
---help                Show this help page
+   --help             Show this help page
 -p,--port <arg>       Setup the port value (Default=25565)
---password <arg>      Password of the user
+   --password <arg>   Password of the user
 -s,--status           Display only the status of the server
--u,--user <arg>       Email/Username of the account
+-u,--user <arg>       Email/Username of the user
 ```
 
 

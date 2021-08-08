@@ -72,10 +72,10 @@ public class CLIParser {
     private static void addOptions() {
         options.addOption("h", "host", true, "Setup the host value (Default=127.0.0.1)");
         options.addOption("p", "port", true, "Setup the port value (Default=25565)");
-        options.addOption("u", "user", true, "Email of the user");
+        options.addOption("u", "user", true, "Email/Username of the user");
         options.addOption(null, "password", true, "Password of the user");
         options.addOption("d", "debug", false, "Activate debug");
-        options.addOption("a", "autoReconnect", false, "Activate auto reconnect)");
+        options.addOption("a", "autoReconnect", false, "Activate auto reconnect");
         options.addOption("s", "status", false, "Display only the status of the server");
         options.addOption(null, "help", false, "Show this help page");
     }
