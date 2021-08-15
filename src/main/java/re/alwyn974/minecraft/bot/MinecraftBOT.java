@@ -33,7 +33,7 @@ import java.util.Set;
  * The heart of the MinecraftBOT
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.13
+ * @version 1.0.14
  * @since 1.0.0
  */
 public class MinecraftBOT {
@@ -55,6 +55,10 @@ public class MinecraftBOT {
      */
     public static void main(String... args) {
         registerCommands();
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            throwable.printStackTrace();
+            MinecraftBOT.getLogger().error("Error: %s", throwable.toString());
+        });
         if (GraphicsEnvironment.isHeadless() || args.length > 0)
             runHeadless(args);
         else
@@ -62,7 +66,7 @@ public class MinecraftBOT {
     }
 
     /**
-     * Register all of the command located in re.alwyn974.minecraft.bot.cmd
+     * Register all the command located in re.alwyn974.minecraft.bot.cmd
      */
     private static void registerCommands() {
         Reflections reflections = new Reflections("re.alwyn974.minecraft.bot.cmd.");

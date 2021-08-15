@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "re.alwyn974"
-version = "1.0.13"
+version = "1.0.14"
 archivesBaseName = "MinecraftBOT"
 
 compileJava {
@@ -26,14 +26,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 
     implementation "com.github.Steveice10:MCProtocolLib:-SNAPSHOT"
-    implementation "commons-cli:commons-cli:+"
+    implementation 'commons-cli:commons-cli:1.4'
     implementation "re.alwyn974:logger:1.0.0"
-    implementation "org.reflections:reflections:+"
-    implementation "com.formdev:flatlaf:1.2" //this is magic :o
+    implementation 'org.reflections:reflections:0.9.12'
+    implementation 'com.formdev:flatlaf:1.5' //this is magic :o
 }
 
 test {

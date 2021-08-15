@@ -1,6 +1,5 @@
 package re.alwyn974.minecraft.bot.gui;
 
-import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
@@ -19,7 +18,7 @@ import java.awt.event.KeyEvent;
  * The Panel of the Gui
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.13
+ * @version 1.0.14
  * @since 1.0.0
  */
 public class MCBOTPanel extends JPanel implements ActionListener {
@@ -128,8 +127,9 @@ public class MCBOTPanel extends JPanel implements ActionListener {
                 bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), new String(passwordField.getPassword()), debugBox.isSelected(), autoReconnectBox.isSelected());
                 try {
                     bot.connect();
-                } catch (RequestException ex) {
-                    MinecraftBOT.getLogger().error("Can't authenticate", ex);
+                } catch (Exception ex) {
+                    MinecraftBOT.getLogger().error("Error: %s", ex.getMessage());
+                    ex.printStackTrace();
                     setFieldsEnabled(true);
                     botThread.interrupt();
                 }
