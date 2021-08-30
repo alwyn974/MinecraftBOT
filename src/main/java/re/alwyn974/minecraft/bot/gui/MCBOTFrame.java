@@ -3,17 +3,14 @@ package re.alwyn974.minecraft.bot.gui;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The Frame for the Gui
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.8
+ * @version 1.0.15
  * @since 1.0.0
  */
 public class MCBOTFrame extends JFrame {
@@ -22,7 +19,7 @@ public class MCBOTFrame extends JFrame {
         setSystemLookAndFeel();
 
         this.setTitle("MinecraftBOT - Dev by Alwyn974");
-        this.setMinimumSize(new Dimension(800, 300));
+        this.setMinimumSize(new Dimension(800, 350));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setContentPane(new MCBOTPanel());

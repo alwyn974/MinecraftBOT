@@ -18,12 +18,14 @@ import java.awt.event.KeyEvent;
  * The Panel of the Gui
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.14
+ * @version 1.0.15
  * @since 1.0.0
  */
 public class MCBOTPanel extends JPanel implements ActionListener {
 
     private final JPanel topPanel = new JPanel();
+    private final JPanel topTopPanel = new JPanel();
+    private final JPanel topBottomPanel = new JPanel();
     private final JPanel bottomPanel = new JPanel();
 
     private final JTextField usernameField = new JTextField(MinecraftBOT.getUsername());
@@ -38,6 +40,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JButton clearButton = new JButton("Clear");
     private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(MinecraftBOT.getDebug()));
     private final JCheckBox autoReconnectBox = new JCheckBox("Auto Reconnect", Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
+    private final JSpinner reconnectDelay = new JSpinner();
     private final JTextArea logArea = new JTextArea();
 
     private EntityBOT bot = null;
@@ -52,19 +55,27 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     }
 
     private void addTopPanel() {
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topTopPanel.setLayout(new BoxLayout(topTopPanel, BoxLayout.X_AXIS));
+        topBottomPanel.setLayout(new BoxLayout(topBottomPanel, BoxLayout.X_AXIS));
 
-        topPanel.add(new JLabel("Host: "));
-        topPanel.add(hostField, BorderLayout.PAGE_START);
+        topTopPanel.add(new JLabel("Host: "));
+        topTopPanel.add(hostField, BorderLayout.PAGE_START);
 
-        topPanel.add(new JLabel("Port: "));
-        topPanel.add(portField, BorderLayout.PAGE_START);
+        topTopPanel.add(new JLabel("Port: "));
+        topTopPanel.add(portField, BorderLayout.PAGE_START);
 
-        topPanel.add(new JLabel("Email: "));
-        topPanel.add(usernameField, BorderLayout.PAGE_START);
+        topTopPanel.add(new JLabel("Email: "));
+        topTopPanel.add(usernameField, BorderLayout.PAGE_START);
 
-        topPanel.add(new JLabel("Password: "));
-        topPanel.add(passwordField, BorderLayout.PAGE_START);
+        topTopPanel.add(new JLabel("Password: "));
+        topTopPanel.add(passwordField, BorderLayout.PAGE_START);
+
+        topBottomPanel.add(autoReconnectBox, BorderLayout.PAGE_START);
+        topBottomPanel.add(new JLabel("| (ms): "));
+        reconnectDelay.setValue(Long.parseLong(MinecraftBOT.getReconnectDelay()));
+        topBottomPanel.add(reconnectDelay);
+        topBottomPanel.add(debugBox, BorderLayout.PAGE_START);
 
         addButton(connectButton);
         disconnectButton.setEnabled(false);
@@ -72,16 +83,15 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         addButton(statusButton);
         addButton(clearButton);
 
-        topPanel.add(autoReconnectBox, BorderLayout.PAGE_START);
-        topPanel.add(debugBox, BorderLayout.PAGE_START);
-
+        topPanel.add(topTopPanel);
+        topPanel.add(topBottomPanel);
         this.add(topPanel, BorderLayout.PAGE_START);
     }
 
     private void addButton(JButton button) {
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button.addActionListener(this);
-        topPanel.add(button, BorderLayout.PAGE_START);
+        topBottomPanel.add(button, BorderLayout.PAGE_START);
     }
 
     private void addCenterPanel() {
@@ -124,8 +134,9 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         if (e.getSource() == connectButton) {
             setFieldsEnabled(false);
             botThread = new Thread(() -> {
-                bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), new String(passwordField.getPassword()), debugBox.isSelected(), autoReconnectBox.isSelected());
                 try {
+                    long delay = Long.parseLong(reconnectDelay.getValue().toString());
+                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), new String(passwordField.getPassword()), debugBox.isSelected(), autoReconnectBox.isSelected(), delay);
                     bot.connect();
                 } catch (Exception ex) {
                     MinecraftBOT.getLogger().error("Error: %s", ex.getMessage());
@@ -155,6 +166,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         connectButton.setEnabled(enabled);
         debugBox.setEnabled(enabled);
         autoReconnectBox.setEnabled(enabled);
+        reconnectDelay.setEnabled(enabled);
         disconnectButton.setEnabled(!enabled);
     }
 

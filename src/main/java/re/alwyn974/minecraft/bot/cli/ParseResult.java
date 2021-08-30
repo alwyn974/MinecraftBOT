@@ -4,7 +4,7 @@ package re.alwyn974.minecraft.bot.cli;
  * The result of parsed args
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.13
+ * @version 1.0.15
  * @since 1.0.9
  */
 public class ParseResult {
@@ -17,6 +17,7 @@ public class ParseResult {
     private boolean status;
     private boolean help;
     private boolean autoReconnect;
+    private long reconnectDelay;
 
     /**
      * Get the host
@@ -91,6 +92,15 @@ public class ParseResult {
     }
 
     /**
+     * Get reconnect delay
+     *
+     * @return the delay
+     */
+    public long getReconnectDelay() {
+        return reconnectDelay;
+    }
+
+    /**
      * Set the host
      *
      * @param host the host
@@ -160,6 +170,15 @@ public class ParseResult {
      */
     public void setAutoReconnect(boolean autoReconnect) {
         this.autoReconnect = autoReconnect;
+    }
+
+    /**
+     * Set reconnect delay
+     *
+     * @param reconnectDelay the delay
+     */
+    public void setReconnectDelay(long reconnectDelay) {
+        this.reconnectDelay = reconnectDelay;
     }
 
     @Override
