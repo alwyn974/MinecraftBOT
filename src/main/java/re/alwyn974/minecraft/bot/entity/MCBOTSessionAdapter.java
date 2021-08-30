@@ -15,6 +15,7 @@ import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The session adapter, managing packet and more
@@ -46,9 +47,10 @@ public class MCBOTSessionAdapter extends SessionAdapter {
         MinecraftBOT.getLogger().info("Disconnected: %s\n%s", event.getReason(), event.getCause() != null ? event.getCause() : "");
         if (bot.isAutoReconnect() && !event.getReason().equals("Disconnected")) {
             try {
+                TimeUnit.MILLISECONDS.sleep(bot.getReconnectDelay());
                 bot.connect();
-            } catch (RequestException e) {
-                MinecraftBOT.getLogger().error("Can't authenticate", e);
+            } catch (RequestException | InterruptedException e) {
+                MinecraftBOT.getLogger().error(e instanceof InterruptedException ? "Can't delay the reconnection" : "Can't authenticate", e);
             }
         }
     }

@@ -20,7 +20,7 @@ import java.util.List;
  * The EntityBOT used to store all information about the user
  *
  * @author <a href="https://github.com/alwyn974">Alwyn974</a>
- * @version 1.0.13
+ * @version 1.0.15
  * @since 1.0.0
  */
 public class EntityBOT {
@@ -32,6 +32,7 @@ public class EntityBOT {
     private final String password;
     private final boolean debug;
     private final boolean autoReconnect;
+    private final long reconnectDelay;
     private Session client = null;
     private EntityPos pos = null;
     private double health = -1;
@@ -46,7 +47,7 @@ public class EntityBOT {
      * @param password the password of the account
      */
     public EntityBOT(String username, String password) {
-        this("localhost", username, password, false);
+        this("127.0.0.1", username, password, false);
     }
 
     /**
@@ -95,7 +96,7 @@ public class EntityBOT {
      * @param debug    activate debug mode
      */
     public EntityBOT(String host, int port, String username, String password, boolean debug) {
-        this(host, port, Proxy.NO_PROXY, username, password, debug, false);
+        this(host, port, username, password, debug, false, 1000);
     }
 
     /**
@@ -106,22 +107,23 @@ public class EntityBOT {
      * @param debug         activate debug mode
      * @param autoReconnect activate auto reconnect mode
      */
-    public EntityBOT(String host, int port, String username, String password, boolean debug, boolean autoReconnect) {
-        this(host, port, Proxy.NO_PROXY, username, password, debug, autoReconnect);
+    public EntityBOT(String host, int port, String username, String password, boolean debug, boolean autoReconnect, long reconnectDelay) {
+        this(host, port, Proxy.NO_PROXY, username, password, debug, autoReconnect, reconnectDelay);
     }
 
     /**
      * Instanciate the EntityBOT
      *
-     * @param host          the minecraft server address
-     * @param port          the minecraft server port
-     * @param proxy         the proxy
-     * @param username      the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
-     * @param password      the password of the premium account
-     * @param debug         activate debug mode
-     * @param autoReconnect activate auto reconnect
+     * @param host           the minecraft server address
+     * @param port           the minecraft server port
+     * @param proxy          the proxy
+     * @param username       the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param password       the password of the premium account
+     * @param debug          activate debug mode
+     * @param autoReconnect  activate auto reconnect
+     * @param reconnectDelay delay before reconnect
      */
-    public EntityBOT(String host, int port, Proxy proxy, String username, String password, boolean debug, boolean autoReconnect) {
+    public EntityBOT(String host, int port, Proxy proxy, String username, String password, boolean debug, boolean autoReconnect, long reconnectDelay) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
@@ -129,6 +131,7 @@ public class EntityBOT {
         this.password = password;
         this.debug = debug;
         this.autoReconnect = autoReconnect;
+        this.reconnectDelay = reconnectDelay;
     }
 
     /**
@@ -144,6 +147,7 @@ public class EntityBOT {
         this.debug = result.isDebug();
         this.proxy = Proxy.NO_PROXY;
         this.autoReconnect = result.isAutoReconnect();
+        this.reconnectDelay = result.getReconnectDelay();
     }
 
     /**
@@ -207,6 +211,15 @@ public class EntityBOT {
      */
     public boolean isAutoReconnect() {
         return autoReconnect;
+    }
+
+    /**
+     * Get reconnect delay
+     *
+     * @return the delay
+     */
+    public long getReconnectDelay() {
+        return reconnectDelay;
     }
 
     /**

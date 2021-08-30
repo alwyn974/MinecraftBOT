@@ -8,7 +8,7 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 
 - Graphical User Interface
 - LogPanel to see errors directly
-- Test with Spigot, Paper 1.17.1
+- Tested with Spigot, Paper 1.17.1
 - Disconnects gracefully after the end
 - Free
 - Open source
@@ -16,7 +16,7 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 - Online (Mojang)
 - Cracked
 - Automatic Respawn
-- Auto Reconnect (Only if `DisconnectEvent` is throw, and the reason is not `Disconnected`)
+- Auto Reconnect with Delay (Only if `DisconnectEvent` is throw, and the reason is not `Disconnected`)
 
 ## Todos
 
@@ -33,7 +33,7 @@ https://github.com/alwyn974/MinecraftBOT/releases
 
 ## Images
 
-![Gui](https://i.imgur.com/pfapJRo.png)
+![Gui](https://i.imgur.com/g7isV6F.png)
 
 For cracked account, just type the username in `Email` field
 
@@ -47,6 +47,7 @@ There are environnement variable to override the default value of host, port, us
 - `MC_BOT_DEBUG` for the debug mode
 - `MC_BOT_PREFIX` for the prefix of the commands (default=`.`)
 - `MC_BOT_AUTO_RECONNECT` for the auto reconnect mode
+- `MC_BOT_RECONNECT_DELAY` for the delay before reconnect
 
 They are some builtin commands in the bot
 
@@ -63,14 +64,15 @@ They are some builtin commands in the bot
 <p> Simply type anything in the CLI and type enter</p>
 
 ```
--a,--autoReconnect    Activate auto reconnect
--d,--debug            Activate debug
--h,--host <arg>       Setup the host value (Default=127.0.0.1)
-   --help             Show this help page
--p,--port <arg>       Setup the port value (Default=25565)
-   --password <arg>   Password of the user
--s,--status           Display only the status of the server
--u,--user <arg>       Email/Username of the user
+ -a,--autoReconnect          Activate auto reconnect
+ -d,--debug                  Activate debug
+ -h,--host <arg>             Setup the host value (Default=127.0.0.1)
+    --help                   Show this help page
+ -p,--port <arg>             Setup the port value (Default=25565)
+    --password <arg>         Password of the user
+    --reconnectDelay <arg>   Delay before reconnection
+ -s,--status                 Display only the status of the server
+ -u,--user <arg>             Email/Username of the user
 ```
 
 

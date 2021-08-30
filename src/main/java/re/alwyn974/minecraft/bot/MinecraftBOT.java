@@ -47,6 +47,7 @@ public class MinecraftBOT {
     private static final String DEBUG = System.getenv("MC_BOT_DEBUG");
     private static final String PREFIX = System.getenv("MC_BOT_PREFIX");
     private static final String AUTO_RECONNECT = System.getenv("MC_BOT_AUTO_RECONNECT");
+    private static final String RECONNECT_DELAY = System.getenv("MC_BOT_RECONNECT_DELAY");
 
     /**
      * The main
@@ -100,7 +101,7 @@ public class MinecraftBOT {
     }
 
     /**
-     * Get the logger of MinecraftBOT
+     * Get logger of MinecraftBOT
      *
      * @return the logger {@link BasicLogger}
      */
@@ -170,6 +171,15 @@ public class MinecraftBOT {
      */
     public static String getAutoReconnect() {
         return AUTO_RECONNECT;
+    }
+
+    /**
+     * Get reconnect delay
+     *
+     * @return the delay
+     */
+    public static String getReconnectDelay() {
+        return RECONNECT_DELAY != null ? RECONNECT_DELAY : "1000";
     }
 
     /**

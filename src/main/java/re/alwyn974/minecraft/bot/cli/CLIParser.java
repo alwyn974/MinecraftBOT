@@ -76,6 +76,7 @@ public class CLIParser {
         options.addOption(null, "password", true, "Password of the user");
         options.addOption("d", "debug", false, "Activate debug");
         options.addOption("a", "autoReconnect", false, "Activate auto reconnect");
+        options.addOption(null, "reconnectDelay", true, "Delay before reconnection");
         options.addOption("s", "status", false, "Display only the status of the server");
         options.addOption(null, "help", false, "Show this help page");
     }
@@ -87,8 +88,9 @@ public class CLIParser {
         result.setEmail(cmd.hasOption("u") ? cmd.getOptionValue("u") : MinecraftBOT.getUsername());
         result.setPassword(cmd.hasOption("password") ? cmd.getOptionValue("password") : MinecraftBOT.getPassword());
         result.setStatus(cmd.hasOption("s"));
-        result.setDebug(cmd.hasOption("d"));
-        result.setAutoReconnect(cmd.hasOption("a"));
+        result.setDebug(cmd.hasOption("d") ? cmd.hasOption("d") : Boolean.parseBoolean(MinecraftBOT.getDebug()));
+        result.setAutoReconnect(cmd.hasOption("a") ? cmd.hasOption("a") : Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
+        result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelat") : MinecraftBOT.getReconnectDelay()));
         result.setHelp(cmd.hasOption("help"));
         return result;
     }
