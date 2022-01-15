@@ -77,23 +77,20 @@ They are some builtin commands in the bot
 
 ## Termux Guide
 
-Yes, this project works great with [Termux](https://termux.com/). You can use the CLI to operate from your phone. 
+This project works great with [Termux](https://termux.com/). You can use the CLI to operate from your phone. 
 Here, is the guide to run this project on Termux. 
 
 ### First-Time Setup
 
 * Download and install Termux from [here](https://termux.com/).
-* Run `pkg install openjdk-17`
-* Run `pkg install wget`
-* Run `wget https://github.com/alwyn974/MinecraftBOT/releases/download/v1.0.15/MinecraftBOT-1.0.15-all.jar`
+* Run `pkg install openjdk-17 curl jq -y`
+* Run `curl -o MinecraftBOT.jar -L $(curl -s https://api.github.com/repos/alwyn974/MinecraftBOT/releases/latest | jq -r ".assets[0].browser_download_url")`
 
 ### Starting The Bot
 
-Run `java -jar MinecraftBOT-1.0.15-all.jar --host <hostIP> --port <port> -a --user <username> --password <password>`
+Now you can run the MinecraftBOT, see [CLI Options](https://github.com/alwyn974/MinecraftBOT#command-line-interface)
 
-Replace `<hostIP>` with your host IP Address (e.g. play.aternos.me), `<port>` with the port, `-a` for enabling AutoReconnect,  `<username>` with your Username/Email and `<password>` with your password (not needed if cracked).
-
-You can use this command for running the Bot.
+Example: `java -jar MinecraftBOT.jar --host play.hypixel.net -a --user Notch`
 
 ### Stopping The Bot
 
@@ -104,12 +101,6 @@ There is only one tested method of stopping the bot (yet) in Termux.
 * Press Force Stop in the settings menu.
 
 ##### *Options may vary according to device. Tested in MIUI 12.5*
-
-### Tips
-
-You can rename the .jar file for more convinient uses.
-Simply Run `mv MinecraftBOT-1.0.15-all.jar <newname>`
-Replace `<newname>` with the new name of file with the file extension `.jar`.
 
 ## Dependencies
 
