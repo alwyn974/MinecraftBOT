@@ -1,7 +1,7 @@
 package re.alwyn974.minecraft.bot.cli;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
-import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
 import org.apache.commons.cli.*;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -58,7 +58,7 @@ public class CLIParser {
                         break;
                     }
                     if (!new CommandHandler().execute(bot, line) && bot != null && bot.getClient().isConnected())
-                        bot.getClient().send(new ClientChatPacket(line));
+                        bot.getClient().send(new ClientboundChatPacket(line));
                 }
                 botThread.interrupt();
             }

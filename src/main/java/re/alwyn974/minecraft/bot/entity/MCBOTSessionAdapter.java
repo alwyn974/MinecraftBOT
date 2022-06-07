@@ -1,16 +1,19 @@
 package re.alwyn974.minecraft.bot.entity;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
-import com.github.steveice10.mc.protocol.data.game.ClientRequest;
-import com.github.steveice10.mc.protocol.packet.ingame.client.ClientRequestPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerDifficultyPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerPlayerListEntryPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
+import com.github.steveice10.mc.protocol.data.DefaultComponentSerializer;
+import com.github.steveice10.mc.protocol.data.game.ClientCommand;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundPlayerInfoPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChangeDifficultyPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundClientCommandPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.player.ServerboundMovePlayerPosRotPacket;
+import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
-import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
+import com.github.steveice10.packetlib.packet.Packet;
+import net.kyori.adventure.text.Component;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
@@ -44,7 +47,8 @@ public class MCBOTSessionAdapter extends SessionAdapter {
      */
     @Override
     public void disconnected(DisconnectedEvent event) {
-        MinecraftBOT.getLogger().info("Disconnected: %s\n%s", event.getReason(), event.getCause() != null ? event.getCause() : "");
+        Component reason = DefaultComponentSerializer.get().deserialize(event.getReason());
+        MinecraftBOT.getLogger().info("Disconnected: %s\n%s", TranslateChat.translateComponent(reason), event.getCause() != null ? event.getCause() : "");
         if (bot.isAutoReconnect() && !event.getReason().equals("Disconnected")) {
             try {
                 TimeUnit.MILLISECONDS.sleep(bot.getReconnectDelay());
@@ -55,42 +59,51 @@ public class MCBOTSessionAdapter extends SessionAdapter {
         }
     }
 
+
     /**
      * Handle all of received packet
      *
-     * @param event the packet received event
+     * @param session the session
+     * @param packet the packet received
      */
     @Override
-    public void packetReceived(PacketReceivedEvent event) {
-        if (event.getPacket() instanceof ServerChatPacket)
-            MinecraftBOT.getLogger().info(TranslateChat.translateComponent(event.<ServerChatPacket>getPacket().getMessage()));
-        if (event.getPacket() instanceof ServerPlayerPositionRotationPacket) {
-            ServerPlayerPositionRotationPacket pos = event.getPacket();
+    public void packetReceived(Session session, Packet packet) {
+        if (packet instanceof ServerboundChatPacket) {
+            ServerboundChatPacket chatPacket = (ServerboundChatPacket) packet;
+            Component message = DefaultComponentSerializer.get().deserialize(chatPacket.getMessage());
+            MinecraftBOT.getLogger().info(TranslateChat.translateComponent(message));
+        }
+
+        if (packet instanceof ServerboundMovePlayerPosRotPacket) {
+            ServerboundMovePlayerPosRotPacket pos = (ServerboundMovePlayerPosRotPacket) packet;
             boolean posNull = bot.getPos() == null;
             bot.setPos(new EntityPos(pos.getX(), pos.getY(), pos.getZ(), pos.getYaw(), pos.getPitch()));
             if (posNull)
                 MinecraftBOT.getLogger().info("Position: %s", bot.getPos());
         }
-        if (event.getPacket() instanceof ServerPlayerHealthPacket) {
-            ServerPlayerHealthPacket serverPlayerHealthPacket = event.getPacket();
+
+        if (packet instanceof ClientboundSetHealthPacket) {
+            ClientboundSetHealthPacket clientboundSetHealthPacket = (ClientboundSetHealthPacket) packet;
             boolean healthAndFoodNegative = bot.getFood() == -1 || bot.getHealth() == -1;
-            bot.setHealth(serverPlayerHealthPacket.getHealth());
-            bot.setFood(serverPlayerHealthPacket.getFood());
-            if (serverPlayerHealthPacket.getHealth() <= 0)
-                bot.getClient().send(new ClientRequestPacket(ClientRequest.RESPAWN));
+            bot.setHealth(clientboundSetHealthPacket.getHealth());
+            bot.setFood(clientboundSetHealthPacket.getFood());
+            if (clientboundSetHealthPacket.getHealth() <= 0)
+                bot.getClient().send(new ServerboundClientCommandPacket(ClientCommand.RESPAWN));
             if (healthAndFoodNegative)
                 MinecraftBOT.getLogger().info("Health: %g Food: %g", bot.getHealth(), bot.getFood());
         }
-        if (event.getPacket() instanceof ServerDifficultyPacket) {
-            ServerDifficultyPacket difficultyPacket = event.getPacket();
+
+        if (packet instanceof ServerboundChangeDifficultyPacket) {
+            ServerboundChangeDifficultyPacket difficultyPacket = (ServerboundChangeDifficultyPacket) packet;
             boolean difficultyNull = bot.getDifficulty() == null;
             bot.setDifficulty(difficultyPacket.getDifficulty());
             if (difficultyNull)
                 MinecraftBOT.getLogger().info("Difficulty: %s", bot.getDifficulty().name());
         }
-        if (event.getPacket() instanceof ServerPlayerListEntryPacket) {
-            ServerPlayerListEntryPacket serverPlayerListEntryPacket = event.getPacket();
-            bot.setPlayers(Arrays.asList(serverPlayerListEntryPacket.getEntries()));
+
+        if (packet instanceof ClientboundPlayerInfoPacket) {
+            ClientboundPlayerInfoPacket playerInfoPacket = (ClientboundPlayerInfoPacket) packet;
+            bot.setPlayers(Arrays.asList(playerInfoPacket.getEntries()));
         }
     }
 

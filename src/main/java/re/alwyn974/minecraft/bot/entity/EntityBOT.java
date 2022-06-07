@@ -2,6 +2,8 @@ package re.alwyn974.minecraft.bot.entity;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.auth.service.AuthenticationService;
+import com.github.steveice10.mc.auth.service.MojangAuthenticationService;
+import com.github.steveice10.mc.auth.service.MsaAuthenticationService;
 import com.github.steveice10.mc.auth.service.SessionService;
 import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
@@ -329,7 +331,7 @@ public class EntityBOT {
     public void connect() throws RequestException {
         MinecraftProtocol protocol;
         if (this.password != null && !this.password.isEmpty()) {
-            AuthenticationService authService = new AuthenticationService();
+            AuthenticationService authService = new MsaAuthenticationService("f5ce562f-f6b9-4f76-80eb-4d9e583e5f61"); //TODO: get the client id and device code
             authService.setUsername(this.getUsername());
             authService.setPassword(this.getPassword());
             authService.setProxy(this.getProxy());

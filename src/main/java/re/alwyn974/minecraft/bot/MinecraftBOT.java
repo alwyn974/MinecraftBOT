@@ -38,6 +38,8 @@ import java.util.Set;
  */
 public class MinecraftBOT {
 
+    //https://github.com/GeyserMC/MCProtocolLib/blob/master/example/com/github/steveice10/mc/protocol/test/MinecraftProtocolTest.java
+
     private static final String PROJECT_NAME = "MinecraftBOT";
     private static final BasicLogger LOGGER = LoggerFactory.getLogger(getProjectName());
     private static final String USERNAME = System.getenv("MC_BOT_USERNAME");
@@ -88,7 +90,7 @@ public class MinecraftBOT {
     }
 
     /**
-     * Run the programm in command line
+     * Run the program in command line
      *
      * @param args the arguments of the program
      */
