@@ -23,6 +23,8 @@ public class CLIParser {
     private static EntityBOT bot;
     private static Thread botThread;
 
+    private static CommandHandler commandHandler;
+
     /**
      * Parse the command line arguments
      *
@@ -40,7 +42,9 @@ public class CLIParser {
             MinecraftBOT.retrieveStatus(result.getHost(), result.getPort(), result.isDebug());
             System.exit(0);
         }
+
         bot = new EntityBOT(result);
+        commandHandler = new CommandHandler();
         botThread = new Thread(() -> {
             try {
                 MinecraftBOT.getLogger().info("Starting MinecraftBOT...");
@@ -49,20 +53,24 @@ public class CLIParser {
                 MinecraftBOT.getLogger().error("Can't authenticate", ex);
                 botThread.interrupt();
             }
+
             try (Scanner scanner = new Scanner(System.in)) {
-                while (bot != null && bot.getClient().isConnected()) {
-                    String line = scanner.nextLine();
-                    if (line.equals("disconnect")) {
-                        bot.getClient().disconnect("Disconnected");
-                        botThread.interrupt();
-                        break;
+                while (bot != null && bot.getClient() != null && bot.getClient().isConnected()) {
+                    if (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        if (line.equals("disconnect")) {
+                            bot.getClient().disconnect("Disconnected");
+                            botThread.interrupt();
+                            break;
+                        }
+                        if (!commandHandler.execute(bot, line) && bot != null && bot.getClient().isConnected())
+                            bot.getClient().send(new ClientboundChatPacket(line));
                     }
-                    if (!new CommandHandler().execute(bot, line) && bot != null && bot.getClient().isConnected())
-                        bot.getClient().send(new ClientboundChatPacket(line));
                 }
                 botThread.interrupt();
             }
         });
+
         botThread.start();
     }
 

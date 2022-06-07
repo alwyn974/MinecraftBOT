@@ -51,8 +51,10 @@ public class EntityBOT {
     private Difficulty difficulty = null;
     private List<PlayerListEntry> players = null;
 
-    private static final String TENANT_ID = "consumers"; /*"f8cdef31-a31e-4b4a-93e4-5f571e91255a";*/
+    private static final String TENANT_ID = "consumers";
     private static final URI MS_CODE_ENDPOINT = URI.create("https://login.microsoftonline.com/" + TENANT_ID + "/oauth2/v2.0/devicecode");
+    private static final String CLIENT_ID = "024b97a3-d354-45e1-8855-75bb813b446d";
+
 
     /**
      * Instantiate the EntityBot with only username and password
@@ -335,7 +337,6 @@ public class EntityBOT {
         this.players = players;
     }
 
-    private static final String CLIENT_ID = /*"f5ce562f-f6b9-4f76-80eb-4d9e583e5f61";*/  /*"024b97a3-d354-45e1-8855-75bb813b446d";*/ "feb3836f-0333-4185-8eb9-4cbf0498f947";
 
     /**
      * Connect the bot to the server
@@ -368,7 +369,6 @@ public class EntityBOT {
                     break;
                 } catch (RequestException e) {
                     if (e instanceof AuthPendingException) {
-                        e.printStackTrace();
                         MinecraftBOT.getLogger().debug("Authentication is pending, waiting for user to authenticate...");
                         try {
                             Thread.sleep(5000);
@@ -428,7 +428,7 @@ public class EntityBOT {
 
         protected MsCodeRequest(String clientId) {
             this.client_id = clientId;
-            this.scope = "XboxLive.signin";
+            this.scope = "XboxLive.signin offline_access";
         }
 
         public Map<String, String> toMap() {
