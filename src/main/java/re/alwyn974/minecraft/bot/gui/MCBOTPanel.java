@@ -1,6 +1,7 @@
 package re.alwyn974.minecraft.bot.gui;
 
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -119,7 +120,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (!new CommandHandler().execute(bot, outputField.getText()) && bot != null && bot.getClient().isConnected())
-                        bot.getClient().send(new ClientboundChatPacket(outputField.getText()));
+                        bot.getClient().send(new ServerboundChatPacket(outputField.getText()));
                     outputField.setText("");
                 }
             }

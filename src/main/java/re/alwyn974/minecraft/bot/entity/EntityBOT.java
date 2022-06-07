@@ -9,9 +9,16 @@ import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
 import com.github.steveice10.mc.protocol.data.game.setting.Difficulty;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
+import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
+import com.github.steveice10.packetlib.event.session.SessionAdapter;
+import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
+import net.kyori.adventure.text.Component;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cli.ParseResult;
 
@@ -35,7 +42,7 @@ public class EntityBOT {
     private final boolean debug;
     private final boolean autoReconnect;
     private final long reconnectDelay;
-    private Session client = null;
+    private TcpClientSession client = null;
     private EntityPos pos = null;
     private double health = -1;
     private double food = -1;
@@ -43,9 +50,9 @@ public class EntityBOT {
     private List<PlayerListEntry> players = null;
 
     /**
-     * Instanciate the EntityBot with only username and password
+     * Instantiate the EntityBot with only username and password
      *
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username the email of the premium account
      * @param password the password of the account
      */
     public EntityBOT(String username, String password) {
@@ -53,7 +60,7 @@ public class EntityBOT {
     }
 
     /**
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username the email of the premium account
      * @param password the password of the premium account
      * @param debug    activate debug mode
      */
@@ -63,7 +70,7 @@ public class EntityBOT {
 
     /**
      * @param host     the minecraft server address
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username the email of the premium account
      * @param password the password of the premium account
      */
     public EntityBOT(String host, String username, String password) {
@@ -72,7 +79,7 @@ public class EntityBOT {
 
     /**
      * @param host     the minecraft server address
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username the email of the premium account
      * @param password the password of the premium account
      * @param debug    activate debug mode
      */
@@ -83,7 +90,7 @@ public class EntityBOT {
     /**
      * @param host     the minecraft server address
      * @param port     the minecraft server port
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username the email of the premium account
      * @param password the password of the premium account
      */
     public EntityBOT(String host, int port, String username, String password) {
@@ -93,7 +100,7 @@ public class EntityBOT {
     /**
      * @param host     the minecraft server address
      * @param port     the minecraft server port
-     * @param username the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username the email of the premium account
      * @param password the password of the premium account
      * @param debug    activate debug mode
      */
@@ -104,7 +111,7 @@ public class EntityBOT {
     /**
      * @param host          the minecraft server address
      * @param port          the minecraft server port
-     * @param username      the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username      the email of the premium account
      * @param password      the password of the premium account
      * @param debug         activate debug mode
      * @param autoReconnect activate auto reconnect mode
@@ -114,12 +121,12 @@ public class EntityBOT {
     }
 
     /**
-     * Instanciate the EntityBOT
+     * Instantiate the EntityBOT
      *
      * @param host           the minecraft server address
      * @param port           the minecraft server port
      * @param proxy          the proxy
-     * @param username       the email of the premium account <br><strong>ONLY MOJANG ACCOUNT</strong>
+     * @param username       the email of the premium account
      * @param password       the password of the premium account
      * @param debug          activate debug mode
      * @param autoReconnect  activate auto reconnect
@@ -137,7 +144,7 @@ public class EntityBOT {
     }
 
     /**
-     * Instanciate the EntityBOT from {@link ParseResult}
+     * Instantiate the EntityBOT from {@link ParseResult}
      *
      * @param result the result of parsed arguments
      */
