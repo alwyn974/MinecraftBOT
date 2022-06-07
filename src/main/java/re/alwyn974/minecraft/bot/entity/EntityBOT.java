@@ -1,29 +1,31 @@
 package re.alwyn974.minecraft.bot.entity;
 
+import com.github.steveice10.mc.auth.exception.request.AuthPendingException;
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.auth.service.AuthenticationService;
-import com.github.steveice10.mc.auth.service.MojangAuthenticationService;
 import com.github.steveice10.mc.auth.service.MsaAuthenticationService;
 import com.github.steveice10.mc.auth.service.SessionService;
+import com.github.steveice10.mc.auth.util.HTTP;
 import com.github.steveice10.mc.protocol.MinecraftConstants;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
 import com.github.steveice10.mc.protocol.data.game.setting.Difficulty;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
-import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
-import com.github.steveice10.packetlib.event.session.SessionAdapter;
-import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
-import net.kyori.adventure.text.Component;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cli.ParseResult;
 
-import java.net.Proxy;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The EntityBOT used to store all information about the user
@@ -38,7 +40,7 @@ public class EntityBOT {
     private final int port;
     private final Proxy proxy;
     private final String username;
-    private final String password;
+    private final boolean premium;
     private final boolean debug;
     private final boolean autoReconnect;
     private final long reconnectDelay;
@@ -49,75 +51,78 @@ public class EntityBOT {
     private Difficulty difficulty = null;
     private List<PlayerListEntry> players = null;
 
+    private static final String TENANT_ID = "consumers"; /*"f8cdef31-a31e-4b4a-93e4-5f571e91255a";*/
+    private static final URI MS_CODE_ENDPOINT = URI.create("https://login.microsoftonline.com/" + TENANT_ID + "/oauth2/v2.0/devicecode");
+
     /**
      * Instantiate the EntityBot with only username and password
      *
      * @param username the email of the premium account
-     * @param password the password of the account
+     * @param premium  if the account is premium
      */
-    public EntityBOT(String username, String password) {
-        this("127.0.0.1", username, password, false);
+    public EntityBOT(String username, boolean premium) {
+        this("127.0.0.1", username, premium, false);
     }
 
     /**
      * @param username the email of the premium account
-     * @param password the password of the premium account
+     * @param premium  if the account is premium
      * @param debug    activate debug mode
      */
-    public EntityBOT(String username, String password, boolean debug) {
-        this("127.0.0.1", username, password, debug);
+    public EntityBOT(String username, boolean premium, boolean debug) {
+        this("127.0.0.1", username, premium, debug);
     }
 
     /**
      * @param host     the minecraft server address
      * @param username the email of the premium account
-     * @param password the password of the premium account
+     * @param premium  if the account is premium
      */
-    public EntityBOT(String host, String username, String password) {
-        this(host, 25565, username, password, false);
+    public EntityBOT(String host, String username, boolean premium) {
+        this(host, 25565, username, premium, false);
     }
 
     /**
      * @param host     the minecraft server address
      * @param username the email of the premium account
-     * @param password the password of the premium account
+     * @param premium  if the account is premium
      * @param debug    activate debug mode
      */
-    public EntityBOT(String host, String username, String password, boolean debug) {
-        this(host, 25565, username, password, debug);
+    public EntityBOT(String host, String username, boolean premium, boolean debug) {
+        this(host, 25565, username, premium, debug);
     }
 
     /**
      * @param host     the minecraft server address
      * @param port     the minecraft server port
      * @param username the email of the premium account
-     * @param password the password of the premium account
+     * @param premium  if the account is premium
      */
-    public EntityBOT(String host, int port, String username, String password) {
-        this(host, port, username, password, false);
+    public EntityBOT(String host, int port, String username, boolean premium) {
+        this(host, port, username, premium, false);
     }
 
     /**
      * @param host     the minecraft server address
      * @param port     the minecraft server port
      * @param username the email of the premium account
-     * @param password the password of the premium account
+     * @param premium  if the account is premium
      * @param debug    activate debug mode
      */
-    public EntityBOT(String host, int port, String username, String password, boolean debug) {
-        this(host, port, username, password, debug, false, 1000);
+    public EntityBOT(String host, int port, String username, boolean premium, boolean debug) {
+        this(host, port, username, premium, debug, false, 1000);
     }
 
     /**
      * @param host          the minecraft server address
      * @param port          the minecraft server port
      * @param username      the email of the premium account
-     * @param password      the password of the premium account
+     * @param premium       if the account is premium
      * @param debug         activate debug mode
      * @param autoReconnect activate auto reconnect mode
      */
-    public EntityBOT(String host, int port, String username, String password, boolean debug, boolean autoReconnect, long reconnectDelay) {
-        this(host, port, Proxy.NO_PROXY, username, password, debug, autoReconnect, reconnectDelay);
+    public EntityBOT(String host, int port, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay) {
+        this(host, port, Proxy.NO_PROXY, username, premium, debug, autoReconnect, reconnectDelay);
     }
 
     /**
@@ -127,17 +132,17 @@ public class EntityBOT {
      * @param port           the minecraft server port
      * @param proxy          the proxy
      * @param username       the email of the premium account
-     * @param password       the password of the premium account
+     * @param premium        if the account is premium
      * @param debug          activate debug mode
      * @param autoReconnect  activate auto reconnect
      * @param reconnectDelay delay before reconnect
      */
-    public EntityBOT(String host, int port, Proxy proxy, String username, String password, boolean debug, boolean autoReconnect, long reconnectDelay) {
+    public EntityBOT(String host, int port, Proxy proxy, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
         this.username = username;
-        this.password = password;
+        this.premium = premium;
         this.debug = debug;
         this.autoReconnect = autoReconnect;
         this.reconnectDelay = reconnectDelay;
@@ -152,7 +157,7 @@ public class EntityBOT {
         this.host = result.getHost();
         this.port = result.getPort();
         this.username = result.getEmail();
-        this.password = result.getPassword();
+        this.premium = result.isPremium();
         this.debug = result.isDebug();
         this.proxy = Proxy.NO_PROXY;
         this.autoReconnect = result.isAutoReconnect();
@@ -196,12 +201,12 @@ public class EntityBOT {
     }
 
     /**
-     * Get the password
+     * Check if the account is premium
      *
-     * @return the password
+     * @return true if the account is premium
      */
-    public String getPassword() {
-        return password;
+    public boolean isPremium() {
+        return premium;
     }
 
     /**
@@ -330,6 +335,8 @@ public class EntityBOT {
         this.players = players;
     }
 
+    private static final String CLIENT_ID = /*"f5ce562f-f6b9-4f76-80eb-4d9e583e5f61";*/  /*"024b97a3-d354-45e1-8855-75bb813b446d";*/ "feb3836f-0333-4185-8eb9-4cbf0498f947";
+
     /**
      * Connect the bot to the server
      *
@@ -337,15 +344,45 @@ public class EntityBOT {
      */
     public void connect() throws RequestException {
         MinecraftProtocol protocol;
-        if (this.password != null && !this.password.isEmpty()) {
-            AuthenticationService authService = new MsaAuthenticationService("f5ce562f-f6b9-4f76-80eb-4d9e583e5f61"); //TODO: get the client id and device code
+        if (this.isPremium()) {
+            MsCodeRequest request = new MsCodeRequest(CLIENT_ID);
+            MsaAuthenticationService.MsCodeResponse response = HTTP.makeRequestForm(this.getProxy(), MS_CODE_ENDPOINT, request.toMap(), MsaAuthenticationService.MsCodeResponse.class);
+            try {
+                MinecraftBOT.getLogger().info("Please go to " + response.verification_uri.toURL() + " to authenticate your account - Code: " + response.user_code);
+            } catch (MalformedURLException e) {
+                MinecraftBOT.getLogger().error("Error while trying to get the url of the authentication page", e);
+            }
+            browse(response.verification_uri);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(response.user_code), null);
+
+            AuthenticationService authService = new MsaAuthenticationService(CLIENT_ID, response.device_code);
             authService.setUsername(this.getUsername());
-            authService.setPassword(this.getPassword());
             authService.setProxy(this.getProxy());
             if (isDebug())
                 MinecraftBOT.getLogger().debug("Authenticating with account [%s]", this.getUsername());
-            authService.login();
-            if (isDebug())
+
+            int retryMax = 20;
+            while (true) {
+                try {
+                    authService.login();
+                    break;
+                } catch (RequestException e) {
+                    if (e instanceof AuthPendingException) {
+                        e.printStackTrace();
+                        MinecraftBOT.getLogger().debug("Authentication is pending, waiting for user to authenticate...");
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException ignored) {
+                        }
+                        if (retryMax == 0)
+                            throw e;
+                        retryMax--;
+                    } else
+                        throw e;
+                }
+            }
+
+            if (isDebug() && authService.isLoggedIn())
                 MinecraftBOT.getLogger().debug("Successfully authenticated [%s]", authService.getSelectedProfile().getName());
 
             protocol = new MinecraftProtocol(authService.getSelectedProfile(), authService.getAccessToken());
@@ -367,4 +404,40 @@ public class EntityBOT {
         client.connect();
     }
 
+    public static void browse(URI uri) {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(uri);
+            } catch (IOException e) {
+                MinecraftBOT.getLogger().error("Error while trying to open the authentication page", e);
+            }
+        } else {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("xdg-open " + uri);
+            } catch (IOException e) {
+                MinecraftBOT.getLogger().error("Error while trying to open the authentication page", e);
+            }
+        }
+    }
+
+    static class MsCodeRequest {
+        private final String client_id;
+        private final String scope;
+
+        protected MsCodeRequest(String clientId) {
+            this.client_id = clientId;
+            this.scope = "XboxLive.signin";
+        }
+
+        public Map<String, String> toMap() {
+            Map<String, String> map = new HashMap<>();
+
+            map.put("client_id", client_id);
+            map.put("scope", scope);
+
+            return map;
+        }
+    }
 }

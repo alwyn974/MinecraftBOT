@@ -73,7 +73,7 @@ public class CLIParser {
         options.addOption("h", "host", true, "Setup the host value (Default=127.0.0.1)");
         options.addOption("p", "port", true, "Setup the port value (Default=25565)");
         options.addOption("u", "user", true, "Email/Username of the user");
-        options.addOption(null, "password", true, "Password of the user");
+        options.addOption(null, "premium", false, "If the user need to be logged through Microsoft Authentication");
         options.addOption("d", "debug", false, "Activate debug");
         options.addOption("a", "autoReconnect", false, "Activate auto reconnect");
         options.addOption(null, "reconnectDelay", true, "Delay before reconnection");
@@ -86,11 +86,11 @@ public class CLIParser {
         result.setHost(cmd.hasOption("h") ? cmd.getOptionValue("h") : MinecraftBOT.getHost());
         result.setPort(Integer.parseInt(cmd.hasOption("p") ? cmd.getOptionValue("p") : MinecraftBOT.getPort()));
         result.setEmail(cmd.hasOption("u") ? cmd.getOptionValue("u") : MinecraftBOT.getUsername());
-        result.setPassword(cmd.hasOption("password") ? cmd.getOptionValue("password") : MinecraftBOT.getPassword());
+        result.setPremium(cmd.hasOption("premium") || Boolean.parseBoolean(MinecraftBOT.getPremium()));
         result.setStatus(cmd.hasOption("s"));
         result.setDebug(cmd.hasOption("d") ? cmd.hasOption("d") : Boolean.parseBoolean(MinecraftBOT.getDebug()));
-        result.setAutoReconnect(cmd.hasOption("a") ? cmd.hasOption("a") : Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
-        result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelat") : MinecraftBOT.getReconnectDelay()));
+        result.setAutoReconnect(cmd.hasOption("a") || Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
+        result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelay") : MinecraftBOT.getReconnectDelay()));
         result.setHelp(cmd.hasOption("help"));
         return result;
     }
