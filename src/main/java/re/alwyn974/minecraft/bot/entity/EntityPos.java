@@ -82,8 +82,9 @@ public class EntityPos {
      *
      * @param x the x coordinate
      */
-    public void setX(double x) {
+    public EntityPos setX(double x) {
         this.x = x;
+        return this;
     }
 
     /**
@@ -91,8 +92,9 @@ public class EntityPos {
      *
      * @param y the y coordinate
      */
-    public void setY(double y) {
+    public EntityPos setY(double y) {
         this.y = y;
+        return this;
     }
 
     /**
@@ -100,8 +102,36 @@ public class EntityPos {
      *
      * @param z the z coordinate
      */
-    public void setZ(double z) {
+    public EntityPos setZ(double z) {
         this.z = z;
+        return this;
+    }
+
+    /**
+     * Increment the x coordinate of the entity
+     * @param x the x coordinate
+     */
+    public EntityPos addX(double x) {
+        this.x += x;
+        return this;
+    }
+
+    /**
+     * Increment the y coordinate of the entity
+     * @param y the y coordinate
+     */
+    public EntityPos addY(double y) {
+        this.y += y;
+        return this;
+    }
+
+    /**
+     * Increment the z coordinate of the entity
+     * @param z the z coordinate
+     */
+    public EntityPos addZ(double z) {
+        this.z += z;
+        return this;
     }
 
     /**
@@ -109,8 +139,9 @@ public class EntityPos {
      *
      * @param yaw the yaw view
      */
-    public void setYaw(double yaw) {
+    public EntityPos setYaw(double yaw) {
         this.yaw = yaw;
+        return this;
     }
 
     /**
@@ -118,8 +149,9 @@ public class EntityPos {
      *
      * @param pitch the pitch view
      */
-    public void setPitch(double pitch) {
+    public EntityPos setPitch(double pitch) {
         this.pitch = pitch;
+        return this;
     }
 
     @Override

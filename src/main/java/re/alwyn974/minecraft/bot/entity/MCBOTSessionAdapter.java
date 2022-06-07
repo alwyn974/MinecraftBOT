@@ -10,6 +10,7 @@ import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundLo
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundPlayerInfoPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.ClientboundMoveEntityPosRotPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.ClientboundMoveEntityRotPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundPlayerPositionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChangeDifficultyPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
@@ -74,15 +75,25 @@ public class MCBOTSessionAdapter extends SessionAdapter {
     public void packetReceived(Session session, Packet packet) {
         if (packet instanceof ClientboundChatPacket) {
             ClientboundChatPacket chatPacket = (ClientboundChatPacket) packet;
-            MinecraftBOT.getLogger().info(TranslateChat.translateComponent(chatPacket.getMessage()));
+            String translatedMessage = TranslateChat.translateComponent(chatPacket.getMessage());
+            if (translatedMessage.isEmpty())
+                translatedMessage = "Failed to translate message: " + chatPacket.getMessage();
+            MinecraftBOT.getLogger().info(translatedMessage);
+        }
+
+        if (packet instanceof ClientboundPlayerPositionPacket) {
+            ClientboundPlayerPositionPacket positionPacket = (ClientboundPlayerPositionPacket) packet;
+            if (bot.getPos() == null) {
+                bot.setPos(new EntityPos(positionPacket.getX(), positionPacket.getY(), positionPacket.getZ(), 0, 0));
+            } else
+                bot.getPos().setX(positionPacket.getX()).setY(positionPacket.getY()).setZ(positionPacket.getZ());
         }
 
         if (packet instanceof ClientboundMoveEntityPosRotPacket) {
-            ClientboundMoveEntityPosRotPacket pos = (ClientboundMoveEntityPosRotPacket) packet;
-            boolean posNull = bot.getPos() == null;
-            bot.setPos(new EntityPos(pos.getMoveX(), pos.getMoveY(), pos.getMoveZ(), pos.getYaw(), pos.getPitch()));
-            if (posNull)
-                MinecraftBOT.getLogger().info("Position: %s", bot.getPos());
+            ClientboundMoveEntityPosRotPacket posPacket = (ClientboundMoveEntityPosRotPacket) packet;
+            if (bot.getPos() != null)
+                bot.getPos().setPitch(posPacket.getPitch()).setYaw(posPacket.getYaw())
+                    .addX(posPacket.getMoveX()).addY(posPacket.getMoveY()).addZ(posPacket.getMoveZ());
         }
 
         if (packet instanceof ClientboundSetHealthPacket) {
