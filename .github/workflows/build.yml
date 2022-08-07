@@ -1,8 +1,8 @@
-name: Docs Action
+name: Build Action
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   workflow_dispatch:
 
 jobs:
@@ -22,11 +22,12 @@ jobs:
           java-version: "8"
           distribution: "zulu"
 
-      - name: Build documentation
-        run: gradle javadoc
+      - name: Build project
+        run: gradle shadowJar
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./build/docs/javadoc
+          name: MinecraftBOT
+          path: ./build/libs/*.jar
+          if-no-files-found: error
