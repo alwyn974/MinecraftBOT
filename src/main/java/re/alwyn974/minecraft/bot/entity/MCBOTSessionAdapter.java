@@ -63,7 +63,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
     @Override
     public void packetReceived(PacketReceivedEvent event) {
         if (event.getPacket() instanceof ServerChatPacket)
-            MinecraftBOT.getLogger().info(TranslateChat.translateComponent(event.<ServerChatPacket>getPacket().getMessage()));
+            MinecraftBOT.getLogger().info("%s", TranslateChat.translateComponent(event.<ServerChatPacket>getPacket().getMessage()));
         if (event.getPacket() instanceof ServerPlayerPositionRotationPacket) {
             ServerPlayerPositionRotationPacket pos = event.getPacket();
             boolean posNull = bot.getPos() == null;
