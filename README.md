@@ -75,6 +75,32 @@ They are some builtin commands in the bot
  -u,--user <arg>                Email/Username of the user
 ```
 
+## Termux Guide
+
+This project works great with [Termux](https://termux.com/). You can use the CLI to operate from your phone. 
+Here, is the guide to run this project on Termux. 
+
+### First-Time Setup
+
+* Download and install Termux from [here](https://termux.com/).
+* Run `pkg install openjdk-17 curl jq -y`
+* Run `curl -o MinecraftBOT.jar -L $(curl -s https://api.github.com/repos/alwyn974/MinecraftBOT/releases/latest | jq -r ".assets[0].browser_download_url")`
+
+### Starting The Bot
+
+Now you can run the MinecraftBOT, see [CLI Options](https://github.com/alwyn974/MinecraftBOT#command-line-interface)
+
+Example: `java -jar MinecraftBOT.jar --host play.hypixel.net -a --user Notch`
+
+### Stopping The Bot
+
+There is only one tested method of stopping the bot (yet) in Termux.
+
+* Go to Recent Apps
+* Tap and Hold Termux
+* Press Force Stop in the settings menu.
+
+##### *Options may vary according to device. Tested in MIUI 12.5*
 
 ## Dependencies
 
