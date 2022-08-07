@@ -415,8 +415,9 @@ public class EntityBOT {
         } else {
             Runtime runtime = Runtime.getRuntime();
             try {
-                runtime.exec("xdg-open " + uri);
-            } catch (IOException e) {
+                Process p = runtime.exec("xdg-open " + uri); // Linux
+                p.waitFor();
+            } catch (IOException | InterruptedException e) {
                 MinecraftBOT.getLogger().error("Error while trying to open the authentication page", e);
             }
         }

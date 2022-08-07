@@ -33,7 +33,7 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j:2.18.0"
     implementation "org.apache.logging.log4j:log4j-slf4j-impl:2.18.0"
 
-    implementation "com.github.Steveice10:MCProtocolLib:1.18-2"
+    implementation "com.github.GeyserMC:MCProtocolLib:1.18-2"
     implementation "commons-cli:commons-cli:1.5.0"
     implementation "re.alwyn974:logger:1.0.0"
     implementation "org.reflections:reflections:0.10.2"
