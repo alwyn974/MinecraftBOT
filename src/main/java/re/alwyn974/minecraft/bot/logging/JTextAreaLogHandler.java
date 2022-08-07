@@ -66,7 +66,7 @@ public class JTextAreaLogHandler implements ILogHandler, MouseListener {
             String text = this.logArea.getText();
             int searchHttp = 0;
             int wordEndIndex = 0;
-            String[] words = text.split("\\s");
+            Iterable<String> words = Splitter.onPattern("\\s").split(text);
 
             for (String word : words) {
                 if (word.startsWith("https://") || word.startsWith("http://")) {
