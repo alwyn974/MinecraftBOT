@@ -110,6 +110,6 @@ There is some method of stopping the bot in Termux:
 
 ## Documentation
 
-A javadoc is available [here](https://alwyn974.github.io/javadoc/minecraftbot)
+A javadoc is available [here](https://alwyn974.github.io/MinecraftBOT)
 
 > :bulb: Don't forget to put a star on the project to support the project
