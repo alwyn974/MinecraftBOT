@@ -12,7 +12,7 @@ public class ParseResult {
     private String host;
     private int port;
     private String email;
-    private String password;
+    private boolean premium;
     private boolean debug;
     private boolean status;
     private boolean help;
@@ -47,12 +47,12 @@ public class ParseResult {
     }
 
     /**
-     * Get the password
+     * Check if the user is premium
      *
-     * @return the password
+     * @return the if the user is premium
      */
-    public String getPassword() {
-        return password;
+    public boolean isPremium() {
+        return premium;
     }
 
     /**
@@ -65,7 +65,7 @@ public class ParseResult {
     }
 
     /**
-     * Get if status is activate
+     * Get if status is activated
      *
      * @return status value
      */
@@ -128,12 +128,12 @@ public class ParseResult {
     }
 
     /**
-     * Set the password
+     * Set if the user is premium
      *
-     * @param password the password
+     * @param premium the premium value
      */
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPremium(boolean premium) {
+        this.premium = premium;
     }
 
     /**
@@ -187,7 +187,7 @@ public class ParseResult {
                 "host='" + host + '\'' +
                 ", port=" + port +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", premium='" + premium + '\'' +
                 ", debug=" + debug +
                 ", status=" + status +
                 ", help=" + help +

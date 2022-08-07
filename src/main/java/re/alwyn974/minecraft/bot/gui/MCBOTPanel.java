@@ -1,6 +1,6 @@
 package re.alwyn974.minecraft.bot.gui;
 
-import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -29,7 +29,8 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JPanel bottomPanel = new JPanel();
 
     private final JTextField usernameField = new JTextField(MinecraftBOT.getUsername());
-    private final JPasswordField passwordField = new JPasswordField(MinecraftBOT.getPassword());
+    private final JCheckBox premiumBox = new JCheckBox("Premium (MS)", Boolean.parseBoolean(MinecraftBOT.getPremium()));
+
     private final JTextField hostField = new JTextField(MinecraftBOT.getHost());
     private final JTextField portField = new JTextField(MinecraftBOT.getPort());
     private final JTextField outputField = new JTextField();
@@ -65,11 +66,10 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         topTopPanel.add(new JLabel("Port: "));
         topTopPanel.add(portField, BorderLayout.PAGE_START);
 
-        topTopPanel.add(new JLabel("Email: "));
+        topTopPanel.add(new JLabel("Email/Username: "));
         topTopPanel.add(usernameField, BorderLayout.PAGE_START);
 
-        topTopPanel.add(new JLabel("Password: "));
-        topTopPanel.add(passwordField, BorderLayout.PAGE_START);
+        topTopPanel.add(premiumBox, BorderLayout.PAGE_START);
 
         topBottomPanel.add(autoReconnectBox, BorderLayout.PAGE_START);
         topBottomPanel.add(new JLabel("| (ms): "));
@@ -119,7 +119,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (!new CommandHandler().execute(bot, outputField.getText()) && bot != null && bot.getClient().isConnected())
-                        bot.getClient().send(new ClientChatPacket(outputField.getText()));
+                        bot.getClient().send(new ServerboundChatPacket(outputField.getText()));
                     outputField.setText("");
                 }
             }
@@ -136,7 +136,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             botThread = new Thread(() -> {
                 try {
                     long delay = Long.parseLong(reconnectDelay.getValue().toString());
-                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), new String(passwordField.getPassword()), debugBox.isSelected(), autoReconnectBox.isSelected(), delay);
+                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), premiumBox.isSelected(), debugBox.isSelected(), autoReconnectBox.isSelected(), delay);
                     bot.connect();
                 } catch (Exception ex) {
                     MinecraftBOT.getLogger().error("Error: %s", ex.getMessage());
@@ -162,7 +162,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         hostField.setEnabled(enabled);
         portField.setEnabled(enabled);
         usernameField.setEnabled(enabled);
-        passwordField.setEnabled(enabled);
+        premiumBox.setEnabled(enabled);
         connectButton.setEnabled(enabled);
         debugBox.setEnabled(enabled);
         autoReconnectBox.setEnabled(enabled);

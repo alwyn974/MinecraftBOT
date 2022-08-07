@@ -1,0 +1,33 @@
+name: Build Action
+
+on:
+  push:
+    branches: [ main, dev ]
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: "8"
+          distribution: "zulu"
+
+      - name: Build project
+        run: gradle shadowJar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: MinecraftBOT
+          path: ./build/libs/*.jar
+          if-no-files-found: error

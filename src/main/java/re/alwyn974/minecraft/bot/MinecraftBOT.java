@@ -38,10 +38,12 @@ import java.util.Set;
  */
 public class MinecraftBOT {
 
+    //https://github.com/GeyserMC/MCProtocolLib/blob/master/example/com/github/steveice10/mc/protocol/test/MinecraftProtocolTest.java
+
     private static final String PROJECT_NAME = "MinecraftBOT";
     private static final BasicLogger LOGGER = LoggerFactory.getLogger(getProjectName());
     private static final String USERNAME = System.getenv("MC_BOT_USERNAME");
-    private static final String PASSWORD = System.getenv("MC_BOT_PASSWORD");
+    private static final String PREMIUM = System.getenv("MC_BOT_PREMIUM");
     private static final String HOST = System.getenv("MC_BOT_HOST");
     private static final String PORT = System.getenv("MC_BOT_PORT");
     private static final String DEBUG = System.getenv("MC_BOT_DEBUG");
@@ -88,7 +90,7 @@ public class MinecraftBOT {
     }
 
     /**
-     * Run the programm in command line
+     * Run the program in command line
      *
      * @param args the arguments of the program
      */
@@ -129,12 +131,12 @@ public class MinecraftBOT {
     }
 
     /**
-     * Get the password
+     * Check if the user is premium
      *
-     * @return the password
+     * @return true if the user is premium
      */
-    public static String getPassword() {
-        return PASSWORD != null ? PASSWORD : "";
+    public static String getPremium() {
+        return PREMIUM;
     }
 
     /**

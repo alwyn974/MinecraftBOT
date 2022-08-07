@@ -1,7 +1,7 @@
 package re.alwyn974.minecraft.bot.cli;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
-import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
 import org.apache.commons.cli.*;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -23,6 +23,8 @@ public class CLIParser {
     private static EntityBOT bot;
     private static Thread botThread;
 
+    private static CommandHandler commandHandler;
+
     /**
      * Parse the command line arguments
      *
@@ -40,7 +42,9 @@ public class CLIParser {
             MinecraftBOT.retrieveStatus(result.getHost(), result.getPort(), result.isDebug());
             System.exit(0);
         }
+
         bot = new EntityBOT(result);
+        commandHandler = new CommandHandler();
         botThread = new Thread(() -> {
             try {
                 MinecraftBOT.getLogger().info("Starting MinecraftBOT...");
@@ -49,20 +53,24 @@ public class CLIParser {
                 MinecraftBOT.getLogger().error("Can't authenticate", ex);
                 botThread.interrupt();
             }
+
             try (Scanner scanner = new Scanner(System.in)) {
-                while (bot != null && bot.getClient().isConnected()) {
-                    String line = scanner.nextLine();
-                    if (line.equals("disconnect")) {
-                        bot.getClient().disconnect("Disconnected");
-                        botThread.interrupt();
-                        break;
+                while (bot != null && bot.getClient() != null && bot.getClient().isConnected()) {
+                    if (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        if (line.equals("disconnect")) {
+                            bot.getClient().disconnect("Disconnected");
+                            botThread.interrupt();
+                            break;
+                        }
+                        if (!commandHandler.execute(bot, line) && bot != null && bot.getClient().isConnected())
+                            bot.getClient().send(new ClientboundChatPacket(line));
                     }
-                    if (!new CommandHandler().execute(bot, line) && bot != null && bot.getClient().isConnected())
-                        bot.getClient().send(new ClientChatPacket(line));
                 }
                 botThread.interrupt();
             }
         });
+
         botThread.start();
     }
 
@@ -73,7 +81,7 @@ public class CLIParser {
         options.addOption("h", "host", true, "Setup the host value (Default=127.0.0.1)");
         options.addOption("p", "port", true, "Setup the port value (Default=25565)");
         options.addOption("u", "user", true, "Email/Username of the user");
-        options.addOption(null, "password", true, "Password of the user");
+        options.addOption(null, "premium", false, "If the user need to be logged through Microsoft Authentication");
         options.addOption("d", "debug", false, "Activate debug");
         options.addOption("a", "autoReconnect", false, "Activate auto reconnect");
         options.addOption(null, "reconnectDelay", true, "Delay before reconnection");
@@ -86,11 +94,11 @@ public class CLIParser {
         result.setHost(cmd.hasOption("h") ? cmd.getOptionValue("h") : MinecraftBOT.getHost());
         result.setPort(Integer.parseInt(cmd.hasOption("p") ? cmd.getOptionValue("p") : MinecraftBOT.getPort()));
         result.setEmail(cmd.hasOption("u") ? cmd.getOptionValue("u") : MinecraftBOT.getUsername());
-        result.setPassword(cmd.hasOption("password") ? cmd.getOptionValue("password") : MinecraftBOT.getPassword());
+        result.setPremium(cmd.hasOption("premium") || Boolean.parseBoolean(MinecraftBOT.getPremium()));
         result.setStatus(cmd.hasOption("s"));
         result.setDebug(cmd.hasOption("d") ? cmd.hasOption("d") : Boolean.parseBoolean(MinecraftBOT.getDebug()));
-        result.setAutoReconnect(cmd.hasOption("a") ? cmd.hasOption("a") : Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
-        result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelat") : MinecraftBOT.getReconnectDelay()));
+        result.setAutoReconnect(cmd.hasOption("a") || Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
+        result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelay") : MinecraftBOT.getReconnectDelay()));
         result.setHelp(cmd.hasOption("help"));
         return result;
     }
