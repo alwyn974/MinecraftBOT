@@ -40,6 +40,12 @@ public class InitSimpleCommand {
                 .withExecutor((bot, message, args) -> MinecraftBOT.getLogger().info("Position: %s", bot.getPos()))
                 .build();
         CommandHandler.registerCommand(posCommand);
+        ICommand disconnectCommand = new CommandBuilder().withName("disconnect")
+                .withDescription("Disconnect the bot")
+                .withUsage(CommandHandler.getPrefix() + "disconnect").withNeedToBeConnected(true)
+                .withExecutor((bot, message, args) -> bot.getClient().disconnect("Disconnected"))
+                .build();
+        CommandHandler.registerCommand(disconnectCommand);
     }
 
 }

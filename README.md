@@ -57,6 +57,7 @@ They are some builtin commands in the bot
 - `health` get the health of the player
 - `list` get the players connected (Sometimes the packet is glitched, you can use the status button go get the players)
 - `pos` get the player position
+- `disconnect` disconnect the bot
 
 ## Command Line Interface
 
@@ -84,23 +85,23 @@ Here, is the guide to run this project on Termux.
 
 * Download and install Termux from [here](https://termux.com/).
 * Run `pkg install openjdk-17 curl jq -y`
-* Run `curl -o MinecraftBOT.jar -L $(curl -s https://api.github.com/repos/alwyn974/MinecraftBOT/releases/latest | jq -r ".assets[0].browser_download_url")`
+* Run ⬇️
+```bash
+curl -o MinecraftBOT.jar -L $(curl -s https://api.github.com/repos/alwyn974/MinecraftBOT/releases/latest | jq -r ".assets[0].browser_download_url")
+```
 
 ### Starting The Bot
 
 Now you can run the MinecraftBOT, see [CLI Options](https://github.com/alwyn974/MinecraftBOT#command-line-interface)
 
-Example: `java -jar MinecraftBOT.jar --host play.hypixel.net -a --user Notch`
+Example: `java -jar MinecraftBOT.jar --host play.hypixel.net --autoReconnect --user Notch`
 
 ### Stopping The Bot
 
-There is only one tested method of stopping the bot (yet) in Termux.
-
-* Go to Recent Apps
-* Tap and Hold Termux
-* Press Force Stop in the settings menu.
-
-##### *Options may vary according to device. Tested in MIUI 12.5*
+There is some method of stopping the bot in Termux:
+- Write `.disconnect` in the CLI (`.` is the default prefix for the commands)
+- See the termux notification bar, and close it
+- Force Stop the application (not recommanded)
 
 ## Dependencies
 
