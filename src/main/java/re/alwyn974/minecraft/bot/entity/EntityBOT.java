@@ -17,12 +17,11 @@ import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cli.ParseResult;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

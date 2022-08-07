@@ -13,7 +13,7 @@ import net.kyori.adventure.text.TextComponent;
 public class TranslateChat {
 
     /**
-     * Translate the component to some human readable text
+     * Translate the component to some human-readable text
      *
      * @param component the component
      * @return the readable text
