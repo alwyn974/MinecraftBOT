@@ -5,7 +5,7 @@ plugins {
     id "maven-publish"
 }
 
-group = "re.alwyn974"
+group = "re.alwyn974.minecraft.bot"
 version = "1.0.16"
 archivesBaseName = "MinecraftBOT"
 
@@ -26,18 +26,18 @@ repositories {
 }
 
 dependencies {
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.9.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.9.0"
 
     implementation "org.slf4j:slf4j-api:1.7.36"
-    implementation "org.apache.logging.log4j:log4j:2.17.2"
-    implementation "org.apache.logging.log4j:log4j-slf4j-impl:2.17.2"
+    implementation "org.apache.logging.log4j:log4j:2.18.0"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:2.18.0"
 
     implementation "com.github.Steveice10:MCProtocolLib:1.18-2"
     implementation "commons-cli:commons-cli:1.5.0"
     implementation "re.alwyn974:logger:1.0.0"
     implementation "org.reflections:reflections:0.10.2"
-    implementation "com.formdev:flatlaf:2.2" //this is magic :o
+    implementation "com.formdev:flatlaf:2.4" //this is magic :o
 }
 
 test {
