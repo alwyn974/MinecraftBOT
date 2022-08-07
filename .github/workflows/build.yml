@@ -23,7 +23,7 @@ jobs:
           distribution: "zulu"
 
       - name: Build project
-        run: gradle shadowJar
+        run: gradle shadowJar && gradle build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
