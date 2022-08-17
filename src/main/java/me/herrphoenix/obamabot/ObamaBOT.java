@@ -4,6 +4,9 @@ import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundCh
 import me.herrphoenix.obamabot.registry.ObamaRegistry;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author HerrPhoenix
  */
@@ -34,16 +37,14 @@ public class ObamaBOT {
         bot.getClient().send(new ServerboundChatPacket("Payment goes to TheORS. Use /pay TheORS <amount>."));
         bot.getClient().send(new ServerboundChatPacket("You have 30 seconds. If you do not pay, you will be kicked. This is the first of 2 chances we give you."));
 
-        //maybe use a timer here idk im lazy
-        try {
-            Thread.sleep(15 * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        bot.getClient().send(new ServerboundChatPacket("30 Seconds have passed."));
-        bot.getClient().send(new ServerboundChatPacket("You will be kicked from Obama's."));
-        bot.getClient().send(new ServerboundChatPacket("You are free to return, but if you refuse to pay tax again, you will be denied."));
-        bot.getClient().send(new ServerboundChatPacket("/p kick " + ign));
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                bot.getClient().send(new ServerboundChatPacket("30 Seconds have passed."));
+                bot.getClient().send(new ServerboundChatPacket("You will be kicked from Obama's."));
+                bot.getClient().send(new ServerboundChatPacket("You are free to return, but if you refuse to pay tax again, you will be denied."));
+                bot.getClient().send(new ServerboundChatPacket("/p kick " + ign));
+            }
+        }, 60 * 1000);
     }
 }
