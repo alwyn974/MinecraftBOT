@@ -11,6 +11,7 @@ import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
+import me.herrphoenix.obamabot.ObamaBOT;
 import org.apache.commons.cli.ParseException;
 import org.reflections.Reflections;
 import re.alwyn974.logger.BasicLogger;
@@ -87,6 +88,8 @@ public class MinecraftBOT {
         } catch (CommandBuilderException e) {
             MinecraftBOT.getLogger().error("Cannot init the simple command", e);
         }
+
+        //ObamaBOT.registerCommands();
     }
 
     /**

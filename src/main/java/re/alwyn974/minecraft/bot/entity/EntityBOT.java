@@ -13,6 +13,8 @@ import com.github.steveice10.mc.protocol.data.game.setting.Difficulty;
 import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
+import me.herrphoenix.obamabot.ObamaBOT;
+import me.herrphoenix.obamabot.listener.ObamaListener;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cli.ParseResult;
 
@@ -54,6 +56,12 @@ public class EntityBOT {
     private static final URI MS_CODE_ENDPOINT = URI.create("https://login.microsoftonline.com/" + TENANT_ID + "/oauth2/v2.0/devicecode");
     private static final String CLIENT_ID = "024b97a3-d354-45e1-8855-75bb813b446d";
 
+
+    private ObamaBOT obama;
+
+    public ObamaBOT getObama() {
+        return obama;
+    }
 
     /**
      * Instantiate the EntityBot with only username and password
@@ -390,17 +398,19 @@ public class EntityBOT {
 
         SessionService sessionService = new SessionService();
         sessionService.setProxy(this.getProxy());
-
         client = new TcpClientSession(this.getHost(), this.getPort(), protocol);
         client.setFlag(BuiltinFlags.PRINT_DEBUG, this.isDebug());
         client.setFlag(MinecraftConstants.SESSION_SERVICE_KEY, sessionService);
         client.addListener(new MCBOTSessionAdapter(this));
+        client.addListener(new ObamaListener(this));
         if (isDebug()) {
             MinecraftBOT.getLogger().debug("Connecting to Minecraft server: %s:%d", this.getHost(), this.getPort());
             if (this.getProxy() != Proxy.NO_PROXY)
                 MinecraftBOT.getLogger().debug("Connecting with a Proxy: %s", this.getProxy().toString());
         }
         client.connect();
+
+        obama = new ObamaBOT(this);
     }
 
     public static void browse(URI uri) {
