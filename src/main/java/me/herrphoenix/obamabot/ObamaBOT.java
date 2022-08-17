@@ -31,20 +31,34 @@ public class ObamaBOT {
         }
 
         bot.getClient().send(new ServerboundChatPacket("Hello, " + ign + ". Welcome to Obama Land!"));
+        Thread.sleep(1000);
         bot.getClient().send(new ServerboundChatPacket("This is Obama's sacred soil. So we tax people that enter our plot."));
+        Thread.sleep(1000);
         bot.getClient().send(new ServerboundChatPacket("You can pay 50$, and be able to stay here for an hour."));
+        Thread.sleep(1000);
         bot.getClient().send(new ServerboundChatPacket("You can pay 500$, and be able to stay whenever and how long you want."));
+        Thread.sleep(1000);
         bot.getClient().send(new ServerboundChatPacket("Payment goes to TheORS. Use /pay TheORS <amount>."));
-        bot.getClient().send(new ServerboundChatPacket("You have 30 seconds. If you do not pay, you will be kicked. This is the first of 2 chances we give you."));
+        Thread.sleep(1000);
+        bot.getClient().send(new ServerboundChatPacket("You have 1 minute and 30 seconds. If you do not pay in this amount of time, you will be kicked. This is the first of 2 chances we give you."));
+        Thread.sleep(1000);
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                bot.getClient().send(new ServerboundChatPacket("30 Seconds have passed."));
-                bot.getClient().send(new ServerboundChatPacket("You will be kicked from Obama's."));
-                bot.getClient().send(new ServerboundChatPacket("You are free to return, but if you refuse to pay tax again, you will be denied."));
-                bot.getClient().send(new ServerboundChatPacket("/p kick " + ign));
+                try {
+                    bot.getClient().send(new ServerboundChatPacket("1 minute and 30 seconds have passed."));
+                    Thread.sleep(1000);
+                    bot.getClient().send(new ServerboundChatPacket("You will be kicked from Obama's."));
+                    Thread.sleep(1000);
+                    bot.getClient().send(new ServerboundChatPacket("You are free to return, but if you refuse to pay tax again, you will be denied."));
+                    Thread.sleep(1000);
+                    bot.getClient().send(new ServerboundChatPacket("/p kick " + ign));
+                    Thread.sleep(1000);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }, 60 * 1000);
+        }, 90000);
     }
 }
