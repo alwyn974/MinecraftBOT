@@ -44,7 +44,7 @@ public class CLIParser {
         }
 
         bot = new EntityBOT(result);
-        commandHandler = new CommandHandler();
+        commandHandler = new CommandHandler(MinecraftBOT.getLogger());
         botThread = new Thread(() -> {
             try {
                 MinecraftBOT.getLogger().info("Starting MinecraftBOT...");

@@ -70,7 +70,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
             String translatedMessage = TranslateChat.translateComponent(chatPacket.getMessage());
             if (translatedMessage.isEmpty())
                 translatedMessage = "Failed to translate message: " + chatPacket.getMessage();
-            MinecraftBOT.getLogger().info("%s", translatedMessage);
+            MinecraftBOT.getChatLogger().info("%s", translatedMessage);
         }
 
         if (packet instanceof ClientboundPlayerPositionPacket) {

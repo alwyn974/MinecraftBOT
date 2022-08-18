@@ -121,7 +121,7 @@ public class CommandBuilder {
      *
      * @throws CommandBuilderException if the command doesn't match the requirement
      */
-    protected void checkValidity() throws CommandBuilderException {
+    private void checkValidity() throws CommandBuilderException {
         if (name == null)
             throw new CommandBuilderException("name == null");
         if (usage == null)

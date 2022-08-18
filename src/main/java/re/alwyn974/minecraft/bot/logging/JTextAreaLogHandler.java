@@ -1,5 +1,6 @@
 package re.alwyn974.minecraft.bot.logging;
 
+import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.logger.ILogHandler;
 import re.alwyn974.logger.LogLevel;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
@@ -22,14 +23,16 @@ import java.net.URI;
 public class JTextAreaLogHandler implements ILogHandler, MouseListener {
 
     private final JTextArea logArea;
+    private final BasicLogger logger;
 
     /**
      * Instanciate the log handler
      *
      * @param logArea the JTextArea to print
      */
-    public JTextAreaLogHandler(JTextArea logArea) {
+    public JTextAreaLogHandler(JTextArea logArea, BasicLogger logger) {
         this.logArea = logArea;
+        this.logger = logger;
         this.logArea.addMouseListener(this);
     }
 
@@ -52,7 +55,7 @@ public class JTextAreaLogHandler implements ILogHandler, MouseListener {
      */
     @Override
     public void broadcastThrowable(LogLevel level, Throwable th) {
-        String formatted = MinecraftBOT.getLogger().formatMessage(level, th.getMessage());
+        String formatted = logger.formatMessage(level, th.getMessage());
         SwingUtilities.invokeLater(() -> logArea.append(formatted.endsWith("\n") ? formatted : formatted + "\n"));
     }
 

@@ -1,5 +1,6 @@
 package re.alwyn974.minecraft.bot.cmd.utils;
 
+import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * The session adapter, managing packet and more
@@ -20,6 +22,12 @@ public class CommandHandler {
     private static String prefix = MinecraftBOT.getPrefix();
     private static final HashMap<String, ICommand> COMMANDS = new HashMap<>();
     private static final List<ICommand> COMMANDS_LIST = new ArrayList<>();
+
+    protected final BasicLogger logger;
+
+    public CommandHandler(BasicLogger logger) {
+        this.logger = logger;
+    }
 
     /**
      * register a command
@@ -54,12 +62,12 @@ public class CommandHandler {
 
                 System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
                 if (command.needToBeConnected() && bot == null)
-                    MinecraftBOT.getLogger().error("You need to be connected to a server to do this !");
+                    logger.error("You need to be connected to a server to do this !");
                 else
                     command.executor().execute(bot, message, cmdArgs);
                 return true;
             } else if (!cmd.isEmpty())
-                MinecraftBOT.getLogger().error("Command doesn't exist [%s]", cmd);
+                logger.error("Command doesn't exist [%s]", cmd);
         }
         return false;
     }

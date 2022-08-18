@@ -43,6 +43,7 @@ public class MinecraftBOT {
 
     private static final String PROJECT_NAME = "MinecraftBOT";
     private static final BasicLogger LOGGER = LoggerFactory.getLogger(getProjectName());
+    private static final BasicLogger LOGGER_CHAT = LoggerFactory.getLogger("Chat");
     private static final String USERNAME = System.getenv("MC_BOT_USERNAME");
     private static final String PREMIUM = System.getenv("MC_BOT_PREMIUM");
     private static final String HOST = System.getenv("MC_BOT_HOST");
@@ -88,8 +89,6 @@ public class MinecraftBOT {
         } catch (CommandBuilderException e) {
             MinecraftBOT.getLogger().error("Cannot init the simple command", e);
         }
-
-        //ObamaBOT.registerCommands();
     }
 
     /**
@@ -112,6 +111,10 @@ public class MinecraftBOT {
      */
     public static BasicLogger getLogger() {
         return LOGGER;
+    }
+
+    public static BasicLogger getChatLogger() {
+        return LOGGER_CHAT;
     }
 
     /**

@@ -1,6 +1,7 @@
 package re.alwyn974.minecraft.bot.gui;
 
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
+import me.herrphoenix.obamabot.ObamaBOT;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -39,10 +40,12 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JButton disconnectButton = new JButton("Disconnect");
     private final JButton statusButton = new JButton("Status");
     private final JButton clearButton = new JButton("Clear");
+    private final JCheckBox obamaBox = new JCheckBox("Obama Mode", ObamaBOT.isEnabled());
     private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(MinecraftBOT.getDebug()));
     private final JCheckBox autoReconnectBox = new JCheckBox("Auto Reconnect", Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
     private final JSpinner reconnectDelay = new JSpinner();
     private final JTextArea logArea = new JTextArea();
+    private final JTextArea obamaLogArea = new JTextArea();
 
     private EntityBOT bot = null;
     private Thread botThread = null;
@@ -75,6 +78,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         topBottomPanel.add(new JLabel("| (ms): "));
         reconnectDelay.setValue(Long.parseLong(MinecraftBOT.getReconnectDelay()));
         topBottomPanel.add(reconnectDelay);
+        topBottomPanel.add(obamaBox, BorderLayout.PAGE_START);
         topBottomPanel.add(debugBox, BorderLayout.PAGE_START);
 
         addButton(connectButton);
@@ -104,9 +108,20 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         logArea.setLineWrap(true);
         jScrollPane.getViewport().setView(logArea);
 
-        LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea));
+        JScrollPane obamaScrollPane = new JScrollPane();
+        obamaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        obamaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        obamaLogArea.setEditable(false);
+        obamaLogArea.setAutoscrolls(false);
+        obamaLogArea.setLineWrap(false);
+        obamaScrollPane.getViewport().setView(obamaLogArea);
+
+        LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea, MinecraftBOT.getLogger()));
+        LoggerFactory.addSharedHandler(new JTextAreaLogHandler(obamaLogArea, ObamaBOT.getLogger()));
 
         this.add(jScrollPane, BorderLayout.CENTER);
+        this.add(obamaScrollPane, BorderLayout.CENTER);
     }
 
     private void addBottomPanel() {
@@ -118,7 +133,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (!new CommandHandler().execute(bot, outputField.getText()) && bot != null && bot.getClient().isConnected())
+                    if (!new CommandHandler(MinecraftBOT.getLogger()).execute(bot, outputField.getText()) && bot != null && bot.getClient().isConnected())
                         bot.getClient().send(new ServerboundChatPacket(outputField.getText()));
                     outputField.setText("");
                 }
@@ -152,10 +167,13 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             if (botThread != null)
                 botThread.interrupt();
             setFieldsEnabled(true);
-        } else if (e.getSource() == statusButton)
+        } else if (e.getSource() == statusButton) {
             MinecraftBOT.retrieveStatus(hostField.getText(), Integer.parseInt(portField.getText()), debugBox.isSelected());
-        else if (e.getSource() == clearButton)
+        } else if (e.getSource() == clearButton) {
             logArea.setText("");
+        } else if (e.getSource() == obamaBox) {
+            ObamaBOT.toggleObama();
+        }
     }
 
     private void setFieldsEnabled(boolean enabled) {
