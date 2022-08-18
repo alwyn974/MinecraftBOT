@@ -56,7 +56,9 @@ public class ObamaBOT {
         });
     }
 
-    public void handlePlayer(String ign) throws InterruptedException {
+    private static final long CHAT_COOLDOWN = 1500;
+
+    public void handlePlayer(String ign) {
         if (ObamaRegistry.getRegistry().hasLifetime(ign)) {
             chat("Hello, " + ign + ". Enjoy your stay at Obama's!");
             return;
@@ -66,36 +68,41 @@ public class ObamaBOT {
             return;
         }
 
-        chat("Hello, " + ign + ". Welcome to Obama Land!");
-        Thread.sleep(1000);
-        chat("This is Obama's sacred soil. So we tax people that enter our plot.");
-        Thread.sleep(1000);
-        chat("You can pay 50$, and be able to stay here for an hour.");
-        Thread.sleep(1000);
-        chat("You can pay 500$, and be able to stay whenever and how long you want.");
-        Thread.sleep(1000);
-        chat("Payment goes to TheORS. Use /pay TheORS <amount>.");
-        Thread.sleep(1000);
-        chat("You have 1 minute and 30 seconds. If you do not pay in this amount of time, you will be kicked. This is the first of 2 chances we give you.");
-        Thread.sleep(1000);
+        try {
+            chat("Hello, " + ign + ". Welcome to Obama's");
+            Thread.sleep(CHAT_COOLDOWN);
+            chat("This is Obama's sacred soil, so we tax people that enter our plot");
+            Thread.sleep(CHAT_COOLDOWN);
+            chat("You can pay 50$, and be able to stay here for an hour");
+            Thread.sleep(CHAT_COOLDOWN);
+            chat("You can pay 500$, and be able to stay whenever and how long you want");
+            Thread.sleep(CHAT_COOLDOWN);
+            chat("Payment goes to TheORS, use /pay TheORS <amount>");
+            Thread.sleep(CHAT_COOLDOWN);
+            chat("You have 1 minute and 30 seconds, if you do not pay in this amount of time, you will be kicked");
+            Thread.sleep(CHAT_COOLDOWN);
+            chat("This is the first of 2 chances we give you.");
 
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    chat("1 minute and 30 seconds have passed.");
-                    Thread.sleep(1000);
-                    chat("You will be kicked from Obama's.");
-                    Thread.sleep(1000);
-                    chat("You are free to return, but if you refuse to pay tax again, you will be denied.");
-                    Thread.sleep(1000);
-                    chat("/p kick " + ign);
-                    Thread.sleep(1000);
-                } catch(InterruptedException e) {
-                    e.printStackTrace();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        chat("1 minute and 30 seconds have passed.");
+                        Thread.sleep(CHAT_COOLDOWN);
+                        chat("You will be kicked from Obama's.");
+                        Thread.sleep(CHAT_COOLDOWN);
+                        chat("You are free to return, but if you refuse to pay tax again, you will be denied.");
+                        Thread.sleep(CHAT_COOLDOWN);
+                        chat("/p kick " + ign);
+                        Thread.sleep(CHAT_COOLDOWN);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }, 90000);
+            }, 90000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void chat(String message) {

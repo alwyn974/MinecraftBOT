@@ -40,10 +40,10 @@ public class ObamaCommandHandler extends CommandHandler {
     public boolean execute(EntityBOT bot, String message) {
         final String[] args = message.split(" ");
 
-        if (args[0].startsWith(CommandHandler.getPrefix())) {
+        if (args[0].startsWith(getPrefix())) {
             String cmd = args[0].substring(1);
 
-            final ICommand command = getCommand(cmd.replace(".", ""));
+            final ICommandObama command = getCommand(cmd);
 
             if (command != null) {
                 final String[] cmdArgs = new String[args.length - 1];
@@ -60,7 +60,7 @@ public class ObamaCommandHandler extends CommandHandler {
         return false;
     }
 
-    private ICommand getCommand(String name) {
+    private ICommandObama getCommand(String name) {
         if (COMMANDS.get(name) != null)
             return (COMMANDS.get(name));
         return null;

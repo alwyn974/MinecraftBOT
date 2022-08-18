@@ -26,10 +26,12 @@ public class CommandExempt implements ICommandObama {
 
     @Override
     public IExecutor executor() {
-        return (bot, message, args) -> CommandHandler.getCommands().forEach(cmd -> {
+        return (bot, message, args) -> {
+            /*bot.getObama().chat(message);
+            bot.getObama().chat(args[0]);*/
             String ign = args[0];
             ObamaRegistry.getRegistry().addLifetime(ign);
             bot.getObama().chat(ign + " will not be taxed");
-        });
+        };
     }
 }

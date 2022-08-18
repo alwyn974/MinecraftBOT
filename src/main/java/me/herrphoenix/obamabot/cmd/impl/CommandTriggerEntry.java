@@ -4,6 +4,9 @@ import me.herrphoenix.obamabot.cmd.builder.ICommandObama;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.cmd.utils.IExecutor;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author HerrPhoenix
  */
@@ -25,15 +28,16 @@ public class CommandTriggerEntry implements ICommandObama {
 
     @Override
     public IExecutor executor() {
-        return (bot, message, args) -> CommandHandler.getCommands().forEach(cmd -> {
+        return (bot, message, args) -> {
             String ign = args[0];
-            try {
-                bot.getObama().chat("Triggering plot entry for " + ign + " in 5 seconds.");
-                Thread.sleep(5000);
-                bot.getObama().handlePlayer(ign);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
+
+            bot.getObama().chat("Triggering plot entry for " + ign + " in 5 seconds.");
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    bot.getObama().handlePlayer(ign);
+                }
+            }, 5000);
+        };
     }
 }
