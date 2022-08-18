@@ -18,7 +18,7 @@ public class MCBOTFrame extends JFrame {
     public MCBOTFrame() {
         setSystemLookAndFeel();
 
-        this.setTitle("MinecraftBOT - Dev by Alwyn974");
+        this.setTitle("MinecraftBOT - Dev by Alwyn974 | Obama Edition by HerrPhoenix");
         this.setMinimumSize(new Dimension(800, 350));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
