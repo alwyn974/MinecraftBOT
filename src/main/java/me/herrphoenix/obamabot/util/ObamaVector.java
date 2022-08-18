@@ -3,25 +3,25 @@ package me.herrphoenix.obamabot.util;
 /**
  * @author HerrPhoenix
  */
-public class Vector {
+public class ObamaVector {
     private double x, y, z;
 
-    public Vector(double x, double y, double z) {
+    public ObamaVector(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector multiply(double factor) {
-        return new Vector(x * factor, y * factor, z * factor);
+    public ObamaVector multiply(double factor) {
+        return new ObamaVector(x * factor, y * factor, z * factor);
     }
 
-    public Vector add(Vector vec) {
-        return new Vector(x + vec.getX(), y + vec.getY(), z + vec.getZ());
+    public ObamaVector add(ObamaVector vec) {
+        return new ObamaVector(x + vec.getX(), y + vec.getY(), z + vec.getZ());
     }
 
-    public Vector subtract(Vector vec) {
-        return new Vector(x - vec.getX(), y - vec.getY(), z - vec.getZ());
+    public ObamaVector subtract(ObamaVector vec) {
+        return new ObamaVector(x - vec.getX(), y - vec.getY(), z - vec.getZ());
     }
 
     public void setX(double x) {
