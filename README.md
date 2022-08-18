@@ -1,8 +1,6 @@
 # MinecraftBOT
 
-## Description
-
-Minecraft bot. Currently, used for afk on a Survival Server 😅
+Original Project link: http://github.com/alwyn974/MinecraftBOT
 
 ## Features
 
@@ -29,7 +27,7 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 
 ## Downloads
 
-https://github.com/alwyn974/MinecraftBOT/releases
+https://github.com/phoenixDudeO/ObamaBOT/releases
 
 ## Images
 
