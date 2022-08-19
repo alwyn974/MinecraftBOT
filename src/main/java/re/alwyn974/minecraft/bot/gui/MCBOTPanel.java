@@ -108,20 +108,21 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         logArea.setLineWrap(true);
         jScrollPane.getViewport().setView(logArea);
 
-        JScrollPane obamaScrollPane = new JScrollPane();
+        /*JScrollPane obamaScrollPane = new JScrollPane();
         obamaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         obamaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         obamaLogArea.setEditable(false);
         obamaLogArea.setAutoscrolls(false);
         obamaLogArea.setLineWrap(false);
-        obamaScrollPane.getViewport().setView(obamaLogArea);
+        obamaScrollPane.getViewport().setView(obamaLogArea);*/
 
         LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea, MinecraftBOT.getLogger()));
-        LoggerFactory.addSharedHandler(new JTextAreaLogHandler(obamaLogArea, ObamaBOT.getLogger()));
+        //LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea, ObamaBOT.getLogger()));
+        //LoggerFactory.addSharedHandler(new JTextAreaLogHandler(obamaLogArea, ObamaBOT.getLogger()));
 
         this.add(jScrollPane, BorderLayout.CENTER);
-        this.add(obamaScrollPane, BorderLayout.CENTER);
+        //this.add(obamaScrollPane, BorderLayout.LINE_END);
     }
 
     private void addBottomPanel() {
