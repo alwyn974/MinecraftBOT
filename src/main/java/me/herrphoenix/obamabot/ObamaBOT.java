@@ -3,15 +3,11 @@ package me.herrphoenix.obamabot;
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
 import me.herrphoenix.obamabot.cmd.builder.ICommandObama;
+import me.herrphoenix.obamabot.plot.ObamaPlot;
 import me.herrphoenix.obamabot.registry.ObamaRegistry;
 import org.reflections.Reflections;
 import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.logger.LoggerFactory;
-import re.alwyn974.minecraft.bot.MinecraftBOT;
-import re.alwyn974.minecraft.bot.builder.CommandBuilderException;
-import re.alwyn974.minecraft.bot.cmd.InitSimpleCommand;
-import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
-import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 
 import java.util.Set;
@@ -22,14 +18,19 @@ import java.util.TimerTask;
  * @author HerrPhoenix
  */
 public class ObamaBOT {
-    private final EntityBOT bot;
+    private static EntityBOT bot;
 
     public ObamaBOT(EntityBOT bot) {
-        this.bot = bot;
-        ObamaRegistry.getRegistry().load();
+        ObamaBOT.bot = bot;
+
+        ObamaRegistry.getRegistry().loadLifetimes();
+        ObamaRegistry.getRegistry().loadPoints();
+
         ObamaCommandHandler.setClient(bot);
 
         registerCommands();
+
+        ObamaPlot.getInstance().startCounting();
     }
 
     private static final BasicLogger LOGGER = LoggerFactory.getLogger("ObamaBOT");
@@ -42,6 +43,7 @@ public class ObamaBOT {
         enable = !enable;
     }
     public static final String PLOT_ENTER = "entered your plot (-6850;-249999)";
+    public static final String PLOT_LEAVE = "left your plot (-6850;-249999)";
 
     public static void registerCommands() {
         Reflections reflections = new Reflections("me.herrphoenix.obamabot.cmd.impl.");
@@ -56,15 +58,10 @@ public class ObamaBOT {
         });
     }
 
-    private static final long CHAT_COOLDOWN = 1500;
+    private static final long CHAT_COOLDOWN = 1500L;
 
-    public void handlePlayer(String ign) {
-        if (ObamaRegistry.getRegistry().hasLifetime(ign)) {
-            chat("Hello, " + ign + ". Enjoy your stay at Obama's!");
-            return;
-        }
-        if (ObamaRegistry.getRegistry().hasHourly(ign)) {
-            chat("Hello, " + ign + ". Remember to renew your payment at " + ObamaRegistry.getRegistry().getExpire(ign));
+    public static void handlePlayerJoin(String ign) {
+        if (ObamaRegistry.getRegistry().hasLifetime(ign) || ObamaRegistry.getRegistry().hasHourly(ign)) {
             return;
         }
 
@@ -79,7 +76,7 @@ public class ObamaBOT {
             Thread.sleep(CHAT_COOLDOWN);
             chat("Payment goes to TheORS, use /pay TheORS <amount>");
             Thread.sleep(CHAT_COOLDOWN);
-            chat("You have 1 minute and 30 seconds, if you do not pay in this amount of time, you will be kicked");
+            chat("You have 1 minute and 30 seconds, if you do not pay in this amount of time, you will be denied");
             Thread.sleep(CHAT_COOLDOWN);
             chat("This is the first of 2 chances we give you.");
 
@@ -87,14 +84,16 @@ public class ObamaBOT {
                 @Override
                 public void run() {
                     try {
-                        chat("1 minute and 30 seconds have passed.");
-                        Thread.sleep(CHAT_COOLDOWN);
-                        chat("You will be kicked from Obama's.");
-                        Thread.sleep(CHAT_COOLDOWN);
-                        chat("You are free to return, but if you refuse to pay tax again, you will be denied.");
-                        Thread.sleep(CHAT_COOLDOWN);
-                        chat("/p kick " + ign);
-                        Thread.sleep(CHAT_COOLDOWN);
+                        if (ObamaPlot.getInstance().isInPlot(ign)) {
+                            chat(ign + ", 1 minute and 30 seconds have passed.");
+                            Thread.sleep(CHAT_COOLDOWN);
+                            chat("You will be denied from Obama's.");
+                            Thread.sleep(CHAT_COOLDOWN);
+                            Thread.sleep(CHAT_COOLDOWN);
+                            chat("/p kick " + ign);
+                            Thread.sleep(CHAT_COOLDOWN);
+                        }
+                        chat("/p deny " + ign);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -105,7 +104,7 @@ public class ObamaBOT {
         }
     }
 
-    public void chat(String message) {
+    public static void chat(String message) {
         bot.getClient().send(new ServerboundChatPacket(message));
     }
 
