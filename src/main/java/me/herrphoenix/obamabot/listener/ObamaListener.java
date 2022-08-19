@@ -6,6 +6,7 @@ import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.packet.Packet;
 import me.herrphoenix.obamabot.ObamaBOT;
 import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
+import me.herrphoenix.obamabot.plot.ObamaPlot;
 import me.herrphoenix.obamabot.registry.ObamaRegistry;
 import re.alwyn974.minecraft.bot.builder.CommandBuilder;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
@@ -45,8 +46,21 @@ public class ObamaListener extends MCBOTSessionAdapter {
                 //System.out.println("invalid");
                 return;
             }
+
             String[] msg = translatedMessage.split(" ► ");
             if (msg.length < 2) return;
+
+            String ign = msg[1].split(" ")[0];
+
+            if (translatedMessage.endsWith(ObamaBOT.PLOT_ENTER)) {
+                ObamaPlot.getInstance().onPlayerJoin(ign);
+                return;
+            }
+
+            if (translatedMessage.endsWith(ObamaBOT.PLOT_LEAVE)) {
+                ObamaPlot.getInstance().onPlayerLeave(ign);
+                return;
+            }
 
             String command = msg[1];
             if (!command.startsWith(".")) return;
