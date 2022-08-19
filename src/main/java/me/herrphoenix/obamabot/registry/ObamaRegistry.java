@@ -12,15 +12,12 @@ import java.util.*;
 public class ObamaRegistry {
     private static ObamaRegistry registry;
 
-    private final File saveFile = new File("C:\\Users\\herrp\\Desktop\\Obama", "save.txt");
+    private final File lifetimesFile = new File("C:\\Users\\herrp\\Desktop\\Obama", "lifetimes.txt");
+    private final File pointsFile = new File("C:\\Users\\herrp\\Desktop\\Obama", "points.txt");
 
-    private final Map<String, Thread> pendingPayments = new HashMap<>();
     private final List<String> lifetimes = new ArrayList<>();
+    private final Map<String, Integer> points = new HashMap<>();
     private final Map<String, String> expires = new HashMap<>();
-
-    public boolean hasPending(String ign) {
-        return pendingPayments.containsKey(ign);
-    }
 
     public boolean hasLifetime(String ign) {
         return lifetimes.contains(ign);
@@ -34,6 +31,34 @@ public class ObamaRegistry {
         return expires.get(ign);
     }
 
+    public Map<String, Integer> getPoints() {
+        return points;
+    }
+
+    public int getPoints(String ign) {
+        return points.getOrDefault(ign, 0);
+    }
+
+    public void addPoints(String ign, int amount) {
+        int p = getPoints(ign);
+        points.remove(ign);
+        points.put(ign, p + amount);
+        savePoints();
+    }
+
+    public void setPoints(String ign, int amount) {
+        points.remove(ign);
+        points.put(ign, amount);
+        savePoints();
+    }
+
+    public void removePoints(String ign, int amount) {
+        int p = getPoints(ign);
+        points.remove(ign);
+        points.put(ign, p - amount);
+        savePoints();
+    }
+
     public void addExpire(String ign, String time) {
         expires.put(ign, time);
     }
@@ -44,22 +69,12 @@ public class ObamaRegistry {
 
     public void addLifetime(String ign) {
         lifetimes.add(ign);
-        save();
-
+        saveLifetimes();
     }
 
     public void removeLifetime(String ign) {
         lifetimes.remove(ign);
-        save();
-
-    }
-
-    public void addPending(String ign, Thread thread) {
-        pendingPayments.put(ign, thread);
-    }
-
-    public void removePending(String ign) {
-        pendingPayments.remove(ign);
+        saveLifetimes();
     }
 
     public static ObamaRegistry getRegistry() {
@@ -67,9 +82,24 @@ public class ObamaRegistry {
         return registry;
     }
 
-    public void save() {
+    public void savePoints() {
         try {
-            FileWriter writer = new FileWriter(saveFile);
+            FileWriter writer = new FileWriter(pointsFile);
+
+            for (String str : points.keySet()) {
+                writer.write(str + ":" + points.get(str));
+                writer.write("\n");
+            }
+
+            writer.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveLifetimes() {
+        try {
+            FileWriter writer = new FileWriter(lifetimesFile);
 
             for (String str : lifetimes) {
                 writer.write(str);
@@ -82,9 +112,28 @@ public class ObamaRegistry {
         }
     }
 
-    public void load() {
+    public void loadPoints() {
         try {
-            Scanner reader = new Scanner(saveFile);
+            Scanner reader = new Scanner(pointsFile);
+
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine();
+
+                String ign = data.split(":")[0];
+                int points = Integer.parseInt(data.split(":")[1]);
+
+                setPoints(ign, points);
+            }
+
+            reader.close();
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadLifetimes() {
+        try {
+            Scanner reader = new Scanner(lifetimesFile);
 
             while (reader.hasNextLine()) {
                 String data = reader.nextLine();
