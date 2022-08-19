@@ -1,8 +1,8 @@
 package me.herrphoenix.obamabot.cmd.impl;
 
+import me.herrphoenix.obamabot.ObamaBOT;
 import me.herrphoenix.obamabot.cmd.builder.ICommandObama;
 import me.herrphoenix.obamabot.registry.ObamaRegistry;
-import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.cmd.utils.IExecutor;
 
 /**
@@ -27,11 +27,17 @@ public class CommandExempt implements ICommandObama {
     @Override
     public IExecutor executor() {
         return (bot, message, args) -> {
-            /*bot.getObama().chat(message);
-            bot.getObama().chat(args[0]);*/
+            if (args == null || args.length == 0 || args[0] == null) return;
+
             String ign = args[0];
+
+            if (ObamaRegistry.getRegistry().hasLifetime(ign)) {
+                ObamaBOT.chat(ign + " is already added to this category");
+                return;
+            }
+
             ObamaRegistry.getRegistry().addLifetime(ign);
-            bot.getObama().chat(ign + " will not be taxed");
+            ObamaBOT.chat(ign + " will not be taxed");
         };
     }
 }
