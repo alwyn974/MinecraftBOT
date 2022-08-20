@@ -1,21 +1,15 @@
 package me.herrphoenix.obamabot.listener;
 
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.packet.Packet;
 import me.herrphoenix.obamabot.ObamaBOT;
 import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
 import me.herrphoenix.obamabot.plot.ObamaPlot;
-import me.herrphoenix.obamabot.registry.ObamaRegistry;
-import re.alwyn974.minecraft.bot.builder.CommandBuilder;
+import me.herrphoenix.obamabot.utils.Utils;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
-import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 import re.alwyn974.minecraft.bot.entity.MCBOTSessionAdapter;
-
-import javax.swing.*;
-
 
 /**
  * @author HerrPhoenix
@@ -51,6 +45,20 @@ public class ObamaListener extends MCBOTSessionAdapter {
             if (msg.length < 2) return;
 
             String ign = msg[1].split(" ")[0];
+
+            //some1 paid holy shit omg this is happening stay calm
+            if (translatedMessage.startsWith("$")) {
+                String[] str = translatedMessage.split(" ");
+
+                String player = str[str.length -1].replace(".", "");
+
+                if (!Utils.isOnline(player) && player.contains("~")) player = player.replace("~", "");
+
+                int amount = Integer.parseInt(str[0].replace("$", ""));
+
+                ObamaPlot.getInstance().onPlayerPayment(player, amount);
+                return;
+            }
 
             if (translatedMessage.endsWith(ObamaBOT.PLOT_ENTER)) {
                 ObamaPlot.getInstance().onPlayerJoin(ign);

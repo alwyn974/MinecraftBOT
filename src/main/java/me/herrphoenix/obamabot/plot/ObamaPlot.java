@@ -1,12 +1,13 @@
 package me.herrphoenix.obamabot.plot;
 
+import com.github.steveice10.mc.auth.data.GameProfile;
+import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
 import me.herrphoenix.obamabot.ObamaBOT;
 import me.herrphoenix.obamabot.registry.ObamaRegistry;
+import me.herrphoenix.obamabot.utils.Utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.time.Instant;
+import java.util.*;
 
 /**
  * @author HerrPhoenix
@@ -15,34 +16,46 @@ public class ObamaPlot {
     private static ObamaPlot instance;
 
     private final Map<String, Long> players = new HashMap<>();
+    private final List<String> toDeny = new ArrayList<>();
 
     public void startCounting() {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                for (String player : players.keySet()) {
+                try {
+                    for (String tax : ObamaRegistry.getRegistry().getHourlyTaxPlayers()) {
+                        if (ObamaPlot.getInstance().isInPlot(tax)) {
+                            ObamaBOT.chat("/msg " + tax + " Hey, your hourly tax has expired so you should pay us another 50$ with /pay TheORS 50");
+                            Thread.sleep(ObamaBOT.CHAT_COOLDOWN);
+                            ObamaBOT.chat("/msg " + tax + " If you do not pay in 1 minute, you will be denied.");
+                        }
+                        ObamaRegistry.getRegistry().removeExpire(tax);
+                        toDeny.add(tax);
+                    }
 
-                    /*players.remove(player);
-                    players.put(player, time);
-                    if (getTime(player) > 60000 && getTime(player) % 60000 == 0) ObamaRegistry.getRegistry().addPoints(player, 10);*/
+                    for (String deny : toDeny) {
+                        if (ObamaPlot.getInstance().isInPlot(deny)) {
+                            ObamaBOT.chat("/msg " + deny + " You have not renewed your hourly tax, therefore you will be denied.");
+                            Thread.sleep(ObamaBOT.CHAT_COOLDOWN);
+                        }
+                        ObamaBOT.chat("/p deny " + deny);
+                    }
 
-                    addTime(player, 60 * 1000);
-                    ObamaRegistry.getRegistry().addPoints(player, 10);
+                    toDeny.clear();
+
+                    for (String player : players.keySet()) {
+                        if (Utils.isOnline(player)) {
+                            addTime(player, 60 * 1000);
+                            ObamaRegistry.getRegistry().addPoints(player, 10);
+                        } else {
+                            onPlayerLeave(player);
+                        }
+                    }
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }, 60 * 1000, 60 * 1000);
-
-        /*while(count) {
-            long lastTime = System.currentTimeMillis();
-
-            for (String player : players.keySet()) {
-                long time = getTime(player);
-
-                players.remove(player);
-                players.put(player, time + (System.currentTimeMillis() - lastTime));
-                if (getTime(player) > 60000 && getTime(player) % 60000 == 0) ObamaRegistry.getRegistry().addPoints(player, 10);
-            }
-        }*/
     }
 
     public void addTime(String player, long time) {
@@ -85,5 +98,39 @@ public class ObamaPlot {
 
     public void onPlayerLeave(String player) {
         removePlayer(player);
+    }
+
+    public void onPlayerPayment(String player, int amount) {
+        if (ObamaRegistry.getRegistry().hasPendingPayment(player) || toDeny.contains(player)) {
+            if (amount < 50) {
+                ObamaBOT.chat("/pay "+ player + amount);
+                return;
+            }
+
+            ObamaBOT.chat("/msg HerrPhoenix " + player);
+            ObamaBOT.chat("/pay HerrPhoenix " + amount);
+
+            ObamaRegistry.getRegistry().removePending(player);
+            toDeny.remove(player);
+
+            if (amount == 50) {
+                String date = Utils.serializeDate(Date.from(Instant.now()));
+                ObamaRegistry.getRegistry().addExpire(player, date);
+                ObamaBOT.chat("Thank you, " + player + " for paying your tax! It will expire on " + date + ".");
+                ObamaBOT.chat("Keep in mind that this is Server Time, that you can check by pressing tab.");
+            } else if (amount == 500) {
+                ObamaRegistry.getRegistry().addLifetime(player);
+                ObamaBOT.chat("Thank you, " + player + " for paying lifetime!");
+            }
+
+            return;
+        }
+        if (ObamaRegistry.getRegistry().hasHourly(player) && (amount == 500 || amount == 450)) {
+            ObamaRegistry.getRegistry().removeExpire(player);
+            ObamaRegistry.getRegistry().addLifetime(player);
+            ObamaBOT.chat("Thank you, " + player + " for paying lifetime!");
+
+            return;
+        }
     }
 }
