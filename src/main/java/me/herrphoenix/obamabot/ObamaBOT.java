@@ -33,6 +33,10 @@ public class ObamaBOT {
         ObamaPlot.getInstance().startCounting();
     }
 
+    public static EntityBOT getBot() {
+        return bot;
+    }
+
     private static final BasicLogger LOGGER = LoggerFactory.getLogger("ObamaBOT");
     private static boolean enable = false;
     public static String getPrefix() { return "."; }
@@ -58,7 +62,7 @@ public class ObamaBOT {
         });
     }
 
-    private static final long CHAT_COOLDOWN = 1500L;
+    public static final long CHAT_COOLDOWN = 1500L;
 
     public static void handlePlayerJoin(String ign) {
         if (ObamaRegistry.getRegistry().hasLifetime(ign) || ObamaRegistry.getRegistry().hasHourly(ign)) {
@@ -78,22 +82,25 @@ public class ObamaBOT {
             Thread.sleep(CHAT_COOLDOWN);
             chat("You have 1 minute and 30 seconds, if you do not pay in this amount of time, you will be denied");
             Thread.sleep(CHAT_COOLDOWN);
-            chat("This is the first of 2 chances we give you.");
+
+            ObamaRegistry.getRegistry().addPending(ign);
 
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     try {
+                        if (ObamaRegistry.getRegistry().hasLifetime(ign) || ObamaRegistry.getRegistry().hasHourly(ign)) return;
                         if (ObamaPlot.getInstance().isInPlot(ign)) {
                             chat(ign + ", 1 minute and 30 seconds have passed.");
                             Thread.sleep(CHAT_COOLDOWN);
                             chat("You will be denied from Obama's.");
                             Thread.sleep(CHAT_COOLDOWN);
-                            Thread.sleep(CHAT_COOLDOWN);
                             chat("/p kick " + ign);
                             Thread.sleep(CHAT_COOLDOWN);
                         }
                         chat("/p deny " + ign);
+
+                        ObamaRegistry.getRegistry().removePending(ign);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

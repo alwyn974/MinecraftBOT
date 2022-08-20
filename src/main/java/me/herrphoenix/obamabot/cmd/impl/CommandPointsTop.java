@@ -65,7 +65,7 @@ public class CommandPointsTop implements ICommandObama {
                 ObamaBOT.chat(str);
 
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(ObamaBOT.CHAT_COOLDOWN);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
