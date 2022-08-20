@@ -66,6 +66,10 @@ public class ObamaCommandHandler extends CommandHandler {
         return null;
     }
 
+    public static List<ICommandObama> getObamaCommands() {
+        return COMMANDS_LIST;
+    }
+
     public static EntityBOT getClient() {
         return client;
     }
