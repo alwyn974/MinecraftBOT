@@ -24,13 +24,17 @@ public class ObamaPlot {
             public void run() {
                 try {
                     for (String tax : ObamaRegistry.getRegistry().getHourlyTaxPlayers()) {
-                        if (ObamaPlot.getInstance().isInPlot(tax)) {
-                            ObamaBOT.chat("/msg " + tax + " Hey, your hourly tax has expired so you should pay us another 50$ with /pay TheORS 50");
-                            Thread.sleep(ObamaBOT.CHAT_COOLDOWN);
-                            ObamaBOT.chat("/msg " + tax + " If you do not pay in 1 minute, you will be denied.");
+                        Date expire = Utils.deserializeDate(ObamaRegistry.getRegistry().getExpire(tax));
+
+                        if (Utils.compareCurrentTimeTo(expire)) {
+                            if (ObamaPlot.getInstance().isInPlot(tax)) {
+                                ObamaBOT.chat("/msg " + tax + " Hey, your hourly tax has expired so you should pay us another 50$ with /pay TheORS 50");
+                                Thread.sleep(ObamaBOT.CHAT_COOLDOWN);
+                                ObamaBOT.chat("/msg " + tax + " If you do not pay in 1 minute, you will be denied.");
+                            }
+                            ObamaRegistry.getRegistry().removeExpire(tax);
+                            toDeny.add(tax);
                         }
-                        ObamaRegistry.getRegistry().removeExpire(tax);
-                        toDeny.add(tax);
                     }
 
                     for (String deny : toDeny) {
