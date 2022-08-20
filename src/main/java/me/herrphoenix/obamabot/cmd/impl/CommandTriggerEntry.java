@@ -42,4 +42,9 @@ public class CommandTriggerEntry implements ICommandObama {
             }, 5000);
         };
     }
+
+    @Override
+    public boolean isAdminCommand() {
+        return true;
+    }
 }

@@ -52,4 +52,9 @@ public class CommandPoints implements ICommandObama {
             ObamaBOT.chat(ign + " currently has " + ObamaRegistry.getRegistry().getPoints(ign) + " points");
         };
     }
+
+    @Override
+    public boolean isAdminCommand() {
+        return false;
+    }
 }

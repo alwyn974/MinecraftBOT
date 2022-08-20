@@ -43,4 +43,9 @@ public class CommandCheck implements ICommandObama {
             ObamaBOT.chat(ign + " has not paid anything.");
         };
     }
+
+    @Override
+    public boolean isAdminCommand() {
+        return true;
+    }
 }

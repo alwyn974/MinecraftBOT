@@ -14,4 +14,6 @@ public interface ICommandObama extends ICommand {
 
     @Override
     default boolean needToBeConnected() { return false; }
+
+    boolean isAdminCommand();
 }

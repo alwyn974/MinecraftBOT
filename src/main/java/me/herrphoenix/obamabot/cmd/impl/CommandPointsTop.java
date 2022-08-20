@@ -72,4 +72,9 @@ public class CommandPointsTop implements ICommandObama {
             }
         });
     }
+
+    @Override
+    public boolean isAdminCommand() {
+        return true;
+    }
 }

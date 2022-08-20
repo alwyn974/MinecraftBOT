@@ -40,4 +40,9 @@ public class CommandExempt implements ICommandObama {
             ObamaBOT.chat(ign + " will not be taxed");
         };
     }
+
+    @Override
+    public boolean isAdminCommand() {
+        return true;
+    }
 }
