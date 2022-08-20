@@ -1,9 +1,11 @@
 package me.herrphoenix.obamabot.utils;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import com.github.steveice10.mc.auth.data.GameProfile;
+import com.github.steveice10.mc.protocol.data.game.PlayerListEntry;
+import me.herrphoenix.obamabot.ObamaBOT;
+
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,5 +30,37 @@ public class Utils {
                 : o2.getValue().compareTo(o1.getValue()));
         return list.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
 
+    }
+
+    public static String serializeDate(Date date) {
+        StringBuilder bobTheBuilder = new StringBuilder();
+        bobTheBuilder
+                .append(date.getHours() - 2) //subtract 2 to sync with creative server time
+                .append(":")
+                .append(date.getMinutes())
+                .append(":")
+                .append(date.getSeconds());
+
+        return bobTheBuilder.toString();
+    }
+
+    public static Date deserializeDate(String str) {
+        Date date = Date.from(Instant.now());
+
+        String[] array = str.split(":");
+        date.setHours(Integer.parseInt(array[0]));
+        date.setMinutes(Integer.parseInt(array[1]));
+        date.setSeconds(Integer.parseInt(array[2]));
+
+        return date;
+    }
+
+    public static boolean compareCurrentTimeTo(Date date) {
+        Date now = Date.from(Instant.now());
+        return (now.getHours() - 2) == date.getHours() && now.getMinutes() == date.getMinutes();
+    }
+
+    public static boolean isOnline(String player) {
+        return ObamaBOT.getBot().getPlayers().contains(new PlayerListEntry(new GameProfile(UUID.randomUUID(), player)));
     }
 }
