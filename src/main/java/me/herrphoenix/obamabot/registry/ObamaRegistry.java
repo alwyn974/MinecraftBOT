@@ -18,9 +18,14 @@ public class ObamaRegistry {
     private final List<String> lifetimes = new ArrayList<>();
     private final Map<String, Integer> points = new HashMap<>();
     private final Map<String, String> expires = new HashMap<>();
+    private final List<String> pending = new ArrayList<>();
 
     public boolean hasLifetime(String ign) {
         return lifetimes.contains(ign);
+    }
+
+    public boolean hasPendingPayment(String ign) {
+        return pending.contains(ign);
     }
 
     public boolean hasHourly(String ign) {
@@ -75,6 +80,18 @@ public class ObamaRegistry {
     public void removeLifetime(String ign) {
         lifetimes.remove(ign);
         saveLifetimes();
+    }
+
+    public void addPending(String ign) {
+        pending.add(ign);
+    }
+
+    public void removePending(String ign) {
+        pending.remove(ign);
+    }
+
+    public Set<String> getHourlyTaxPlayers() {
+        return expires.keySet();
     }
 
     public static ObamaRegistry getRegistry() {
