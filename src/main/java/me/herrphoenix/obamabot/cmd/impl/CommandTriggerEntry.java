@@ -18,7 +18,7 @@ public class CommandTriggerEntry implements ICommandObama {
 
     @Override
     public String getDescription() {
-        return "debug command to test plot entrance";
+        return "debug command";
     }
 
     @Override

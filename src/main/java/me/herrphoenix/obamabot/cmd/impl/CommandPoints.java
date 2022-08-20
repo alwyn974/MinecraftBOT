@@ -16,7 +16,7 @@ public class CommandPoints implements ICommandObama {
 
     @Override
     public String getDescription() {
-        return "check the points of a player";
+        return "check player's points";
     }
 
     @Override
