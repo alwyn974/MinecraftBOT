@@ -37,7 +37,11 @@ public class ObamaCommandHandler extends CommandHandler {
             ObamaBOT.getLogger().error("Duplicated command %s", cmd.getName());
     }
 
-    public boolean execute(EntityBOT bot, String message) {
+    public boolean execute(EntityBOT bot, String message, String player) {
+        for (String ignore : ObamaBOT.IGNORE) {
+            if (player.equalsIgnoreCase(ignore)) return false;
+        }
+
         final String[] args = message.split(" ");
 
         if (args[0].startsWith(getPrefix())) {
@@ -46,13 +50,25 @@ public class ObamaCommandHandler extends CommandHandler {
             final ICommandObama command = getCommand(cmd);
 
             if (command != null) {
-                final String[] cmdArgs = new String[args.length - 1];
+                boolean admin = false;
 
+                if (command.isAdminCommand()) {
+                    for (String executive : ObamaBOT.EXECUTIVES) {
+                        if (player.equalsIgnoreCase(executive)) admin = true;
+                    }
+                }
+
+                if (!admin) return false;
+
+                final String[] cmdArgs = new String[args.length - 1];
                 System.arraycopy(args, 1, cmdArgs, 0, cmdArgs.length);
-                if (command.needToBeConnected() && bot == null)
+
+                if (command.needToBeConnected() && bot == null) {
                     logger.error("You need to be connected to a server to do this !");
-                else
-                    command.executor().execute(bot, message, cmdArgs);
+                    return false;
+                }
+
+                command.executor().execute(bot, message, cmdArgs);
                 return true;
             } else if (!cmd.isEmpty())
                 logger.error("Command doesn't exist [%s]", cmd);
