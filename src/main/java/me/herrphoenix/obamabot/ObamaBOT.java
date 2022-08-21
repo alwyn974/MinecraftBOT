@@ -48,6 +48,8 @@ public class ObamaBOT {
     }
     public static final String PLOT_ENTER = "entered your plot (-6850;-249999)";
     public static final String PLOT_LEAVE = "left your plot (-6850;-249999)";
+    public static final String[] EXECUTIVES = {"HerrPhoenix", "Rommel", "Betise", "YaBoiBet", "Betise", "naranbaatr", "naranbaatar"};
+    public static final String[] IGNORE = {"UpperGround", "JesusKun", "TurboMaxe", "turbuu", "turbo", "turbu", "Dmitri"};
 
     public static void registerCommands() {
         Reflections reflections = new Reflections("me.herrphoenix.obamabot.cmd.impl.");
