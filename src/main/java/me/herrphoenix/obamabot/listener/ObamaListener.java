@@ -36,18 +36,10 @@ public class ObamaListener extends MCBOTSessionAdapter {
             ClientboundChatPacket chatPacket = (ClientboundChatPacket) packet;
             String translatedMessage = TranslateChat.translateComponent(chatPacket.getMessage());
 
-            if (translatedMessage.startsWith("►") || !translatedMessage.contains("►")) {
-                //System.out.println("invalid");
-                return;
-            }
-
-            String[] msg = translatedMessage.split(" ► ");
-            if (msg.length < 2) return;
-
-            String ign = msg[1].split(" ")[0];
-
             //some1 paid holy shit omg this is happening stay calm
             if (translatedMessage.startsWith("$")) {
+                System.out.println("money");
+
                 String[] str = translatedMessage.split(" ");
 
                 String player = str[str.length -1].replace(".", "");
@@ -59,6 +51,16 @@ public class ObamaListener extends MCBOTSessionAdapter {
                 ObamaPlot.getInstance().onPlayerPayment(player, amount);
                 return;
             }
+
+            if (translatedMessage.startsWith("►") || !translatedMessage.contains("►")) {
+                //System.out.println("invalid");
+                return;
+            }
+
+            String[] msg = translatedMessage.split(" ► ");
+            if (msg.length < 2) return;
+
+            String ign = msg[1].split(" ")[0];
 
             if (translatedMessage.endsWith(ObamaBOT.PLOT_ENTER)) {
                 ObamaPlot.getInstance().onPlayerJoin(ign);
@@ -73,7 +75,8 @@ public class ObamaListener extends MCBOTSessionAdapter {
             String command = msg[1];
             if (!command.startsWith(".")) return;
 
-            new ObamaCommandHandler(ObamaBOT.getLogger()).execute(bot, command);
+            String sender = msg[0].split(" ")[msg[0].split(" ").length - 1].replace("~", "");
+            new ObamaCommandHandler(ObamaBOT.getLogger()).execute(bot, command, sender);
         }
     }
 }
