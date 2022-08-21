@@ -64,7 +64,7 @@ public class ObamaBOT {
         });
     }
 
-    public static final long CHAT_COOLDOWN = 1500L;
+    public static final long CHAT_COOLDOWN = 2500L;
 
     public static void handlePlayerJoin(String ign) {
         if (ObamaRegistry.getRegistry().hasLifetime(ign) || ObamaRegistry.getRegistry().hasHourly(ign)) {
