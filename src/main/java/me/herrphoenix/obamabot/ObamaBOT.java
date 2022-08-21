@@ -84,6 +84,7 @@ public class ObamaBOT {
             Thread.sleep(CHAT_COOLDOWN);
             chat("You have 1 minute and 30 seconds, if you do not pay in this amount of time, you will be denied");
             Thread.sleep(CHAT_COOLDOWN);
+            chat("If you do not wish to pay, please leave.");
 
             ObamaRegistry.getRegistry().addPending(ign);
 
@@ -92,6 +93,7 @@ public class ObamaBOT {
                 public void run() {
                     try {
                         if (ObamaRegistry.getRegistry().hasLifetime(ign) || ObamaRegistry.getRegistry().hasHourly(ign)) return;
+
                         if (ObamaPlot.getInstance().isInPlot(ign)) {
                             chat(ign + ", 1 minute and 30 seconds have passed.");
                             Thread.sleep(CHAT_COOLDOWN);
@@ -99,8 +101,8 @@ public class ObamaBOT {
                             Thread.sleep(CHAT_COOLDOWN);
                             chat("/p kick " + ign);
                             Thread.sleep(CHAT_COOLDOWN);
+                            chat("/p deny " + ign);
                         }
-                        chat("/p deny " + ign);
 
                         ObamaRegistry.getRegistry().removePending(ign);
                     } catch (InterruptedException e) {
