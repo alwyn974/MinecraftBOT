@@ -40,12 +40,10 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JButton disconnectButton = new JButton("Disconnect");
     private final JButton statusButton = new JButton("Status");
     private final JButton clearButton = new JButton("Clear");
-    private final JCheckBox obamaBox = new JCheckBox("Obama Mode", ObamaBOT.isEnabled());
     private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(MinecraftBOT.getDebug()));
     private final JCheckBox autoReconnectBox = new JCheckBox("Auto Reconnect", Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
     private final JSpinner reconnectDelay = new JSpinner();
     private final JTextArea logArea = new JTextArea();
-    private final JTextArea obamaLogArea = new JTextArea();
 
     private EntityBOT bot = null;
     private Thread botThread = null;
@@ -108,21 +106,9 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         logArea.setLineWrap(true);
         jScrollPane.getViewport().setView(logArea);
 
-        /*JScrollPane obamaScrollPane = new JScrollPane();
-        obamaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        obamaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        obamaLogArea.setEditable(false);
-        obamaLogArea.setAutoscrolls(false);
-        obamaLogArea.setLineWrap(false);
-        obamaScrollPane.getViewport().setView(obamaLogArea);*/
-
         LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea, MinecraftBOT.getLogger()));
-        //LoggerFactory.addSharedHandler(new JTextAreaLogHandler(logArea, ObamaBOT.getLogger()));
-        //LoggerFactory.addSharedHandler(new JTextAreaLogHandler(obamaLogArea, ObamaBOT.getLogger()));
 
         this.add(jScrollPane, BorderLayout.CENTER);
-        //this.add(obamaScrollPane, BorderLayout.LINE_END);
     }
 
     private void addBottomPanel() {
@@ -172,8 +158,6 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             MinecraftBOT.retrieveStatus(hostField.getText(), Integer.parseInt(portField.getText()), debugBox.isSelected());
         } else if (e.getSource() == clearButton) {
             logArea.setText("");
-        } else if (e.getSource() == obamaBox) {
-            ObamaBOT.toggleObama();
         }
     }
 

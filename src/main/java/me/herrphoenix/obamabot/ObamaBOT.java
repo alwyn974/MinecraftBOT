@@ -39,14 +39,7 @@ public class ObamaBOT {
     }
 
     private static final BasicLogger LOGGER = LoggerFactory.getLogger("ObamaBOT");
-    private static boolean enable = false;
     public static String getPrefix() { return "."; }
-    public static boolean isEnabled() {
-        return enable;
-    }
-    public static void toggleObama() {
-        enable = !enable;
-    }
     public static final String PLOT_ENTER = "entered your plot (-6850;-249999)";
     public static final String PLOT_LEAVE = "left your plot (-6850;-249999)";
     public static final String[] EXECUTIVES = {"HerrPhoenix", "Rommel", "Betise", "YaBoiBet", "Betise", "naranbaatr", "naranbaatar"};
