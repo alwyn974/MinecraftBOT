@@ -4,7 +4,7 @@ import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundCh
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.packet.Packet;
 import me.herrphoenix.obamabot.ObamaBOT;
-import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
+import me.herrphoenix.obamabot.cmd.utils.ObamaCommandHandler;
 import me.herrphoenix.obamabot.plot.ObamaPlot;
 import me.herrphoenix.obamabot.utils.Utils;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;

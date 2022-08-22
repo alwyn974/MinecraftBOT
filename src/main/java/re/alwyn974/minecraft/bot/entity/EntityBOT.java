@@ -14,7 +14,6 @@ import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import me.herrphoenix.obamabot.ObamaBOT;
-import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
 import me.herrphoenix.obamabot.listener.ObamaListener;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cli.ParseResult;
