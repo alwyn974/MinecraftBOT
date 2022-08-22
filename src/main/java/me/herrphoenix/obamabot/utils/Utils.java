@@ -35,7 +35,7 @@ public class Utils {
     public static String serializeDate(Date date) {
         StringBuilder bobTheBuilder = new StringBuilder();
         bobTheBuilder
-                .append(date.getHours() - 2) //subtract 2 to sync with creative server time
+                .append(subtractHours(date, 2)) //subtract 2 to sync with creative server time
                 .append(":")
                 .append(date.getMinutes())
                 .append(":")
@@ -57,7 +57,17 @@ public class Utils {
 
     public static boolean compareCurrentTimeTo(Date date) {
         Date now = Date.from(Instant.now());
-        return (now.getHours() - 2) == date.getHours() && now.getMinutes() == date.getMinutes();
+        return (subtractHours(now, 2) == date.getHours() && now.getMinutes() == date.getMinutes());
+    }
+
+    /**
+     * used to avoid getting negative hours
+     */
+    private static int subtractHours(Date date, int hours) {
+        int subtractedHour = date.getHours() - hours;
+        if (subtractedHour < 0) subtractedHour += 24;
+
+        return subtractedHour;
     }
 
     public static boolean isOnline(String player) {
