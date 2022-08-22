@@ -63,12 +63,14 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
         topTopPanel.add(new JLabel("Host: "));
         topTopPanel.add(hostField, BorderLayout.PAGE_START);
+        hostField.setText("jartex.fun");
 
         topTopPanel.add(new JLabel("Port: "));
         topTopPanel.add(portField, BorderLayout.PAGE_START);
 
         topTopPanel.add(new JLabel("Email/Username: "));
         topTopPanel.add(usernameField, BorderLayout.PAGE_START);
+        usernameField.setText("TheORS");
 
         topTopPanel.add(premiumBox, BorderLayout.PAGE_START);
 
@@ -76,7 +78,6 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         topBottomPanel.add(new JLabel("| (ms): "));
         reconnectDelay.setValue(Long.parseLong(MinecraftBOT.getReconnectDelay()));
         topBottomPanel.add(reconnectDelay);
-        topBottomPanel.add(obamaBox, BorderLayout.PAGE_START);
         topBottomPanel.add(debugBox, BorderLayout.PAGE_START);
 
         addButton(connectButton);
