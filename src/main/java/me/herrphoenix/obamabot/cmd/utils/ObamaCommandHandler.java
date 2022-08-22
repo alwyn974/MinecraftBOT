@@ -1,7 +1,7 @@
-package me.herrphoenix.obamabot.cmd;
+package me.herrphoenix.obamabot.cmd.utils;
 
 import me.herrphoenix.obamabot.ObamaBOT;
-import me.herrphoenix.obamabot.cmd.builder.ICommandObama;
+import me.herrphoenix.obamabot.cmd.utils.ICommandObama;
 import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
 import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
@@ -68,6 +68,11 @@ public class ObamaCommandHandler extends CommandHandler {
                     return false;
                 }
 
+                if (command instanceof ICommandObamaPlayer) {
+                    ((ICommandObamaPlayer) command).playerExecutor().playerExecutor(bot, player, message, cmdArgs);
+                    return true;
+                }
+
                 command.executor().execute(bot, message, cmdArgs);
                 return true;
             } else if (!cmd.isEmpty())
@@ -84,10 +89,6 @@ public class ObamaCommandHandler extends CommandHandler {
 
     public static List<ICommandObama> getObamaCommands() {
         return COMMANDS_LIST;
-    }
-
-    public static EntityBOT getClient() {
-        return client;
     }
 
     public static String getPrefix() {

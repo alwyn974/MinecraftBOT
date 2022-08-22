@@ -1,22 +1,24 @@
-package me.herrphoenix.obamabot.cmd.impl;
+package me.herrphoenix.obamabot.cmd;
 
 import me.herrphoenix.obamabot.ObamaBOT;
-import me.herrphoenix.obamabot.cmd.builder.ICommandObama;
-import me.herrphoenix.obamabot.registry.ObamaRegistry;
+import me.herrphoenix.obamabot.cmd.utils.ICommandObama;
 import re.alwyn974.minecraft.bot.cmd.utils.IExecutor;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author HerrPhoenix
  */
-public class CommandExempt implements ICommandObama {
+public class CommandTriggerEntry implements ICommandObama {
     @Override
     public String getName() {
-        return "exempt";
+        return "triggerEntry";
     }
 
     @Override
     public String getDescription() {
-        return "exempt a player from taxes";
+        return "debug command";
     }
 
     @Override
@@ -31,13 +33,13 @@ public class CommandExempt implements ICommandObama {
 
             String ign = args[0];
 
-            if (ObamaRegistry.getRegistry().hasLifetime(ign)) {
-                ObamaBOT.chat(ign + " is already added to this category");
-                return;
-            }
-
-            ObamaRegistry.getRegistry().addLifetime(ign);
-            ObamaBOT.chat(ign + " will not be taxed");
+            ObamaBOT.chat("Triggering plot entry for " + ign + " in 5 seconds.");
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    ObamaBOT.handlePlayerJoin(ign);
+                }
+            }, 5000);
         };
     }
 

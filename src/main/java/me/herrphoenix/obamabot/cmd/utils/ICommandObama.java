@@ -1,6 +1,5 @@
-package me.herrphoenix.obamabot.cmd.builder;
+package me.herrphoenix.obamabot.cmd.utils;
 
-import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
 import re.alwyn974.minecraft.bot.cmd.utils.ICommand;
 
 /**
