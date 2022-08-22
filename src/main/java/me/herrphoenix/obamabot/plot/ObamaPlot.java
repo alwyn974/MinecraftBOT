@@ -23,6 +23,13 @@ public class ObamaPlot {
             @Override
             public void run() {
                 try {
+                    if (ObamaBOT.isBegCooldown) ObamaBOT.lastBegTime += 60 * 1000;
+
+                    if (ObamaBOT.lastBegTime == ObamaBOT.BEG_COOLDOWN) {
+                        ObamaBOT.isBegCooldown = false;
+                        ObamaBOT.lastBegTime = 0L;
+                    }
+
                     for (String tax : ObamaRegistry.getRegistry().getHourlyTaxPlayers()) {
                         Date expire = Utils.deserializeDate(ObamaRegistry.getRegistry().getExpire(tax));
 

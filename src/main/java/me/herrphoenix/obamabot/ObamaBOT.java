@@ -1,8 +1,8 @@
 package me.herrphoenix.obamabot;
 
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
-import me.herrphoenix.obamabot.cmd.ObamaCommandHandler;
-import me.herrphoenix.obamabot.cmd.builder.ICommandObama;
+import me.herrphoenix.obamabot.cmd.utils.ObamaCommandHandler;
+import me.herrphoenix.obamabot.cmd.utils.ICommandObama;
 import me.herrphoenix.obamabot.plot.ObamaPlot;
 import me.herrphoenix.obamabot.registry.ObamaRegistry;
 import org.reflections.Reflections;
@@ -10,6 +10,7 @@ import re.alwyn974.logger.BasicLogger;
 import re.alwyn974.logger.LoggerFactory;
 import re.alwyn974.minecraft.bot.entity.EntityBOT;
 
+import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -64,7 +65,26 @@ public class ObamaBOT {
         });
     }
 
+    public static final long BEG_COOLDOWN = 3 * 60 * 1000;
     public static final long CHAT_COOLDOWN = 2500L;
+
+    public static long lastBegTime = 0L;
+    public static boolean isBegCooldown = false;
+
+    public static void handleBeg(String ign) {
+        if (isBegCooldown) {
+            chat("Sorry " + ign + ", that command can only be executed every 3 minutes (" + (BEG_COOLDOWN - lastBegTime) / 1000 + " minutes remaining.");
+            return;
+        }
+
+        Philanthropists philanthropist = Philanthropists.getRandom();
+
+        int points = philanthropist.generatePoints();
+        ObamaRegistry.getRegistry().addPoints(ign, points);
+
+        chat(ign + ", " + philanthropist.displayName + " decided to gift you " +
+                (points == 0 ? "no points." : points + " " + (points == 1 ? "point" : "points")));
+    }
 
     public static void handlePlayerJoin(String ign) {
         if (ObamaRegistry.getRegistry().hasLifetime(ign) || ObamaRegistry.getRegistry().hasHourly(ign)) {
@@ -121,5 +141,35 @@ public class ObamaBOT {
 
     public static BasicLogger getLogger() {
         return LOGGER;
+    }
+
+    private enum Philanthropists {
+        BOB_ROSS("Bob Ross", 50, 175),
+        OBAMA("Obama", 200, 300),
+        TRUMP("Trump", 0, 15),
+        JOE_BIDEN("Joe Biden", 30, 75),
+        RICARDO_MILOS("Ricardo Milos", 125, 200),
+        SHREK("Shrek", 150, 275),
+        HARAMBE("Harambe", 120, 160),
+        SHAGGY("Shaggy", 100, 225);
+
+        public final String displayName;
+        public final int minAmount;
+        public final int maxAmount;
+
+        Philanthropists(String displayName, int minAmount, int maxAmount) {
+            this.displayName = displayName;
+            this.minAmount = minAmount;
+            this.maxAmount = maxAmount;
+        }
+
+        public int generatePoints() {
+            return new Random().nextInt(maxAmount) + minAmount;
+        }
+
+        public static Philanthropists getRandom() {
+            int max = values().length - 1;
+            return values()[new Random().nextInt(max)];
+        }
     }
 }
