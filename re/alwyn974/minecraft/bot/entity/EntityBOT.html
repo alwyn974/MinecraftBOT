@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10};
+var methods = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -137,7 +137,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#EntityBOT-java.lang.String-int-java.net.Proxy-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-">EntityBOT</a></span>(java.lang.String&nbsp;host,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#EntityBOT-java.lang.String-int-java.net.Proxy-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-long-">EntityBOT</a></span>(java.lang.String&nbsp;host,
          int&nbsp;port,
          java.net.Proxy&nbsp;proxy,
          java.lang.String&nbsp;username,
@@ -146,12 +146,13 @@ extends java.lang.Object</pre>
          boolean&nbsp;autoReconnect,
          long&nbsp;reconnectDelay,
          java.lang.String&nbsp;langFile,
-         java.lang.String&nbsp;command)</code>
+         java.lang.String&nbsp;command,
+         long&nbsp;commandDelay)</code>
 <div class="block">Instantiate the EntityBOT</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#EntityBOT-java.lang.String-int-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-">EntityBOT</a></span>(java.lang.String&nbsp;host,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#EntityBOT-java.lang.String-int-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-long-">EntityBOT</a></span>(java.lang.String&nbsp;host,
          int&nbsp;port,
          java.lang.String&nbsp;username,
          boolean&nbsp;premium,
@@ -159,7 +160,8 @@ extends java.lang.Object</pre>
          boolean&nbsp;autoReconnect,
          long&nbsp;reconnectDelay,
          java.lang.String&nbsp;langFile,
-         java.lang.String&nbsp;command)</code>&nbsp;</td>
+         java.lang.String&nbsp;command,
+         long&nbsp;commandDelay)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -199,114 +201,120 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>long</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getCommandDelay--">getCommandDelay</a></span>()</code>
+<div class="block">Get the delay between command execution</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>com.github.steveice10.mc.protocol.data.game.setting.Difficulty</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getDifficulty--">getDifficulty</a></span>()</code>
 <div class="block">Get the difficulty</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getFood--">getFood</a></span>()</code>
 <div class="block">Get the food</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getHealth--">getHealth</a></span>()</code>
 <div class="block">Get the health</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getHost--">getHost</a></span>()</code>
 <div class="block">Get the host</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getLangFile--">getLangFile</a></span>()</code>
 <div class="block">Get the language file</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;com.github.steveice10.mc.protocol.data.game.PlayerListEntry&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getPlayers--">getPlayers</a></span>()</code>
 <div class="block">Get the players online</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.lang.Integer</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getPort--">getPort</a></span>()</code>
 <div class="block">Get the port</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityPos.html" title="class in re.alwyn974.minecraft.bot.entity">EntityPos</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getPos--">getPos</a></span>()</code>
 <div class="block">Get the position of the EntityBot</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>java.net.Proxy</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getProxy--">getProxy</a></span>()</code>
 <div class="block">Get the Proxy</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getReconnectDelay--">getReconnectDelay</a></span>()</code>
 <div class="block">Get reconnect delay</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#getUsername--">getUsername</a></span>()</code>
 <div class="block">Get the username</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#isAutoReconnect--">isAutoReconnect</a></span>()</code>
 <div class="block">Get if auto reconnect is activate</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#isDebug--">isDebug</a></span>()</code>
 <div class="block">Get if is in debug</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#isPremium--">isPremium</a></span>()</code>
 <div class="block">Check if the account is premium</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#setDifficulty-com.github.steveice10.mc.protocol.data.game.setting.Difficulty-">setDifficulty</a></span>(com.github.steveice10.mc.protocol.data.game.setting.Difficulty&nbsp;difficulty)</code>
 <div class="block">Set the difficulty</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#setFood-double-">setFood</a></span>(double&nbsp;food)</code>
 <div class="block">Set the food level</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#setHealth-double-">setHealth</a></span>(double&nbsp;health)</code>
 <div class="block">Set the health</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#setPlayers-java.util.List-">setPlayers</a></span>(java.util.List&lt;com.github.steveice10.mc.protocol.data.game.PlayerListEntry&gt;&nbsp;players)</code>
 <div class="block">Set the players list</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityBOT.html#setPos-re.alwyn974.minecraft.bot.entity.EntityPos-">setPos</a></span>(<a href="../../../../../re/alwyn974/minecraft/bot/entity/EntityPos.html" title="class in re.alwyn974.minecraft.bot.entity">EntityPos</a>&nbsp;pos)</code>
 <div class="block">Set the position</div>
@@ -334,7 +342,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="EntityBOT-java.lang.String-int-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-">
+<a name="EntityBOT-java.lang.String-int-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-long-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -348,7 +356,8 @@ extends java.lang.Object</pre>
                  boolean&nbsp;autoReconnect,
                  long&nbsp;reconnectDelay,
                  java.lang.String&nbsp;langFile,
-                 java.lang.String&nbsp;command)</pre>
+                 java.lang.String&nbsp;command,
+                 long&nbsp;commandDelay)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>host</code> - the minecraft server address</dd>
@@ -360,10 +369,11 @@ extends java.lang.Object</pre>
 <dd><code>reconnectDelay</code> - the delay between each reconnect</dd>
 <dd><code>langFile</code> - the language file</dd>
 <dd><code>command</code> - the command to execute</dd>
+<dd><code>commandDelay</code> - the delay between command execution</dd>
 </dl>
 </li>
 </ul>
-<a name="EntityBOT-java.lang.String-int-java.net.Proxy-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-">
+<a name="EntityBOT-java.lang.String-int-java.net.Proxy-java.lang.String-boolean-boolean-boolean-long-java.lang.String-java.lang.String-long-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -378,7 +388,8 @@ extends java.lang.Object</pre>
                  boolean&nbsp;autoReconnect,
                  long&nbsp;reconnectDelay,
                  java.lang.String&nbsp;langFile,
-                 java.lang.String&nbsp;command)</pre>
+                 java.lang.String&nbsp;command,
+                 long&nbsp;commandDelay)</pre>
 <div class="block">Instantiate the EntityBOT</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -392,6 +403,7 @@ extends java.lang.Object</pre>
 <dd><code>reconnectDelay</code> - delay before reconnect</dd>
 <dd><code>langFile</code> - the language file</dd>
 <dd><code>command</code> - the command to execute</dd>
+<dd><code>commandDelay</code> - the delay between command execution</dd>
 </dl>
 </li>
 </ul>
@@ -554,6 +566,20 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the command</dd>
+</dl>
+</li>
+</ul>
+<a name="getCommandDelay--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCommandDelay</h4>
+<pre>public&nbsp;long&nbsp;getCommandDelay()</pre>
+<div class="block">Get the delay between command execution</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the delay</dd>
 </dl>
 </li>
 </ul>
