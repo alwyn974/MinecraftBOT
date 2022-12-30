@@ -58,6 +58,7 @@ There are environment variable to override the default value of host, port, user
 - `MC_BOT_RECONNECT_DELAY` for the delay before reconnect (Integer)
 - `MC_BOT_LANG_FILE` for the language file (default=en_us.json) (String) (File must be in the lang directory at the same level as the jar file)
 - `MC_BOT_COMMAND` for the command to execute when the bot is connected (String) (Example: `/say Hello World!`)
+- `MC_BOT_COMMAND_DELAY` for the delay before executing the command (default=750ms) (Integer)
 
 They are some builtin commands in the bot
 
@@ -78,6 +79,8 @@ They are some builtin commands in the bot
  -a,--autoReconnect          Activate auto reconnect
     --cmd <arg>              Set the command that will be executed when
                              the bot is connected
+    --cmdDelay <arg>         Set the delay between command execution
+                             (Default=750ms)
  -d,--debug                  Activate debug
  -h,--host <arg>             Setup the host value (Default=127.0.0.1)
     --help                   Show this help page

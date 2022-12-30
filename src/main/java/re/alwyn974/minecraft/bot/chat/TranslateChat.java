@@ -96,7 +96,12 @@ public class TranslateChat {
                         .build())
                 .build();
         component = GlobalTranslator.render(component, Locale.US);
-        return miniMessage.serialize(component);
+        return miniMessage.serialize(component).replaceAll("\\\\<", "<");
     }
 
+    //https://launchermeta.mojang.com/mc/game/version_manifest.json
+    //https://piston-meta.mojang.com/v1/packages/23b6e0e0d0f87da36075a4290cd98df1a76e2415/1.18.2.json
+    //https://piston-meta.mojang.com/v1/packages/92aa15a18127b6f9e3f0e5a7d018be7ebb389703/1.18.json
+    //https://resources.download.minecraft.net/%s/%s 4a 4a92aae174615c0d9cc9f572e0532588caa1c7da (fr_fr.json)
+    //https://resources.download.minecraft.net/4a/4a92aae174615c0d9cc9f572e0532588caa1c7da (fr_fr.json)
 }

@@ -20,6 +20,7 @@ public class ParseResult {
     private long reconnectDelay;
     private String langFile;
     private String command;
+    private long commandDelay;
 
     /**
      * Get the host
@@ -104,6 +105,7 @@ public class ParseResult {
 
     /**
      * Get the language (e.g. en_us.json)
+     *
      * @return the language
      */
     public String getLangFile() {
@@ -112,10 +114,20 @@ public class ParseResult {
 
     /**
      * Get the command
+     *
      * @return the command
      */
     public String getCommand() {
         return command;
+    }
+
+    /**
+     * Get the command delay
+     *
+     * @return the command delay
+     */
+    public long getCommandDelay() {
+        return commandDelay;
     }
 
     /**
@@ -201,6 +213,7 @@ public class ParseResult {
 
     /**
      * Set the lang
+     *
      * @param lang the lang (e.g en_us.json, fr_fr.json)
      */
     public void setLangFile(String lang) {
@@ -209,10 +222,20 @@ public class ParseResult {
 
     /**
      * Set the command
+     *
      * @param command the command
      */
     public void setCommand(String command) {
         this.command = command;
+    }
+
+    /**
+     * Set the command delay
+     *
+     * @param commandDelay the command delay
+     */
+    public void setCommandDelay(long commandDelay) {
+        this.commandDelay = commandDelay;
     }
 
     @Override
@@ -227,8 +250,9 @@ public class ParseResult {
                 ", help=" + help +
                 ", autoReconnect=" + autoReconnect +
                 ", reconnectDelay=" + reconnectDelay +
-                ", lang='" + langFile + '\'' +
+                ", langFile='" + langFile + '\'' +
                 ", command='" + command + '\'' +
+                ", commandDelay=" + commandDelay +
                 '}';
     }
 }

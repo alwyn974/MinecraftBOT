@@ -87,6 +87,7 @@ public class CLIParser {
         options.addOption(null, "reconnectDelay", true, "Delay before reconnection");
         options.addOption(null, "langFile", true, "Set the translation language for Minecraft Message (Default=en_us.json) (Should be the filename, placed in lang directory at the same level as the jar)");
         options.addOption(null, "cmd", true, "Set the command that will be executed when the bot is connected");
+        options.addOption(null, "cmdDelay", true, "Set the delay between command execution (Default=750ms)");
         options.addOption("s", "status", false, "Display only the status of the server");
         options.addOption(null, "help", false, "Show this help page");
     }
@@ -103,6 +104,7 @@ public class CLIParser {
         result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelay") : MinecraftBOT.getReconnectDelay()));
         result.setLangFile(cmd.hasOption("lang") ? cmd.getOptionValue("lang") : MinecraftBOT.getLangFile());
         result.setCommand(cmd.hasOption("cmd") ? cmd.getOptionValue("cmd") : MinecraftBOT.getCommand());
+        result.setCommandDelay(Long.parseLong(cmd.hasOption("cmdDelay") ? cmd.getOptionValue("cmdDelay") : MinecraftBOT.getCommandDelay()));
         result.setHelp(cmd.hasOption("help"));
         return result;
     }

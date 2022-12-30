@@ -57,6 +57,7 @@ public class MinecraftBOT {
     private static final String RECONNECT_DELAY = System.getenv("MC_BOT_RECONNECT_DELAY");
     private static final String LANG_FILE = System.getenv("MC_BOT_LANG_FILE");
     private static final String COMMAND = System.getenv("MC_BOT_COMMAND");
+    private static final String COMMAND_DELAY = System.getenv("MC_BOT_COMMAND_DELAY");
 
     /**
      * The main
@@ -224,6 +225,14 @@ public class MinecraftBOT {
      */
     public static String getCommand() {
         return COMMAND;
+    }
+
+    /**
+     * Get the command delay
+     * @return the command delay
+     */
+    public static String getCommandDelay() {
+        return COMMAND_DELAY != null ? COMMAND_DELAY : "750";
     }
 
     /**

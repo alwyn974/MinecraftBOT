@@ -2,9 +2,7 @@ package re.alwyn974.minecraft.bot.entity;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.protocol.data.game.ClientCommand;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChangeDifficultyPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundPlayerInfoPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.*;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.ClientboundMoveEntityPosRotPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundPlayerPositionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
@@ -15,6 +13,8 @@ import com.github.steveice10.packetlib.event.session.ConnectedEvent;
 import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.packet.Packet;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
@@ -50,7 +50,9 @@ public class MCBOTSessionAdapter extends SessionAdapter {
      */
     @Override
     public void disconnected(DisconnectedEvent event) {
-        MinecraftBOT.getLogger().info("Disconnected: %s\n%s", event.getReason(), event.getCause() != null ? event.getCause() : "");
+        Component component = MiniMessage.miniMessage().deserialize(event.getReason());
+        String reason = TranslateChat.getInstance().translateComponent(component);
+        MinecraftBOT.getLogger().info("Disconnected: %s\n%s", reason, event.getCause() != null ? event.getCause() : "");
         if (bot.isAutoReconnect() && !event.getReason().equals("Disconnected")) {
             try {
                 TimeUnit.MILLISECONDS.sleep(bot.getReconnectDelay());
@@ -61,10 +63,6 @@ public class MCBOTSessionAdapter extends SessionAdapter {
         }
     }
 
-    /**
-     * Handle the connected event
-     * @param event Data relating to the event.
-     */
     @Override
     public void connected(ConnectedEvent event) {
         if (bot.getCommand() == null)
@@ -72,10 +70,12 @@ public class MCBOTSessionAdapter extends SessionAdapter {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
+                if (!bot.getClient().isConnected())
+                    return;
                 MinecraftBOT.getLogger().info("Sending command: %s", bot.getCommand());
                 bot.getClient().send(new ServerboundChatPacket(bot.getCommand()));
             }
-        }, 2000);
+        }, bot.getCommandDelay());
     }
 
     /**

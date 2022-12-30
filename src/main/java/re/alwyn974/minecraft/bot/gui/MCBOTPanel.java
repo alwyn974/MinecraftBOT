@@ -45,6 +45,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private final JCheckBox debugBox = new JCheckBox("Debug", Boolean.parseBoolean(MinecraftBOT.getDebug()));
     private final JCheckBox autoReconnectBox = new JCheckBox("Auto Reconnect", Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
     private final JSpinner reconnectDelay = new JSpinner();
+    private final JSpinner commandDelay = new JSpinner();
     private final JTextArea logArea = new JTextArea();
 
     private EntityBOT bot = null;
@@ -92,6 +93,10 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
         topBottomPanel.add(new JLabel("Command: "));
         topBottomPanel.add(commandField, BorderLayout.PAGE_START);
+
+        topBottomPanel.add(new JLabel("Command Delay (ms): "));
+        commandDelay.setValue(Long.parseLong(MinecraftBOT.getCommandDelay()));
+        topBottomPanel.add(commandDelay);
 
         topPanel.add(topTopPanel);
         topPanel.add(topMiddlePanel);
@@ -147,7 +152,8 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             botThread = new Thread(() -> {
                 try {
                     long delay = Long.parseLong(reconnectDelay.getValue().toString());
-                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), premiumBox.isSelected(), debugBox.isSelected(), autoReconnectBox.isSelected(), delay, langFileField.getText(), commandField.getText());
+                    long cmdDelay = Long.parseLong(commandDelay.getValue().toString());
+                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), premiumBox.isSelected(), debugBox.isSelected(), autoReconnectBox.isSelected(), delay, langFileField.getText(), commandField.getText(), cmdDelay);
                     bot.connect();
                 } catch (Exception ex) {
                     MinecraftBOT.getLogger().error("Error: %s", ex.getMessage());

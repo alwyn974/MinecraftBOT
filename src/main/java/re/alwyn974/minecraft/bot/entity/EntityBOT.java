@@ -46,6 +46,7 @@ public class EntityBOT {
     private final long reconnectDelay;
     private final String langFile;
     private final String command;
+    private final long commandDelay;
     private TcpClientSession client = null;
     private EntityPos pos = null;
     private double health = -1;
@@ -126,9 +127,10 @@ public class EntityBOT {
      * @param reconnectDelay the delay between each reconnect
      * @param langFile       the language file
      * @param command        the command to execute
+     * @param commandDelay   the delay between command execution
      */
-    public EntityBOT(String host, int port, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay, String langFile, String command) {
-        this(host, port, Proxy.NO_PROXY, username, premium, debug, autoReconnect, reconnectDelay, langFile, command);
+    public EntityBOT(String host, int port, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay, String langFile, String command, long commandDelay) {
+        this(host, port, Proxy.NO_PROXY, username, premium, debug, autoReconnect, reconnectDelay, langFile, command, commandDelay);
     }
 
     /**
@@ -144,8 +146,9 @@ public class EntityBOT {
      * @param reconnectDelay delay before reconnect
      * @param langFile       the language file
      * @param command        the command to execute
+     * @param commandDelay   the delay between command execution
      */
-    public EntityBOT(String host, int port, Proxy proxy, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay, String langFile, String command) {
+    public EntityBOT(String host, int port, Proxy proxy, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay, String langFile, String command, long commandDelay) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
@@ -156,6 +159,7 @@ public class EntityBOT {
         this.reconnectDelay = reconnectDelay;
         this.langFile = langFile;
         this.command = command;
+        this.commandDelay = commandDelay;
     }
 
     /**
@@ -174,6 +178,7 @@ public class EntityBOT {
         this.reconnectDelay = result.getReconnectDelay();
         this.langFile = result.getLangFile();
         this.command = result.getCommand();
+        this.commandDelay = result.getCommandDelay();
     }
 
     /**
@@ -262,6 +267,14 @@ public class EntityBOT {
      */
     public String getCommand() {
         return command;
+    }
+
+    /**
+     * Get the delay between command execution
+     * @return the delay
+     */
+    public long getCommandDelay() {
+        return commandDelay;
     }
 
     /**
