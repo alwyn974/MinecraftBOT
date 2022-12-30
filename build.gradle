@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "re.alwyn974.minecraft.bot"
-version = "1.0.16"
+version = "1.0.17"
 archivesBaseName = "MinecraftBOT"
 
 compileJava {
@@ -23,6 +23,9 @@ repositories {
     maven {
         url "https://alwyn974.github.io/maven"
     }
+    maven {
+        url "https://repo.opencollab.dev/maven-releases/"
+    }
 }
 
 dependencies {
@@ -34,14 +37,17 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j-slf4j-impl:2.18.0"
 
     // https://docs.adventure.kyori.net/serializer/index.html
-    implementation "net.kyori:adventure-text-serializer-plain:4.12.0"
+    // https://docs.adventure.kyori.net/minimessage/index.html
+    implementation "net.kyori:adventure-text-minimessage:4.12.0"
+    // implementation "net.kyori:adventure-text-serializer-plain:4.12.0"
     // implementation "net.kyori:adventure-text-serializer-legacy:4.12.0"
 
-    implementation "com.github.GeyserMC:MCProtocolLib:1.18-2"
+    implementation "com.github.GeyserMC:MCProtocolLib:1.18.2-1"
+
     implementation "commons-cli:commons-cli:1.5.0"
     implementation "re.alwyn974:logger:1.0.0"
     implementation "org.reflections:reflections:0.10.2"
-    implementation "com.formdev:flatlaf:2.4" //this is magic :o
+    implementation 'com.formdev:flatlaf:3.0' //this is magic :o
 }
 
 test {

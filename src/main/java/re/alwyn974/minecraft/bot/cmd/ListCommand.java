@@ -41,7 +41,7 @@ public class ListCommand implements ICommand {
     public IExecutor executor() {
         return ((bot, message, args) -> {
             List<String> playersName = new ArrayList<>();
-            bot.getPlayers().forEach(p -> playersName.add(TranslateChat.translateComponent(p.getDisplayName())));
+            bot.getPlayers().forEach(p -> playersName.add(TranslateChat.getInstance().translateComponent(p.getDisplayName())));
             MinecraftBOT.getLogger().info("Players: %s", playersName.toString());
         });
     }

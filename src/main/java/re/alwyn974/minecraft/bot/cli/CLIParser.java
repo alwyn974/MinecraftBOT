@@ -1,7 +1,7 @@
 package re.alwyn974.minecraft.bot.cli;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import org.apache.commons.cli.*;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.cmd.utils.CommandHandler;
@@ -64,7 +64,7 @@ public class CLIParser {
                             break;
                         }
                         if (!commandHandler.execute(bot, line) && bot != null && bot.getClient().isConnected())
-                            bot.getClient().send(new ClientboundChatPacket(line));
+                            bot.getClient().send(new ServerboundChatPacket(line));
                     }
                 }
                 botThread.interrupt();
@@ -85,6 +85,8 @@ public class CLIParser {
         options.addOption("d", "debug", false, "Activate debug");
         options.addOption("a", "autoReconnect", false, "Activate auto reconnect");
         options.addOption(null, "reconnectDelay", true, "Delay before reconnection");
+        options.addOption(null, "langFile", true, "Set the translation language for Minecraft Message (Default=en_us.json) (Should be the filename, placed in lang directory at the same level as the jar)");
+        options.addOption(null, "cmd", true, "Set the command that will be executed when the bot is connected");
         options.addOption("s", "status", false, "Display only the status of the server");
         options.addOption(null, "help", false, "Show this help page");
     }
@@ -99,6 +101,8 @@ public class CLIParser {
         result.setDebug(cmd.hasOption("d") ? cmd.hasOption("d") : Boolean.parseBoolean(MinecraftBOT.getDebug()));
         result.setAutoReconnect(cmd.hasOption("a") || Boolean.parseBoolean(MinecraftBOT.getAutoReconnect()));
         result.setReconnectDelay(Long.parseLong(cmd.hasOption("reconnectDelay") ? cmd.getOptionValue("reconnectDelay") : MinecraftBOT.getReconnectDelay()));
+        result.setLangFile(cmd.hasOption("lang") ? cmd.getOptionValue("lang") : MinecraftBOT.getLangFile());
+        result.setCommand(cmd.hasOption("cmd") ? cmd.getOptionValue("cmd") : MinecraftBOT.getCommand());
         result.setHelp(cmd.hasOption("help"));
         return result;
     }

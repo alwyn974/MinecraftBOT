@@ -8,7 +8,7 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 
 - Graphical User Interface
 - LogPanel to see errors directly
-- Tested with Spigot, Paper 1.18
+- Tested with Spigot, Paper 1.18.2
 - Disconnects gracefully after the end
 - Free
 - Open source
@@ -17,15 +17,23 @@ Minecraft bot. Currently, used for afk on a Survival Server 😅
 - Cracked
 - Automatic Respawn
 - Auto Reconnect with Delay (Only if `DisconnectEvent` is throw, and the reason is not `Disconnected`)
+- Support for Minecraft translations
+- Run command when the bot is connected
 
 ## Todos
 
 - Multi Version
+- Forge Support
+- Fabric Support
+- Proxies Support
+- Account Saving (Refresh Token)
+- Refactor the whole code
+- More options
 
 ## Requirements
 
 - Java 8+
-- Minecraft Server 1.18
+- Minecraft Server 1.18.2
 
 ## Downloads
 
@@ -48,6 +56,8 @@ There are environment variable to override the default value of host, port, user
 - `MC_BOT_PREFIX` for the prefix of the commands (default=`.`) (String)
 - `MC_BOT_AUTO_RECONNECT` for the auto reconnect mode (Boolean)
 - `MC_BOT_RECONNECT_DELAY` for the delay before reconnect (Integer)
+- `MC_BOT_LANG_FILE` for the language file (default=en_us.json) (String) (File must be in the lang directory at the same level as the jar file)
+- `MC_BOT_COMMAND` for the command to execute when the bot is connected (String) (Example: `/say Hello World!`)
 
 They are some builtin commands in the bot
 
@@ -65,15 +75,22 @@ They are some builtin commands in the bot
 <p> Simply type anything in the CLI and type enter</p>
 
 ```
- -a,--autoReconnect             Activate auto reconnect
- -d,--debug                     Activate debug
- -h,--host <arg>                Setup the host value (Default=127.0.0.1)
-    --help                      Show this help page
- -p,--port <arg>                Setup the port value (Default=25565)
-    --premium                   Activate the Microsoft Authentication
-    --reconnectDelay <arg>      Delay before reconnection
- -s,--status                    Display only the status of the server
- -u,--user <arg>                Email/Username of the user
+ -a,--autoReconnect          Activate auto reconnect
+    --cmd <arg>              Set the command that will be executed when
+                             the bot is connected
+ -d,--debug                  Activate debug
+ -h,--host <arg>             Setup the host value (Default=127.0.0.1)
+    --help                   Show this help page
+    --langFile <arg>         Set the translation language for Minecraft
+                             Message (Default=en_us.json) (Should be the
+                             filename, placed in lang directory at the
+                             same level as the jar)
+ -p,--port <arg>             Setup the port value (Default=25565)
+    --premium                If the user need to be logged through
+                             Microsoft Authentication
+    --reconnectDelay <arg>   Delay before reconnection
+ -s,--status                 Display only the status of the server
+ -u,--user <arg>             Email/Username of the user
 ```
 
 ## Termux Guide

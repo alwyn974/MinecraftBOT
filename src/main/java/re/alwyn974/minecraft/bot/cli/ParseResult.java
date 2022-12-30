@@ -18,6 +18,8 @@ public class ParseResult {
     private boolean help;
     private boolean autoReconnect;
     private long reconnectDelay;
+    private String langFile;
+    private String command;
 
     /**
      * Get the host
@@ -101,6 +103,22 @@ public class ParseResult {
     }
 
     /**
+     * Get the language (e.g. en_us.json)
+     * @return the language
+     */
+    public String getLangFile() {
+        return langFile;
+    }
+
+    /**
+     * Get the command
+     * @return the command
+     */
+    public String getCommand() {
+        return command;
+    }
+
+    /**
      * Set the host
      *
      * @param host the host
@@ -181,17 +199,36 @@ public class ParseResult {
         this.reconnectDelay = reconnectDelay;
     }
 
+    /**
+     * Set the lang
+     * @param lang the lang (e.g en_us.json, fr_fr.json)
+     */
+    public void setLangFile(String lang) {
+        this.langFile = lang;
+    }
+
+    /**
+     * Set the command
+     * @param command the command
+     */
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
     @Override
     public String toString() {
         return "ParseResult{" +
                 "host='" + host + '\'' +
                 ", port=" + port +
                 ", email='" + email + '\'' +
-                ", premium='" + premium + '\'' +
+                ", premium=" + premium +
                 ", debug=" + debug +
                 ", status=" + status +
                 ", help=" + help +
                 ", autoReconnect=" + autoReconnect +
+                ", reconnectDelay=" + reconnectDelay +
+                ", lang='" + langFile + '\'' +
+                ", command='" + command + '\'' +
                 '}';
     }
 }

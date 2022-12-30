@@ -8,8 +8,10 @@ import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundPl
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.ClientboundMoveEntityPosRotPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundPlayerPositionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundClientCommandPacket;
 import com.github.steveice10.packetlib.Session;
+import com.github.steveice10.packetlib.event.session.ConnectedEvent;
 import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.packet.Packet;
@@ -17,6 +19,8 @@ import re.alwyn974.minecraft.bot.MinecraftBOT;
 import re.alwyn974.minecraft.bot.chat.TranslateChat;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,6 +62,23 @@ public class MCBOTSessionAdapter extends SessionAdapter {
     }
 
     /**
+     * Handle the connected event
+     * @param event Data relating to the event.
+     */
+    @Override
+    public void connected(ConnectedEvent event) {
+        if (bot.getCommand() == null)
+            return;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                MinecraftBOT.getLogger().info("Sending command: %s", bot.getCommand());
+                bot.getClient().send(new ServerboundChatPacket(bot.getCommand()));
+            }
+        }, 2000);
+    }
+
+    /**
      * Handle all of received packet
      *
      * @param session the session
@@ -67,9 +88,7 @@ public class MCBOTSessionAdapter extends SessionAdapter {
     public void packetReceived(Session session, Packet packet) {
         if (packet instanceof ClientboundChatPacket) {
             ClientboundChatPacket chatPacket = (ClientboundChatPacket) packet;
-            String translatedMessage = TranslateChat.translateComponent(chatPacket.getMessage());
-            if (translatedMessage.isEmpty())
-                translatedMessage = "Failed to translate message: " + chatPacket.getMessage();
+            String translatedMessage = TranslateChat.getInstance().translateComponent(chatPacket.getMessage());
             MinecraftBOT.getLogger().info("%s", translatedMessage);
         }
 

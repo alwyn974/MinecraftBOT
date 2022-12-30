@@ -14,6 +14,7 @@ import com.github.steveice10.packetlib.BuiltinFlags;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
 import re.alwyn974.minecraft.bot.MinecraftBOT;
+import re.alwyn974.minecraft.bot.chat.TranslateChat;
 import re.alwyn974.minecraft.bot.cli.ParseResult;
 
 import java.awt.*;
@@ -43,6 +44,8 @@ public class EntityBOT {
     private final boolean debug;
     private final boolean autoReconnect;
     private final long reconnectDelay;
+    private final String langFile;
+    private final String command;
     private TcpClientSession client = null;
     private EntityPos pos = null;
     private double health = -1;
@@ -54,65 +57,64 @@ public class EntityBOT {
     private static final URI MS_CODE_ENDPOINT = URI.create("https://login.microsoftonline.com/" + TENANT_ID + "/oauth2/v2.0/devicecode");
     private static final String CLIENT_ID = "024b97a3-d354-45e1-8855-75bb813b446d";
 
-
-    /**
-     * Instantiate the EntityBot with only username and password
-     *
-     * @param username the email of the premium account
-     * @param premium  if the account is premium
-     */
-    public EntityBOT(String username, boolean premium) {
-        this("127.0.0.1", username, premium, false);
-    }
-
-    /**
-     * @param username the email of the premium account
-     * @param premium  if the account is premium
-     * @param debug    activate debug mode
-     */
-    public EntityBOT(String username, boolean premium, boolean debug) {
-        this("127.0.0.1", username, premium, debug);
-    }
-
-    /**
-     * @param host     the minecraft server address
-     * @param username the email of the premium account
-     * @param premium  if the account is premium
-     */
-    public EntityBOT(String host, String username, boolean premium) {
-        this(host, 25565, username, premium, false);
-    }
-
-    /**
-     * @param host     the minecraft server address
-     * @param username the email of the premium account
-     * @param premium  if the account is premium
-     * @param debug    activate debug mode
-     */
-    public EntityBOT(String host, String username, boolean premium, boolean debug) {
-        this(host, 25565, username, premium, debug);
-    }
-
-    /**
-     * @param host     the minecraft server address
-     * @param port     the minecraft server port
-     * @param username the email of the premium account
-     * @param premium  if the account is premium
-     */
-    public EntityBOT(String host, int port, String username, boolean premium) {
-        this(host, port, username, premium, false);
-    }
-
-    /**
-     * @param host     the minecraft server address
-     * @param port     the minecraft server port
-     * @param username the email of the premium account
-     * @param premium  if the account is premium
-     * @param debug    activate debug mode
-     */
-    public EntityBOT(String host, int port, String username, boolean premium, boolean debug) {
-        this(host, port, username, premium, debug, false, 1000);
-    }
+//    /**
+//     * Instantiate the EntityBot with only username and password
+//     *
+//     * @param username the email of the premium account
+//     * @param premium  if the account is premium
+//     */
+//    public EntityBOT(String username, boolean premium) {
+//        this("127.0.0.1", username, premium, false);
+//    }
+//
+//    /**
+//     * @param username the email of the premium account
+//     * @param premium  if the account is premium
+//     * @param debug    activate debug mode
+//     */
+//    public EntityBOT(String username, boolean premium, boolean debug) {
+//        this("127.0.0.1", username, premium, debug);
+//    }
+//
+//    /**
+//     * @param host     the minecraft server address
+//     * @param username the email of the premium account
+//     * @param premium  if the account is premium
+//     */
+//    public EntityBOT(String host, String username, boolean premium) {
+//        this(host, 25565, username, premium, false);
+//    }
+//
+//    /**
+//     * @param host     the minecraft server address
+//     * @param username the email of the premium account
+//     * @param premium  if the account is premium
+//     * @param debug    activate debug mode
+//     */
+//    public EntityBOT(String host, String username, boolean premium, boolean debug) {
+//        this(host, 25565, username, premium, debug);
+//    }
+//
+//    /**
+//     * @param host     the minecraft server address
+//     * @param port     the minecraft server port
+//     * @param username the email of the premium account
+//     * @param premium  if the account is premium
+//     */
+//    public EntityBOT(String host, int port, String username, boolean premium) {
+//        this(host, port, username, premium, false);
+//    }
+//
+//    /**
+//     * @param host     the minecraft server address
+//     * @param port     the minecraft server port
+//     * @param username the email of the premium account
+//     * @param premium  if the account is premium
+//     * @param debug    activate debug mode
+//     */
+//    public EntityBOT(String host, int port, String username, boolean premium, boolean debug) {
+//        this(host, port, username, premium, debug, false, 1000);
+//    }
 
     /**
      * @param host          the minecraft server address
@@ -121,9 +123,11 @@ public class EntityBOT {
      * @param premium       if the account is premium
      * @param debug         activate debug mode
      * @param autoReconnect activate auto reconnect mode
+     * @param langFile       the language file
+     * @param command        the command to execute
      */
-    public EntityBOT(String host, int port, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay) {
-        this(host, port, Proxy.NO_PROXY, username, premium, debug, autoReconnect, reconnectDelay);
+    public EntityBOT(String host, int port, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay, String langFile, String command) {
+        this(host, port, Proxy.NO_PROXY, username, premium, debug, autoReconnect, reconnectDelay, langFile, command);
     }
 
     /**
@@ -137,8 +141,10 @@ public class EntityBOT {
      * @param debug          activate debug mode
      * @param autoReconnect  activate auto reconnect
      * @param reconnectDelay delay before reconnect
+     * @param langFile       the language file
+     * @param command        the command to execute
      */
-    public EntityBOT(String host, int port, Proxy proxy, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay) {
+    public EntityBOT(String host, int port, Proxy proxy, String username, boolean premium, boolean debug, boolean autoReconnect, long reconnectDelay, String langFile, String command) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
@@ -147,6 +153,8 @@ public class EntityBOT {
         this.debug = debug;
         this.autoReconnect = autoReconnect;
         this.reconnectDelay = reconnectDelay;
+        this.langFile = langFile;
+        this.command = command;
     }
 
     /**
@@ -163,6 +171,8 @@ public class EntityBOT {
         this.proxy = Proxy.NO_PROXY;
         this.autoReconnect = result.isAutoReconnect();
         this.reconnectDelay = result.getReconnectDelay();
+        this.langFile = result.getLangFile();
+        this.command = result.getCommand();
     }
 
     /**
@@ -235,6 +245,22 @@ public class EntityBOT {
      */
     public long getReconnectDelay() {
         return reconnectDelay;
+    }
+
+    /**
+     * Get the language file
+     * @return the language file
+     */
+    public String getLangFile() {
+        return langFile;
+    }
+
+    /**
+     * Get the command to execute
+     * @return the command
+     */
+    public String getCommand() {
+        return command;
     }
 
     /**
@@ -343,6 +369,7 @@ public class EntityBOT {
      * @throws RequestException if the premium account is invalid
      */
     public void connect() throws RequestException {
+        TranslateChat.getInstance().setLangFile(langFile);
         MinecraftProtocol protocol;
         if (this.isPremium()) {
             MsCodeRequest request = new MsCodeRequest(CLIENT_ID);

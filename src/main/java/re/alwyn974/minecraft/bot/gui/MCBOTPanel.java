@@ -25,6 +25,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
     private final JPanel topPanel = new JPanel();
     private final JPanel topTopPanel = new JPanel();
+    private final JPanel topMiddlePanel = new JPanel();
     private final JPanel topBottomPanel = new JPanel();
     private final JPanel bottomPanel = new JPanel();
 
@@ -33,6 +34,8 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
     private final JTextField hostField = new JTextField(MinecraftBOT.getHost());
     private final JTextField portField = new JTextField(MinecraftBOT.getPort());
+    private final JTextField langFileField = new JTextField(MinecraftBOT.getLangFile());
+    private final JTextField commandField = new JTextField(MinecraftBOT.getCommand());
     private final JTextField outputField = new JTextField();
 
     private final JButton connectButton = new JButton("Connect");
@@ -58,6 +61,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private void addTopPanel() {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topTopPanel.setLayout(new BoxLayout(topTopPanel, BoxLayout.X_AXIS));
+        topMiddlePanel.setLayout(new BoxLayout(topMiddlePanel, BoxLayout.X_AXIS));
         topBottomPanel.setLayout(new BoxLayout(topBottomPanel, BoxLayout.X_AXIS));
 
         topTopPanel.add(new JLabel("Host: "));
@@ -71,11 +75,11 @@ public class MCBOTPanel extends JPanel implements ActionListener {
 
         topTopPanel.add(premiumBox, BorderLayout.PAGE_START);
 
-        topBottomPanel.add(autoReconnectBox, BorderLayout.PAGE_START);
-        topBottomPanel.add(new JLabel("| (ms): "));
+        topMiddlePanel.add(autoReconnectBox, BorderLayout.PAGE_START);
+        topMiddlePanel.add(new JLabel("| (ms): "));
         reconnectDelay.setValue(Long.parseLong(MinecraftBOT.getReconnectDelay()));
-        topBottomPanel.add(reconnectDelay);
-        topBottomPanel.add(debugBox, BorderLayout.PAGE_START);
+        topMiddlePanel.add(reconnectDelay);
+        topMiddlePanel.add(debugBox, BorderLayout.PAGE_START);
 
         addButton(connectButton);
         disconnectButton.setEnabled(false);
@@ -83,7 +87,14 @@ public class MCBOTPanel extends JPanel implements ActionListener {
         addButton(statusButton);
         addButton(clearButton);
 
+        topBottomPanel.add(new JLabel("Lang File: "));
+        topBottomPanel.add(langFileField, BorderLayout.PAGE_START);
+
+        topBottomPanel.add(new JLabel("Command: "));
+        topBottomPanel.add(commandField, BorderLayout.PAGE_START);
+
         topPanel.add(topTopPanel);
+        topPanel.add(topMiddlePanel);
         topPanel.add(topBottomPanel);
         this.add(topPanel, BorderLayout.PAGE_START);
     }
@@ -91,7 +102,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
     private void addButton(JButton button) {
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button.addActionListener(this);
-        topBottomPanel.add(button, BorderLayout.PAGE_START);
+        topMiddlePanel.add(button, BorderLayout.PAGE_START);
     }
 
     private void addCenterPanel() {
@@ -136,7 +147,7 @@ public class MCBOTPanel extends JPanel implements ActionListener {
             botThread = new Thread(() -> {
                 try {
                     long delay = Long.parseLong(reconnectDelay.getValue().toString());
-                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), premiumBox.isSelected(), debugBox.isSelected(), autoReconnectBox.isSelected(), delay);
+                    bot = new EntityBOT(hostField.getText(), Integer.parseInt(portField.getText()), usernameField.getText(), premiumBox.isSelected(), debugBox.isSelected(), autoReconnectBox.isSelected(), delay, langFileField.getText(), commandField.getText());
                     bot.connect();
                 } catch (Exception ex) {
                     MinecraftBOT.getLogger().error("Error: %s", ex.getMessage());
