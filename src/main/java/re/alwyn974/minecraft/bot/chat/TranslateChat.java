@@ -65,8 +65,12 @@ public class TranslateChat {
         }
     }
 
+    //TODO: Rework this, by replacing GlobalTranslator by a custom one using String.format {@see net.kyori.adventure.translation.TranslationRegistry/Impl}
+
     /**
-     * TODO: Rework this, by replacing GlobalTranslator by a custom one using String.format {@see net.kyori.adventure.translation.TranslationRegistry/Impl}
+     * Transform %sdfg to indexeable {0} {1} {2} {3}...
+     * @param str the string to transform
+     * @return the transformed string
      */
     public String transformString(String str) {
         Matcher matcher = PATTERN.matcher(str);

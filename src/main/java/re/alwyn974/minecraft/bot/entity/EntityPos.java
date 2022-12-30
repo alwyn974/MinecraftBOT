@@ -81,6 +81,7 @@ public class EntityPos {
      * Set the x coordinate of the entity
      *
      * @param x the x coordinate
+     * @return this
      */
     public EntityPos setX(double x) {
         this.x = x;
@@ -91,6 +92,7 @@ public class EntityPos {
      * Set the y coordinate of the entity
      *
      * @param y the y coordinate
+     * @return this
      */
     public EntityPos setY(double y) {
         this.y = y;
@@ -101,6 +103,7 @@ public class EntityPos {
      * Set the z coordinate of the entity
      *
      * @param z the z coordinate
+     * @return this
      */
     public EntityPos setZ(double z) {
         this.z = z;
@@ -109,7 +112,9 @@ public class EntityPos {
 
     /**
      * Increment the x coordinate of the entity
+     *
      * @param x the x coordinate
+     * @return this
      */
     public EntityPos addX(double x) {
         this.x += x;
@@ -118,7 +123,9 @@ public class EntityPos {
 
     /**
      * Increment the y coordinate of the entity
+     *
      * @param y the y coordinate
+     * @return this
      */
     public EntityPos addY(double y) {
         this.y += y;
@@ -127,7 +134,9 @@ public class EntityPos {
 
     /**
      * Increment the z coordinate of the entity
+     *
      * @param z the z coordinate
+     * @return this
      */
     public EntityPos addZ(double z) {
         this.z += z;
@@ -138,6 +147,7 @@ public class EntityPos {
      * Set the yaw view of the entity
      *
      * @param yaw the yaw view
+     * @return this
      */
     public EntityPos setYaw(double yaw) {
         this.yaw = yaw;
@@ -148,6 +158,7 @@ public class EntityPos {
      * Set the pitch view of the entity
      *
      * @param pitch the pitch view
+     * @return this
      */
     public EntityPos setPitch(double pitch) {
         this.pitch = pitch;

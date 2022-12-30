@@ -123,6 +123,7 @@ public class EntityBOT {
      * @param premium       if the account is premium
      * @param debug         activate debug mode
      * @param autoReconnect activate auto reconnect mode
+     * @param reconnectDelay the delay between each reconnect
      * @param langFile       the language file
      * @param command        the command to execute
      */
