@@ -31,7 +31,7 @@ Logs with debug mode activate (send a link to a hastebin like https://code.alwyn
  - Java Version: [e.g. **8**]
  - Minecraft BOT Version: [e.g. **1.0.14**]
  - The interface you use: [e.g. **GUI** or **CLI**]
- - Account Type: [e.g. **Mojang** or **Cracked**]
+ - Account Type: [e.g. **Microsoft** or **Cracked**]
  - Server Host and Port: [e.g. **play.hypixel.net:25565**]
 
 **Additional context**
