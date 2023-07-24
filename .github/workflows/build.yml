@@ -27,7 +27,6 @@ jobs:
 
       - name: Build project
         run: | 
-          chmod +x ./gradlew
           ./gradlew shadowJar
           ./gradlew build
 

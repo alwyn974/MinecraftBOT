@@ -27,7 +27,6 @@ jobs:
 
       - name: Build documentation
         run: |
-          chmod +x ./gradlew
           ./gradlew javadoc
 
       - name: Deploy
