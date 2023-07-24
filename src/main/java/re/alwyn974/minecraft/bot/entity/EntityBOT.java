@@ -53,6 +53,7 @@ public class EntityBOT {
     private double food = -1;
     private Difficulty difficulty = null;
     private List<PlayerListEntry> players = null;
+    private boolean headless = false;
 
     private static final String TENANT_ID = "consumers";
     private static final URI MS_CODE_ENDPOINT = URI.create("https://login.microsoftonline.com/" + TENANT_ID + "/oauth2/v2.0/devicecode");
@@ -179,6 +180,7 @@ public class EntityBOT {
         this.langFile = result.getLangFile();
         this.command = result.getCommand();
         this.commandDelay = result.getCommandDelay();
+        this.headless = true;
     }
 
     /**
@@ -332,6 +334,15 @@ public class EntityBOT {
     }
 
     /**
+     * Get if the bot is headless
+     *
+     * @return if the bot is headless
+     */
+    public boolean isHeadless() {
+        return headless;
+    }
+
+    /**
      * Set the health
      *
      * @param health the health
@@ -393,7 +404,7 @@ public class EntityBOT {
             } catch (MalformedURLException e) {
                 MinecraftBOT.getLogger().error("Error while trying to get the url of the authentication page", e);
             }
-            browse(response.verification_uri);
+            if (!this.isHeadless()) browse(response.verification_uri);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(response.user_code), null);
 
             AuthenticationService authService = new MsaAuthenticationService(CLIENT_ID, response.device_code);
