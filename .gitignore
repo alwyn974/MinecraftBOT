@@ -27,3 +27,4 @@ build/
 .idea/
 .gradle/
 lang/
+!gradle/wrapper/gradle-wrapper.jar
